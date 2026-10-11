@@ -1,0 +1,52 @@
+/* 大事年轮（时间轴上的"驿站"与"本年大事"卡）。
+   station: true 表示该年份在时间轴上显示为大节点（重要事件）；importance 1 = 重要 */
+window.SHIJIAN_DATA = window.SHIJIAN_DATA || {};
+window.SHIJIAN_DATA.events = [
+  { id: 'e-490-goujian', year: -490, title: '卧薪尝胆', desc: '越王勾践自吴归国，置胆于坐，饮食亦尝胆，立志复吴。', book: '史记', chapter: '越王勾践世家', importance: 2, station: true },
+  { id: 'e-489-kongzi', year: -489, title: '陈蔡绝粮', desc: '孔子一行在陈蔡之间断粮，随行者病饿不能起，夫子讲诵弦歌不衰。', book: '史记', chapter: '孔子世家', importance: 2, station: true },
+  { id: 'e-484-kongzi', year: -484, title: '孔子归鲁', desc: '周游列国十四年后，六十八岁的孔子回到鲁国，专心整理典籍、教授弟子。', book: '史记', chapter: '孔子世家', importance: 2, station: true },
+  { id: 'e-283-wanbi', year: -283, title: '完璧归赵', desc: '蔺相如奉璧入秦，持璧睨柱，终于完璧归赵，拜为上大夫。', book: '史记', chapter: '廉颇蔺相如列传', importance: 2, station: true },
+  { id: 'e-279-mianchi', year: -279, title: '渑池之会与负荆请罪', desc: '渑池会上相如迫秦王击缶，护赵国之尊；归国后廉颇负荆谢罪，将相和。', book: '史记', chapter: '廉颇蔺相如列传', importance: 2, station: true },
+  { id: 'e-278-quyuan', year: -278, title: '屈原自沉汨罗', desc: '白起拔郢，楚都陷落；相传诗人屈原怀石自沉汨罗江（传统系年）。', book: '史记', chapter: '屈原贾生列传', importance: 1, station: true },
+  { id: 'e-227-jingke', year: -227, title: '荆轲刺秦 · 易水送别', desc: '太子丹白衣冠送荆轲至易水，高渐离击筑，荆轲和歌："风萧萧兮易水寒"。', book: '史记', chapter: '刺客列传', importance: 1, station: true },
+  { id: 'e-210-shihuang', year: -210, title: '始皇驾崩；项刘观其车驾', desc: '秦始皇最后一次出游，崩于沙丘。此前项羽观其渡浙江曰"彼可取而代也"，刘邦在咸阳叹"大丈夫当如此也"。', book: '史记', chapter: '项羽本纪 / 高祖本纪', importance: 1, station: true },
+  { id: 'e-209-dazexiang', year: -209, title: '大泽乡起义', desc: '陈胜吴广揭竿而起，"王侯将相宁有种乎"，中国历史上第一次大规模平民起义。', book: '史记', chapter: '陈涉世家', importance: 1, station: true },
+  { id: 'e-207-julu', year: -207, title: '巨鹿之战 · 破釜沉舟', desc: '项羽沉船破釜，九战九捷大破秦军主力；战后诸侯将"辕门膝行而前，莫敢仰视"。', book: '史记', chapter: '项羽本纪', importance: 1, station: true },
+  { id: 'e-206-hongmen', year: -206, title: '鸿门宴', desc: '项庄舞剑意在沛公，樊哙闯帐，刘邦遁走。楚汉相争的序幕。', book: '史记', chapter: '项羽本纪', importance: 1, station: true },
+  { id: 'e-204-jingxing', year: -204, title: '井陉之战 · 背水一战', desc: '韩信背水列阵，"陷之死地而后生"，大破赵军二十万。', book: '史记', chapter: '淮阴侯列传', importance: 2, station: true },
+  { id: 'e-202-gaixia', year: -202, title: '垓下之围 · 乌江自刎；刘邦即皇帝位', desc: '四面楚歌，霸王别姬，项羽自刎乌江；同年二月刘邦即皇帝位，汉朝建立。', book: '史记', chapter: '项羽本纪 / 高祖本纪', importance: 1, station: true },
+  { id: 'e-195-dafeng', year: -195, title: '高祖还乡歌《大风》', desc: '刘邦平定黥布之乱后过沛，酒酣击筑歌《大风歌》，泣数行下。', book: '史记', chapter: '高祖本纪', importance: 2, station: true },
+  { id: 'e-138-wudi', year: -138, title: '汉武帝即位', desc: '十六岁的刘彻即位，汉朝进入长达五十四年的武帝时代——开疆、拓土、独尊儒术。', book: '史记', chapter: '孝武本纪', importance: 2, station: true },
+  { id: 'e-128-liguang', year: -128, title: '李广戍右北平 · 射石没镞', desc: '"飞将军"威震匈奴；出猎见草中石以为虎，一箭没镞。', book: '史记', chapter: '李将军列传', importance: 2, station: true },
+  { id: 'e-119-mobei', year: -119, title: '漠北之战 · 李广自刭', desc: '汉匈决战漠北，李广随卫青出塞失道，愤而自刭，一军皆哭。太史公赞："桃李不言，下自成蹊。"', book: '史记', chapter: '李将军列传', importance: 2, station: true },
+  { id: 'e-99-liling', year: -99, title: '李陵之祸', desc: '司马迁为李陵辩护下狱受刑，忍辱著书，"人固有一死，或重于泰山，或轻于鸿毛"。', book: '汉书', chapter: '司马迁传', importance: 2, station: true },
+  { id: 'e-91-taishigong', year: -91, title: '《太史公书》成书', desc: '上计轩辕，下至当世，凡百三十篇、五十二万六千五百字——后世称《史记》。', book: '史记', chapter: '太史公自序', importance: 1, station: true },
+  /* —— 三国两晋：填时间线空白 —— */
+  { id: 'e-207-sangu', year: 207, title: '三顾茅庐 · 卧龙出山', desc: '刘备三顾南阳草庐，二十七岁的诸葛亮作《隆中对》：联吴抗曹，先取荆益，三分天下。', book: '三国志', chapter: '诸葛亮传', importance: 2, station: true },
+  { id: 'e-208-chibi', year: 208, title: '赤壁之战', desc: '孙刘联军火烧曹操战船于赤壁，天下三分的格局就此奠定。', book: '三国志', chapter: '诸葛亮传 / 吴主传', importance: 1, station: true },
+  { id: 'e-223-baidi', year: 223, title: '白帝托孤', desc: '刘备病笃于白帝城，托孤于诸葛亮："若嗣子可辅，辅之；如其不才，君可自取。"', book: '三国志', chapter: '诸葛亮传', importance: 1, station: true },
+  { id: 'e-234-wubi', year: 234, title: '秋风五丈原', desc: '诸葛亮第五次北伐，病逝于五丈原军中，年五十四。"出师未捷身先死，长使英雄泪满襟。"', book: '三国志', chapter: '诸葛亮传', importance: 1, station: true },
+  { id: 'e-280-jin', year: 280, title: '西晋灭吴，天下重归一统', desc: '王濬楼船下益州，三国归晋——自黄巾算起，近百年的分裂告一段落。', book: '晋书', chapter: '王濬传', importance: 2, station: true },
+  { id: 'e-383-feishui', year: 383, title: '淝水之战', desc: '东晋谢安谢玄以八万北府兵破前秦苻坚百万之众，"风声鹤唳，草木皆兵"。', book: '晋书', chapter: '谢安传', importance: 2, station: true },
+  { id: 'e-405-tao', year: 405, title: '陶渊明辞官归隐', desc: '不为五斗米折腰——陶渊明弃彭泽令印绶归园田，作《归去来兮辞》。', book: '宋书', chapter: '隐逸传', importance: 2, station: true },
+  { id: 'e-427-taoshi', year: 427, title: '陶渊明卒', desc: '陶渊明卒于浔阳，颜延之为撰碑文，称其"道德之达，足以为世范"。', book: '宋书', chapter: '隐逸传', importance: 2, station: false },
+  /* —— 盛唐之音 —— */
+  { id: 'e-742-libai', year: 742, title: '李白入长安 · 供奉翰林', desc: '四十二岁的李白奉诏入京，玄宗降辇步迎，"仰天大笑出门去，我辈岂是蓬蒿人"。', book: '新唐书', chapter: '李白传', importance: 2, station: true },
+  { id: 'e-744-fanghuan', year: 744, title: '李白赐金放还', desc: '赐金放还，李白离开长安；同年于洛阳遇杜甫，"醉眠秋共被，携手日同行"。', book: '新唐书', chapter: '李白传', importance: 2, station: true },
+  { id: 'e-755-anshi', year: 755, title: '安史之乱爆发', desc: '安禄山起兵范阳，盛唐一夜倾覆——大唐由极盛转入战乱流离。', book: '旧唐书', chapter: '玄宗本纪', importance: 1, station: true },
+  { id: 'e-756-dufu', year: 756, title: '杜甫陷长安 · 国破山河在', desc: '杜甫携家逃难，被叛军困于长安；次年春见国破之象，作《春望》。', book: '旧唐书', chapter: '杜甫传', importance: 2, station: true },
+  { id: 'e-759-yezhao', year: 759, title: '李白白帝遇赦', desc: '李白流放夜郎，行至白帝城闻赦，"朝辞白帝彩云间，千里江陵一日还"。', book: '新唐书', chapter: '李白传', importance: 2, station: true },
+  { id: 'e-762-libaishi', year: 762, title: '李白卒于当涂', desc: '李白卒于当涂（今安徽马鞍山），年六十二——民间传其醉后捉月溺亡。', book: '新唐书', chapter: '李白传', importance: 2, station: false },
+  { id: 'e-767-kuizhou', year: 767, title: '杜甫登高 · 万里悲秋', desc: '杜甫漂泊夔州，重阳登高，作《登高》——"万里悲秋常作客，百年多病独登台"。', book: '旧唐书', chapter: '杜甫传', importance: 2, station: true },
+  { id: 'e-770-dufushi', year: 770, title: '杜甫卒于湘江舟中', desc: '杜甫病逝于湘江舟中，年五十九——"战血流依旧，军声动至今"。', book: '旧唐书', chapter: '杜甫传', importance: 1, station: true },
+  /* —— 北宋变法与党争 —— */
+  { id: 'e-1069-xinfa', year: 1069, title: '王安石拜相 · 熙宁变法', desc: '宋神宗任王安石为参知政事，行青苗、免役、保甲诸法——北宋政局从此剧变。', book: '宋史', chapter: '王安石传', importance: 1, station: true },
+  { id: 'e-1076-wangzai', year: 1076, title: '王安石再罢相', desc: '新法推行受阻、爱子王雱病逝，王安石再罢相，退居江宁半山园。', book: '宋史', chapter: '王安石传', importance: 2, station: true },
+  { id: 'e-1079-wutai', year: 1079, title: '乌台诗案', desc: '苏轼因诗文被指"讥讪朝政"，下御史台狱一百三十日，贬授黄州。', book: '宋史', chapter: '苏轼传', importance: 1, station: true },
+  { id: 'e-1080-sushi', year: 1080, title: '苏轼谪居黄州', desc: '乌台诗案后，苏轼以黄州团练副使安置，开始黄州时期的生活。', book: '宋史', chapter: '苏轼传', importance: 2, station: true },
+  { id: 'e-1082-chibi', year: 1082, title: '赤壁怀古与前后《赤壁赋》', desc: '苏轼在黄州创作《念奴娇·赤壁怀古》及前后《赤壁赋》（传统系年）。', book: '宋史', chapter: '苏轼传', importance: 1, station: true },
+  { id: 'e-1084-lizhou', year: 1084, title: '苏轼离黄州赴汝州', desc: '苏轼离开黄州，转赴汝州（行程日期待核验）。', book: '宋史', chapter: '苏轼传', importance: 2, station: false },
+  { id: 'e-1085-shenzong', year: 1085, title: '神宗去世，哲宗即位', desc: '宋神宗去世，年幼的哲宗即位，政局即将剧变。', book: '宋史', chapter: '神宗本纪', importance: 2, station: false },
+  { id: 'e-1086-simaguang', year: 1086, title: '司马光入朝主政', desc: '司马光执政，新法多被废止，朝局发生重要变化。', book: '宋史', chapter: '司马光传', importance: 2, station: false },
+  { id: 'e-1089-hangzhou', year: 1089, title: '苏轼知杭州', desc: '苏轼出知杭州，疏浚西湖、筑苏堤（到任时间待核验）。', book: '宋史', chapter: '苏轼传', importance: 2, station: false }
+];

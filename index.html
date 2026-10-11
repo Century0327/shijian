@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>史间 · 微信式历史社交</title>
+<link rel="stylesheet" href="css/styles.css?v=5.3">
+</head>
+<body>
+<div class="phone">
+ <div class="status"><span id="statusTime">19:08</span><span>●●●　▰　▮</span></div>
+ <header class="top" id="topbar"><div class="left"><button class="back hidden" id="backBtn">‹</button><h1 id="topTitle">微信</h1></div><div class="right"><button class="top-action" id="topSearch" aria-label="搜索">⌕</button><button class="top-action" id="topPlus" aria-label="更多">＋</button></div></header>
+ <section class="page active" id="page-wechat">
+  <div class="searchbar" id="chatSearch"><span>⌕ </span><input id="searchChats" placeholder="搜索历史人物 / 聊天记录"></div>
+  <div class="list" id="chatList"></div>
+ </section>
+ <section class="page" id="page-contacts">
+  <div class="searchbar"><span>⌕ </span><input id="searchContacts" placeholder="搜索名人"></div>
+  <div class="list">
+   <div class="row" data-open-person="new"><div class="tool-icon">＋</div><div class="row-main"><div class="row-title">新的朋友</div><div class="row-preview">查看添加申请与时空校验</div></div></div>
+   <div class="section-label">跨越千年的通讯录</div>
+   <div id="contactList"></div>
+  </div>
+ </section>
+ <section class="page" id="page-discover">
+  <div class="list tools-list">
+   <div class="row" id="openMoments"><div class="tool-icon" style="background:#e4f1e6;color:#38965c">◉</div><div class="row-main"><div class="row-title">朋友圈 <span style="color:#aaa">›</span></div><div class="row-preview">拖动时间轴，或按播放键穿越</div></div></div>
+   <div class="row" id="openShake"><div class="tool-icon" style="background:#f4ead6;color:#a17d3e">↔</div><div class="row-main"><div class="row-title">摇一摇 <span style="color:#aaa">›</span></div></div></div>
+  </div>
+ </section>
+ <section class="page" id="page-me">
+  <div class="contact-head"><div class="avatar av-me">令</div><div><h2>穿越者</h2><p>签名：我来看看历史到底有多热闹。</p></div></div>
+  <div class="list" style="margin-top:10px">
+   <div class="row" id="mePeople"><div class="tool-icon">♙</div><div class="row-main"><div class="row-title">我添加的名人 <span style="color:#aaa">›</span></div><div class="row-preview">管理你想认识的历史人物</div></div></div>
+   <div class="row" id="meAbout"><div class="tool-icon">ⓘ</div><div class="row-main"><div class="row-title">关于史间 <span style="color:#aaa">›</span></div><div class="row-preview">史料、演绎与想象力的边界</div></div></div>
+  </div>
+ </section>
+ <section class="page" id="page-moments">
+  <div class="moments-cover"><div><div class="cover-title">朋友圈</div><div class="cover-sub" id="momentsCoverSub">北宋 · 元丰五年 · 1082</div></div><div class="cover-right">令</div></div>
+  <div class="era-chips" id="eraChips"></div>
+  <div class="date-strip" id="momentBar">
+   <button id="stationPrev" class="rail-step" aria-label="上一站" title="上一站">‹</button>
+   <button id="momentPlay" class="play-btn" title="按时间驿站自动播放">▶ 播放</button>
+   <button id="stationNext" class="rail-step" aria-label="下一站" title="下一站">›</button>
+   <span id="momentDateLabel">1082 年 · 北宋</span>
+   <button id="momentPickDate">选日期</button>
+  </div>
+  <div class="time-rail" id="timeRail"><div class="rail-window"><div class="rail-track"></div><div class="rail-playhead"></div></div></div>
+  <div class="moment-list" id="momentsList"></div>
+ </section>
+ <section class="page" id="page-timeline">
+  <div class="tool-detail" style="margin-top:0"><h3>历史年轮</h3><p style="margin:0;color:#888;font-size:13px">先选一个时代，再挑个日子；也可以回到朋友圈直接拖动时间轴或按播放。</p><div class="field"><label>时代</label><select id="timelineEra"></select></div><div class="field"><label>年份</label><select id="timelineYear"></select></div><div class="field"><label>月份</label><select id="timelineMonth"></select></div><div class="field"><label>日期</label><select id="timelineDay"></select></div><button class="primary" id="applyTimeline">穿越到这里</button></div>
+  <div class="tool-detail" id="timelineEvents"></div>
+ </section>
+ <section class="page" id="page-person">
+  <div class="contact-head"><div class="avatar av-su" id="personAvatar">苏</div><div><h2 id="personName">苏轼</h2><p id="personMeta">文人 · 黄州（演示资料）</p></div></div>
+  <div class="contact-actions"><button id="personMessage">发消息</button><button id="personAdd">添加到通讯录</button></div>
+  <div class="profile-moments"><button class="secondary" id="personMoments" style="width:100%">查看对方的朋友圈　›</button></div>
+  <div class="profile-block"><div class="profile-line"><span>人物简介</span><span id="personBio">北宋文人，黄州时期留下大量作品。</span></div><div class="profile-line"><span>关系</span><span id="personRelations">友人：黄庭坚、佛印（需核验具体时间）</span></div><div class="profile-line"><span>时空状态</span><span id="personStatus">当前日期下待核验</span></div><div class="profile-line"><span>资料来源</span><span id="personBooks">演示档案</span></div></div>
+ </section>
+ <section class="page" id="page-profilemoments">
+  <div class="moments-cover"><div><div class="cover-title" id="profileMomentsTitle">个人朋友圈</div><div class="cover-sub" id="profileMomentsSub">TA 留在各个年份的动态</div></div></div>
+  <div class="moment-list" id="profileMomentsList"></div>
+</section>
+ <section class="page" id="page-chat">
+  <div class="fanfic-bar" id="fanficBar"></div>
+  <div class="chat-body" id="chatBody"></div>
+  <div class="chat-compose"><button class="secondary" id="chatMore">＋</button><input id="chatText" placeholder="输入消息……"><button id="chatSend">发送</button></div>
+ <div class="more-sheet hidden" id="moreSheet">
+  <button class="more-item" id="moreCall"><span class="mi">✦</span><span>时空连线<small>剧情 · 视频通话</small></span></button>
+  <button class="more-item" id="morePat"><span class="mi">☺</span><span>拍一拍<small>打个招呼</small></span></button>
+ </div>
+ <div class="call-picker hidden" id="callPicker">
+  <div class="cp-head"><div class="avatar" id="cpAvatar">项</div><div class="cp-title"><b id="cpName">项羽</b><span id="cpSub">时空连线 · 0/4</span></div><button class="cp-close" id="cpClose">✕</button></div>
+  <div class="cp-list" id="cpList"></div>
+ </div>
+ <div class="call-overlay hidden" id="callOverlay">
+  <div class="co-video" id="coVideo">
+   <div class="co-bg" id="coBg"></div>
+   <button class="co-voice" id="coVoice" aria-label="语音朗读开关">🔇</button>
+   <div class="co-fig"><div class="call-avatar" id="coAvatar">项</div><div class="call-shadow"></div></div>
+   <div class="co-status"><span class="dot"></span><span id="coStatus">呼叫中…</span></div>
+   <button class="co-hangup hidden" id="coHangup">挂断</button>
+   <button class="co-accept" id="coAccept"><span>✦</span>接听</button>
+  </div>
+  <div class="co-subs">
+   <div class="co-speaker" id="coSpeaker"></div>
+   <div class="co-line" id="coLine"></div>
+   <div class="co-choices" id="coChoices"></div>
+   <div class="co-actions" id="coActions"></div>
+   <div class="co-hint" id="coHint">点击屏幕继续</div>
+  </div>
+ </div>
+ </section>
+ <section class="page" id="page-translator">
+  <div class="tool-detail" style="margin-top:0"><h3>翻译</h3><p style="font-size:12px;color:#999;margin-top:-3px">不只是翻译——是替他把没说出口的心思，用今天的话讲白。</p><div class="field"><label>文言文 / 古人动态</label><textarea id="translateInput">人生如逆旅，我亦是行人。</textarea></div><button class="primary" id="translateBtn">翻译一下</button><div id="translateOutput" class="tool-detail hidden" style="margin:14px 0 0;background:#fff7e8"></div><div class="hint">译文来自本地对照表（data/translations.js）；接入 AI Agent 后可整句动态翻译。</div></div>
+ </section>
+ <section class="page" id="page-add">
+  <div class="tool-detail" style="margin-top:0"><h3>添加名人</h3><p style="font-size:13px;color:#888">想认识谁？先提交申请，再检查 TA 是否活在这个时空。</p><div class="field"><label>人物姓名</label><input id="addName" placeholder="例如：欧阳修"></div><div class="field"><label>希望出现的年份</label><input id="addYear" value="1082"></div><div class="field"><label>为什么想添加 TA？</label><textarea id="addReason" placeholder="想看他发动态，或者想跟他聊聊……"></textarea></div><button class="primary" id="submitAdd">提交好友申请</button><div id="addResult" class="hint"></div></div>
+ </section>
+ <section class="page" id="page-newfriends"><div class="tool-detail" style="margin-top:0"><h3>新的朋友</h3><div id="requests"><p style="font-size:13px;color:#999">暂时没有新的好友申请。</p></div></div></section>
+ <section class="page" id="page-shake"><div class="shake-panel"><div class="shake-circle">↔</div><h2 style="font-size:20px;font-weight:500;margin:0 0 8px">摇一摇，遇见同一时空的人</h2><p style="font-size:13px;color:#999;line-height:1.8;max-width:270px">只会遇见当前年份在世的人。也许是一位旧友，也许什么都不会发生。</p><button class="primary" id="shakeNow" style="margin-top:14px;padding:12px 30px">摇一摇</button><div id="shakeResult" style="margin-top:18px;font-size:14px"></div></div></section>
+ <section class="page" id="page-about"><div class="tool-detail" style="margin-top:0"><h3>关于史间</h3><p>史间是一个历史社交网络概念原型。它用微信式界面承载历史人物动态、聊天与互动剧情。</p><p>《史记》相关动态与大事依据中华书局点校本通行文本整理；北宋部分为演绎演示。系年凡例在每条动态下方标注：<b>原文系年</b>（史有明文）、<b>传统系年</b>（学界通行说法）、<b>演绎</b>（创作）。</p><p>数据与界面完全分离：内容在 <b>data/</b> 目录（人物、动态、大事、对话、白话对照），界面在 index.html 与 js/。数据层提供统一适配器接口（js/store.js 的 useAdapter），未来可无缝接入 AI Agent 动态生成内容。</p></div></section>
+ <nav class="tabbar" id="tabbar">
+  <button class="tab active" data-tab="wechat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2 1-4.1A7.4 7.4 0 0 1 4.5 5.5 8.2 8.2 0 0 1 12 3c4.4 0 8 3.8 8 8.5Z"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke-linecap="round"/></svg></span><span>微信</span></button>
+  <button class="tab" data-tab="contacts"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.4-3.1 2.4-4.8 5.5-4.8s5.1 1.7 5.5 4.8M16 5.5a3 3 0 0 1 0 5.8M17 14.5c2.1.4 3.3 1.9 3.6 4" stroke-linecap="round"/></svg></span><span>通讯录</span></button>
+  <button class="tab" data-tab="discover"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m15.7 8.3-2.1 5.3-5.3 2.1 2.1-5.3 5.3-2.1Z" stroke-linejoin="round"/></svg></span><span>发现</span></button>
+  <button class="tab" data-tab="me"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.5" r="3.4"/><path d="M4.5 20c.5-4 3.1-6.1 7.5-6.1s7 2.1 7.5 6.1" stroke-linecap="round"/></svg></span><span>我</span></button>
+ </nav>
+</div>
+<div class="toast" id="toast"></div>
+<script src="data/meta.js?v=5.3"></script>
+<script src="data/people.js?v=5.3"></script>
+<script src="data/moments.js?v=5.3"></script>
+<script src="data/events.js?v=5.3"></script>
+<script src="data/chats.js?v=5.3"></script>
+<script src="data/translations.js?v=5.3"></script>
+<script src="data/storycalls.js?v=5.3"></script>
+<script src="data/fanfics.js?v=5.3"></script>
+<script src="js/store.js?v=5.3"></script>
+<script src="js/timeline.js?v=5.3"></script>
+<script src="js/voice.js?v=5.3"></script>
+<script src="js/app.js?v=5.3"></script>
+</body></html>
