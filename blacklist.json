@@ -1,0 +1,36 @@
+{
+  "blacklist": [
+    {
+      "id": "old_index_html_wiring",
+      "reason": "缺 #coVoice 元素与 voice.js 引用的 index.html 旧版：app.js 顶层 $('#coVoice').onclick 对 null 赋值抛 TypeError，整页 JS 崩溃",
+      "permanent_ban": true,
+      "alternative": "当前 index.html（含 <button id=\"coVoice\"> 与 <script src=\"js/voice.js\">）",
+      "test_ref": "浏览器冒烟测试",
+      "judge": "ai",
+      "scope": "frontend",
+      "status": "active"
+    },
+    {
+      "id": "upload_order_versioning",
+      "reason": "以「后上传批次=更新版本」判定同名文件新旧：会把 storycalls.js 退回 img:'' 空占位版、styles.css 退回无 co-voice 版",
+      "permanent_ban": true,
+      "alternative": "whitelist.json 的 version_identification_method（md5 + diff 内容特征）",
+      "test_ref": "LESSONS.md Error 1",
+      "judge": "ai",
+      "scope": "process",
+      "status": "active"
+    },
+    {
+      "id": "genscenes_nested_out_path",
+      "reason": "gen_scenes.py OUT 路径含多余 'shijian' 组件：脚本入库后产物落到 shijian/shijian/img/scenes，与 storycalls.js 引用路径不符",
+      "permanent_ban": true,
+      "alternative": "OUT = dirname(dirname(脚本)) + img/scenes（相对仓库根）",
+      "test_ref": "LESSONS.md Error 2",
+      "judge": "ai",
+      "scope": "scripts",
+      "status": "active"
+    }
+  ],
+  "last_updated": "2026-10-11",
+  "note": "permanent_ban=true entries must never be used directly. Keep entries small and specific; mark replaced entries with superseded_by instead of deleting."
+}

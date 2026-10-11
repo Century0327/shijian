@@ -1,0 +1,72 @@
+{
+  "whitelist": [
+    {
+      "id": "script_load_order",
+      "score": 0.95,
+      "config": {
+        "order": ["data/meta.js", "data/people.js", "data/moments.js", "data/events.js", "data/chats.js", "data/translations.js", "data/storycalls.js", "data/fanfics.js", "js/store.js", "js/timeline.js", "js/voice.js", "js/app.js"],
+        "reason": "app.js 顶层依赖 ShiJianStore/ShiJianRail/ShiJianVoice；voice.js 必须先于 app.js"
+      },
+      "test_ref": "浏览器冒烟测试（console 无错误）",
+      "judge": "ai",
+      "last_verified": "2026-10-11",
+      "scope": "frontend",
+      "status": "active"
+    },
+    {
+      "id": "call_overlay_wiring",
+      "score": 0.9,
+      "config": {
+        "required_ids": ["coVoice", "coBg", "coVideo", "coAccept", "coHangup"],
+        "rule": "#coVoice 必须存在于 #coVideo 内（button.co-voice），app.js 顶层即绑定 onclick"
+      },
+      "test_ref": "浏览器冒烟测试 + app.js 388-396 行",
+      "judge": "ai",
+      "last_verified": "2026-10-11",
+      "scope": "frontend",
+      "status": "active"
+    },
+    {
+      "id": "serve_preview",
+      "score": 0.9,
+      "config": {
+        "command": "python3 serve.py",
+        "port": 8777,
+        "root": "仓库根目录"
+      },
+      "test_ref": "本地冒烟测试通过",
+      "judge": "ai",
+      "last_verified": "2026-10-11",
+      "scope": "devops",
+      "status": "active"
+    },
+    {
+      "id": "gen_scenes_idempotent",
+      "score": 0.9,
+      "config": {
+        "command": "python3 scripts/gen_scenes.py",
+        "output": "img/scenes/*.svg（12 个 key，重复运行安全）"
+      },
+      "test_ref": "重跑后 ls img/scenes | wc -l = 12",
+      "judge": "ai",
+      "last_verified": "2026-10-11",
+      "scope": "scripts",
+      "status": "active"
+    },
+    {
+      "id": "version_identification_method",
+      "score": 0.9,
+      "config": {
+        "steps": ["md5 去重完全相同文件", "对差异文件 diff", "以功能特征判定方向（注入计数/样式块/引用数）"],
+        "reason": "多批次同名文件版本判定"
+      },
+      "test_ref": "LESSONS.md Error 1 / VERSIONS.md 权威判定表",
+      "judge": "ai",
+      "last_verified": "2026-10-11",
+      "scope": "process",
+      "status": "active"
+    }
+  ],
+  "last_updated": "2026-10-11",
+  "note": "Prefer inheriting entries with score > 0.85 as the baseline for new tests. Mark replaced entries with superseded_by instead of deleting."
+}
