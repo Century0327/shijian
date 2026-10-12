@@ -743,7 +743,6 @@ async function authSubmit() {
   }
 }
 $('#authSubmit').onclick = () => authSubmit();
-$('#authLogout').onclick = () => { if (!window.ShiJianAuth?.loggedIn()) return; if (!window.confirm('确定要退出当前账号吗？')) return; window.ShiJianAuth.signOut(); renderAuthState(); showPage('me', '我'); toast('已退出登录'); };
 window.addEventListener('shijian:auth', renderAuthState);
 $('#translateBtn').onclick = () => {
   const v = $('#translateInput').value.trim();
