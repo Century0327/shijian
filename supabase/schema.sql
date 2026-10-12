@@ -1,5 +1,6 @@
 -- 史间玩家账号与进度（在 Supabase SQL Editor 执行一次）
-create extension if not exists pgcrypto;
+create schema if not exists extensions;
+create extension if not exists pgcrypto with schema extensions;
 
 create table if not exists public.players (
   id uuid primary key default gen_random_uuid(),
@@ -19,7 +20,7 @@ declare p public.players;
 begin
   if length(p_password) < 6 then raise exception '密码至少 6 位'; end if;
   insert into public.players(username, password_hash)
-  values (lower(trim(p_username)), crypt(p_password, gen_salt('bf')))
+  values (lower(trim(p_username)), extensions.crypt(p_password, extensions.gen_salt('bf')))
   returning * into p;
   return jsonb_build_object('id', p.id, 'username', p.username, 'progress', p.progress, 'unlocks', p.unlocks);
 exception when unique_violation then
@@ -31,7 +32,7 @@ returns jsonb language plpgsql security definer set search_path = public as $$
 declare p public.players;
 begin
   select * into p from public.players
-  where username = lower(trim(p_username)) and password_hash = crypt(p_password, password_hash);
+  where username = lower(trim(p_username)) and password_hash = extensions.crypt(p_password, password_hash);
   if not found then raise exception '用户名或密码错误'; end if;
   return jsonb_build_object('id', p.id, 'username', p.username, 'progress', p.progress, 'unlocks', p.unlocks);
 end $$;
