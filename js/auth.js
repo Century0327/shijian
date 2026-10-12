@@ -1,7 +1,7 @@
 /* 史间认证：Supabase Auth。anon key 由部署环境注入，不写入仓库。 */
 (function () {
-  const URL = window.SHIJIAN_SUPABASE_URL || 'https://nxiuafezfsmhbzmfmjqf.supabase.co';
-  const KEY = window.SHIJIAN_SUPABASE_ANON_KEY || '';
+  const URL = window.SHIJIAN_SUPABASE_URL || 'https://fvczhdgevqjkhtvujunr.supabase.co';
+  const KEY = window.SHIJIAN_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ2Y3poZGdldnFqa2h0dnVqdW5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3Nzc0NTQsImV4cCI6MjEwNzM1MzQ1NH0.mLkdTpRIPjRwH2K3nkuycyH6UHAD_-FB3IuYWTEP108';
   const SKEY = 'shijian.auth.v1';
   let session = null;
   try { session = JSON.parse(localStorage.getItem(SKEY) || 'null'); } catch (e) {}
