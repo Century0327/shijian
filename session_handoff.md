@@ -3,6 +3,7 @@
 Updated: 2026-10-12
 
 ## In-progress work（进行中任务，优先交接）
+- Auth UI: “我”头像右侧已加入直接可点击的注册/登录按钮；登录后按钮变为退出登录。
 - Auth: 已加入“我”页登录/注册界面与 Supabase Auth 适配层；当前 anon key 未配置，互动会提示登录并跳转“我”页。
 - Interaction updates: 微信列表头像单击直接进聊天；聊天页头像单击进资料、双击拍一拍；朋友圈时代筛选再次点击取消；时间轴从首端初始化并记忆位置与筛选。
 - Code flow implemented: 选择第 N 幕只进入来电状态；acceptCall 后才调用 startStoryCall，推进该幕剧情并允许记录完成进度。

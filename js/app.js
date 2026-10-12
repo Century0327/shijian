@@ -39,6 +39,7 @@ function requireLogin() {
 function renderAuthState() {
   const logged = window.ShiJianAuth?.loggedIn();
   $('#meSub').textContent = logged ? '已登录 · 游玩进度将与账号同步' : '未登录 · 登录后保存你的游玩进度';
+  $('#meAuthButton').textContent = logged ? '退出登录' : '注册/登录';
   $('#meLogin').querySelector('.row-title').innerHTML = logged ? '账号设置 <span style="color:#aaa">›</span>' : '登录 / 注册 <span style="color:#aaa">›</span>';
   $('#authStatus').textContent = logged ? '当前已登录' : (window.ShiJianAuth?.configured() ? '当前未登录' : '等待配置 Supabase anon key');
 }
@@ -695,6 +696,10 @@ $('#submitAdd').onclick = () => {
 $('#mePeople').onclick = () => { showPage('contacts', '通讯录'); toast('这里可以查看和管理已添加人物'); };
 $('#meAbout').onclick = () => showPage('about', '关于史间');
 $('#meLogin').onclick = () => { showPage('login', '登录 / 注册'); renderAuthState(); };
+$('#meAuthButton').onclick = () => {
+  if (window.ShiJianAuth?.loggedIn()) { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); }
+  else { showPage('login', '注册 / 登录'); renderAuthState(); }
+};
 $('#authSubmit').onclick = async () => {
   const email = $('#authEmail').value.trim(), password = $('#authPassword').value;
   if (!email || password.length < 6) { $('#authStatus').textContent = '请输入邮箱和至少 6 位密码'; return; }
