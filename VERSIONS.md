@@ -23,6 +23,7 @@ rolled back.
 |---|---|---|---|---|---|
 | v5.3（commit c29dd23） | 前端原型基线 | yes | human | git c29dd23 / Pages built | 用户确认修复 3 处接线后提交；冒烟测试通过 |
 | v5.3-fix（接线补齐） | index.html 旧版 → 新版 | yes | human | 对话确认记录 | 补 #coVoice 按钮 + voice.js 引用，修复启动崩溃 |
+| 项羽四幕对白重写（工作区） | 角色来电剧情与朋友圈翻译 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `data/translations.js` | 等待用户检查人物语气后再作为其他角色扩写基线 |
 
 ## 同名多版本文件的权威判定（2026-10-11 三批上传）
 
@@ -34,8 +35,7 @@ rolled back.
 | `data/{meta,people,moments,events,chats,translations,fanfics}.js` | 唯一上传版本（chats/events/fanfics/meta 两批 md5 一致） | md5 | 无 |
 | `index.html` | 已补 coVoice + voice.js 引用的当前版 | 旧版会导致 app.js 顶层崩溃 | 旧版（DEPRECATED） |
 
-> 待办：`data/translations.js` 用户反馈"用错版本"，正确版本由用户持有（含
-> 「哼！这位置我也坐得」风格文案），上传后需替换并更新本表。
+> 当前项羽翻译已按 2026-10-12 的人物语气规则重写；其他人物翻译尚未按同一规则复核。
 
 ## Rules
 

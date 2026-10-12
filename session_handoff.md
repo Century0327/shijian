@@ -3,6 +3,9 @@
 Updated: 2026-10-12
 
 ## In-progress work（进行中任务，优先交接）
+- Xiang Yu writing pass: `data/storycalls.js` 中项羽四幕已重排为会稽观秦、巨鹿决战、鸿门迟决、垓下乌江；`data/translations.js` 中八条项羽朋友圈翻译已按语气和标点规则重写，当前为 EXPERIMENTAL，等待用户检查后再扩写其他人物。
+- Writing governance: `AGENTS.md` 已加入对白/朋友圈翻译的五项前置分析（情景、性格、情绪、目的、知识边界）以及史料原话/叙述/演绎的标注边界。
+- Research limitation: 本轮已获得网络权限，但 Google、DuckDuckGo 的实际请求仍被执行环境出口代理以 403 拒绝；不得把未打开的网页写成已检索来源。
 - Auth UI: “我”头像右侧已加入直接可点击的注册/登录按钮；登录后按钮变为退出登录。
 - Auth: 已加入“我”页登录/注册界面与 Supabase Auth 适配层；当前 anon key 未配置，互动会提示登录并跳转“我”页。
 - Supabase prerequisite: 用户在聊天中提交过密钥，未写入仓库；应先在 Supabase 轮换该密钥，再通过环境设置安全注入。现有草稿的 secret 目标域名需修正为项目实际域名。
