@@ -130,9 +130,9 @@ function renderContacts(filter = '') {
 }
 function renderFriendRequests() {
   const root = $('#requests'); if (!root) return;
-  const pending = store.getFriendRequests().filter(r => r.status === 'pending');
+  const pending = store.getFriendRequests().filter(r => r.status === 'pending' || r.status === 'responded');
   [$('#friendRequestBadge'), $('#wechatUnreadBadge')].forEach(b => { if (b) b.classList.toggle('hidden', pending.length === 0); });
-  root.innerHTML = pending.length ? pending.map(r => `<div class="request-card"><b>${esc(r.name)}</b><div class="hint">验证消息：${esc(r.message || '想和你认识一下')}</div><div class="request-status">申请已发出，等待对方回应……</div></div>`).join('') : '<p style="font-size:13px;color:#999">暂时没有新的好友申请。</p>';
+  root.innerHTML = pending.length ? pending.map(r => `<div class="request-card"><b>${esc(r.name)}</b><div class="hint">验证消息：${esc(r.message || '想和你认识一下')}</div>${r.status === 'responded' ? `<div class="hint">${esc(r.response || '对方通过了你的申请。')}</div><div class="request-actions"><button class="primary" data-accept-request="${esc(r.name)}">接受</button><button class="secondary" data-reject-request="${esc(r.name)}">拒绝</button></div>` : '<div class="request-status">申请已发出，等待对方回应……</div>'}</div>`).join('') : '<p style="font-size:13px;color:#999">暂时没有新的好友申请。</p>';
   root.querySelectorAll('[data-accept-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.acceptRequest, 'accepted'); renderFriendRequests(); renderChats(); renderContacts(); toast('已同意好友申请'); });
   root.querySelectorAll('[data-reject-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.rejectRequest, 'rejected'); renderFriendRequests(); toast('已拒绝好友申请'); });
 }
@@ -681,7 +681,7 @@ $('#personMoments').onclick = () => openProfileMoments(st.person);
 $('#personAdd').onclick = () => {
   if (!requireLogin()) return;
   if (store.isFriend(st.person)) { toast('这位名人已经在你的通讯录里啦'); return; }
-  if (store.requestFriend(st.person, '你好，想和你认识一下。')) { $('#personAdd').textContent = '申请中'; $('#personAdd').disabled = true; toast('好友申请已发出，等待回应'); setTimeout(() => { renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200); }
+  if (store.requestFriend(st.person, '你好，想和你认识一下。')) { $('#personAdd').textContent = '申请中'; $('#personAdd').disabled = true; toast('好友申请已发出，等待回应'); setTimeout(() => { store.respondFriendRequest(st.person, '我看见你的来信了，先认识一下吧。'); renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200); }
 };
 $('#submitAdd').onclick = () => {
   const n = $('#addName').value.trim();
@@ -707,6 +707,7 @@ $('#submitAdd').onclick = () => {
   }
   renderChats(); renderContacts();
   renderFriendRequests(); toast('好友申请已发出，等待回应');
+  setTimeout(() => { store.respondFriendRequest(n, '收到你的消息了，先认识一下吧。'); renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200);
 };
 $('#meAbout').onclick = () => showPage('about', '关于史间');
 $('#meLogin').onclick = () => {

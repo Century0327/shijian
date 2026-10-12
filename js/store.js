@@ -172,6 +172,7 @@
     const r = requests.find(x => x.name === name && x.status === 'pending'); if (!r) return false;
     r.status = status; if (status === 'accepted') addFriend(name); saveRequests(); return true;
   }
+  function respondFriendRequest(name, message) { const r = requests.find(x => x.name === name && x.status === 'pending'); if (!r) return false; r.status = 'responded'; r.response = message; saveRequests(); return true; }
 
   function translate(text) {
     let out = String(text);
@@ -189,7 +190,7 @@
     getEvents, getMoments, getStations, nextStation, prevStation, nearestStationInEra, peekFirstPost,
     getChatScript, translate,
     getMomentById, getStoryEntries, markActRead, isActRead, actProgress, getNextAct, isFanficUnlocked, getFanfic,
-    isFriend, addFriend, getFriends, requestFriend, getFriendRequests, resolveFriendRequest,
+    isFriend, addFriend, getFriends, requestFriend, getFriendRequests, resolveFriendRequest, respondFriendRequest,
     /* —— Agent 接入点 —— */
     useAdapter(a) { adapter = Object.assign({}, localAdapter, a); }
   };
