@@ -1,7 +1,7 @@
 # Directory Index — 史间 · 微信式历史社交
-<!-- index-meta: record_time=2026-10-11, max_depth=4, max_note_length=60, root_section="## Root layout", changelog_section="## Change log" -->
+<!-- index-meta: record_time=2026-10-12, max_depth=4, max_note_length=60, root_section="## Root layout", changelog_section="## Change log" -->
 
-Record time: 2026-10-11
+Record time: 2026-10-12
 Authority: `AGENTS.md` directory rules + `governance.py index`
 Changes: Initial scaffold.
 
@@ -18,6 +18,8 @@ Changes: Initial scaffold.
 │   ├── [people.js](data/people.js)
 │   ├── [storycalls.js](data/storycalls.js)
 │   └── [translations.js](data/translations.js)
+├── [debug/](debug)
+│   └── [call-ui-xiangyu.html](debug/call-ui-xiangyu.html)
 ├── [img/](img)
 │   └── [scenes/](img/scenes)
 │       ├── [boat.svg](img/scenes/boat.svg)

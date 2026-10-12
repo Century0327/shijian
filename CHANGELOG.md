@@ -11,6 +11,7 @@
 
 | Date | Change | Judge | Notes |
 |---|---|---|---|
+| 2026-10-12 | 在 \`debug/\` 发布独立项羽通话可交互原型 | ai | Pages 调试入口；不改变正式应用入口与正式发布链路 |
 | 2026-10-11 | 引入 project-governance v1.2.1 治理体系（init + 定制） | human | 用户指定来源 github.com/Century0327/project-governance |
 | 2026-10-11 | index.html 补 #coVoice 按钮与 voice.js 引用；gen_scenes.py 输出路径修正 | human | 用户在 AskUserQuestion 中确认"我来修复这 3 处，然后 git" |
 | 2026-10-11 | 建立 GitHub 仓库 Century0327/shijian（Public）并推送 main；开启 Pages | human | commit c29dd23；Pages 状态 built，站点 200 |
