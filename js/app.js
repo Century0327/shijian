@@ -140,9 +140,9 @@ function renderFriendRequests() {
   $('#wechatUnreadBadge')?.classList.toggle('hidden', unread <= 0);
   root.innerHTML = pending.length ? pending.map(r => `<div class="request-card"><b>${esc(r.name)}</b><div class="hint">验证消息：${esc(r.message || '想和你认识一下')}</div>${r.status === 'responded' ? `<div class="hint">${esc(r.response || '对方通过了你的申请。')}</div><div class="request-actions"><button class="primary" data-accept-request="${esc(r.name)}">同意</button><button class="secondary" data-reject-request="${esc(r.name)}">拒绝</button></div>` : '<div class="request-status">申请已发出，等待回应……</div>'}</div>`).join('') : '<p style="font-size:13px;color:#999">暂时没有新的好友申请。</p>';
   const history = all.filter(r => r.status === 'accepted' || r.status === 'rejected');
-  if (history.length) root.innerHTML += `<div class="request-history"><div class="section-label">历史申请</div>${history.map(r => `<div class="request-card is-history"><b>${esc(r.name)}</b><span class="request-status">已${r.status === 'accepted' ? '同意' : '拒绝'}</span></div>`).join('')}</div>`;
+  if (history.length) root.innerHTML += `<div class="request-history"><div class="section-label">历史申请</div>${history.map(r => `<div class="request-card is-history"><b>${esc(r.name)}</b><span class="request-status">已${r.status === 'accepted' ? '同意' : '拒绝'}</span><div class="hint">申请消息：${esc(r.message || '未填写')}</div>${r.status === 'accepted' ? `<div class="hint">对方回应：${esc(r.response || '已同意添加好友。')}</div>` : `<div class="hint">拒绝原因：${esc(r.responseReason || '未填写')}</div>`}</div>`).join('')}</div>`;
   root.querySelectorAll('[data-accept-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.acceptRequest, 'accepted'); renderFriendRequests(); renderChats(); renderContacts(); toast('已同意好友申请'); });
-  root.querySelectorAll('[data-reject-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.rejectRequest, 'rejected'); renderFriendRequests(); toast('已拒绝好友申请'); });
+  root.querySelectorAll('[data-reject-request]').forEach(b => b.onclick = () => { const reason = '当前暂不方便建立联系。'; store.setFriendRequestReason?.(b.dataset.rejectRequest, reason); store.resolveFriendRequest(b.dataset.rejectRequest, 'rejected'); renderFriendRequests(); toast('已拒绝好友申请，原因已记录'); });
 }
 
 /* ---------- 朋友圈：时代快捷跳转 ---------- */
