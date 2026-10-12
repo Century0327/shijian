@@ -30,8 +30,8 @@ function buildPeople() { PEOPLE = {}; store.getPeople().forEach(p => PEOPLE[p.na
 /* ---------- 基础工具 ---------- */
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function toast(s) { const el = $('#toast'); el.textContent = s; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2200); }
-function openLogoutModal() { $('#logoutModal').classList.remove('hidden'); }
-function closeLogoutModal() { $('#logoutModal').classList.add('hidden'); }
+function openLogoutModal() { const modal = $('#logoutModal'); if (!modal) return; modal.classList.remove('hidden'); modal.style.display = 'grid'; }
+function closeLogoutModal() { const modal = $('#logoutModal'); if (!modal) return; modal.classList.add('hidden'); modal.style.display = 'none'; }
 function requireLogin() {
   if (window.ShiJianAuth?.loggedIn()) return true;
   toast('登录后才能保存进度和进行互动');
@@ -723,7 +723,7 @@ $('#profileSave').onclick = () => {
   renderAuthState(); showPage('me', '我'); toast('资料已保存');
 };
 $('#meAuthButton').onclick = () => {
-  if (window.ShiJianAuth?.loggedIn()) { openLogoutModal(); }
+  if (window.ShiJianAuth?.loggedIn() || $('#meAuthButton').textContent.trim() === '退出登录') { openLogoutModal(); }
   else { showPage('login', '注册 / 登录'); renderAuthState(); }
 };
 $('#logoutCancel').onclick = closeLogoutModal;
