@@ -12,7 +12,7 @@ let st = {
   year: meta.range?.[0] || meta.defaultYear || 1082, month: '四月', day: 5,
   person: '苏轼', chatLog: {},
   likes: new Set(), commentLikes: new Set(), userComments: {}, patCount: {},
-  momentOwner: null, momentEra: null, playing: false, playTimer: null
+  momentOwner: null, momentEra: null, activeSlice: null, playing: false, playTimer: null
 };
 const MOMENT_VIEW_KEY = 'shijian.moments.view.v1';
 try {
@@ -272,11 +272,11 @@ function loadNearby() { try { nearbyState = JSON.parse(localStorage.getItem(near
 function saveNearby() { localStorage.setItem(nearbyStorageKey(), JSON.stringify(nearbyState)); }
 function nearbyPeople(place) {
   const y = st.year; const names = place.old === '洛阳' ? ['李白', '杜甫', '司马光', '曹植', '白居易'] : place.old === '长安' ? ['李白', '杜甫', '司马迁', '诸葛亮'] : place.old === '会稽' ? ['勾践', '范蠡'] : place.old === '江宁' ? ['王安石', '陶渊明'] : ['孔子', '蔺相如', '廉颇'];
-  return names.map(n => personOf(n)).filter(Boolean).filter(p => !p.life || (p.life[0] == null || y >= p.life[0]) && (p.life[1] == null || y <= p.life[1])).sort(() => Math.random() - .5).slice(0, 6);
+  return names.map(n => personOf(n)).filter(Boolean).filter(p => !p.life || (p.life[0] == null || y >= p.life[0]) && (p.life[1] == null || y <= p.life[1])).sort(() => Math.random() - .5).slice(0, 6).map(p => ({ ...p, sliceId: `${p.id}-${y}-${place.old}`, sliceYear: y, slicePlace: place.old }));
 }
 function renderNearby() {
   const place = NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]; $('#nearbyProvince').value = place.region; $('#nearbyCity').innerHTML = `<option>${place.modern}</option>`; $('#nearbyDistrict').innerHTML = `<option>${place.old}</option>`; $('#nearbyMeta').textContent = `按朋友圈当前年份 · ${store.formatYear(st.year)} 年${autoTranslationEnabled() ? ` · 今·${place.modern}` : ''}`;
-  const nodes = $('#nearbyNodes'); if (!nodes) return; const positions = [[18,24],[68,18],[78,52],[20,66],[50,78],[42,38]]; nodes.innerHTML = (nearbyState.results || []).map((p,i) => { const pos = positions[i] || [Math.random()*70+10,Math.random()*70+10]; return `<button class="nearby-node" style="left:${pos[0]}%;top:${pos[1]}%" data-nearby-person="${esc(p.name)}">${avatar(p.name, true)}<span>${esc(p.name)}<small>${esc(p.era || '')} · ${esc(place.old)}${autoTranslationEnabled() ? ` · 今·${esc(place.modern)}` : ''}</small></span></button>`; }).join(''); nodes.querySelectorAll('[data-nearby-person]').forEach(b => b.onclick = () => openPerson(b.dataset.nearbyPerson)); $('#nearbyHint').textContent = nearbyState.results?.length ? `发现 ${nearbyState.results.length} 位与${place.old}有关的角色` : '点击“搜寻”发现这片土地上的故人';
+  const nodes = $('#nearbyNodes'); if (!nodes) return; const positions = [[18,24],[68,18],[78,52],[20,66],[50,78],[42,38]]; nodes.innerHTML = (nearbyState.results || []).map((p,i) => { const pos = positions[i] || [Math.random()*70+10,Math.random()*70+10]; return `<button class="nearby-node" style="left:${pos[0]}%;top:${pos[1]}%" data-nearby-person="${esc(p.name)}" data-slice="${esc(p.sliceId || '')}">${avatar(p.name, true)}<span>${esc(p.name)}<small>${esc(p.era || '')} · ${esc(p.sliceYear || st.year)}年 · ${esc(place.old)}${autoTranslationEnabled() ? ` · 今·${esc(place.modern)}` : ''}</small></span></button>`; }).join(''); nodes.querySelectorAll('[data-nearby-person]').forEach(b => b.onclick = () => { nearbyState.activeSlice = b.dataset.slice; saveNearby(); st.activeSlice = b.dataset.slice; openPerson(b.dataset.nearbyPerson); }); $('#nearbyHint').textContent = nearbyState.results?.length ? `发现 ${nearbyState.results.length} 位与${place.old}有关的角色` : '点击“搜寻”发现这片土地上的故人';
 }
 
 /* 人物朋友圈（碎片层：动态归档）。剧情入口在聊天页 ＋ → 时空连线 */
@@ -568,7 +568,7 @@ function openPerson(name) {
   $('#personAvatar').dataset.avatarPerson = name;
   $('#personAvatar').textContent = p.avatar || (name || '客').slice(0, 1);
   $('#personName').textContent = name;
-  $('#personMeta').textContent = (p.title || '待核验人物') + (p.lifeText ? ' · ' + p.lifeText : '');
+  $('#personMeta').textContent = (p.title || '待核验人物') + (p.lifeText ? ' · ' + p.lifeText : '') + (st.activeSlice ? ` · 时间切片 ${st.activeSlice.split('-').slice(-2).join(' · ')}` : '');
   $('#personBio').textContent = p.bio || '资料待补充';
   $('#personRelations').textContent = p.relations || '关系待核验';
   const friended = store.isFriend(name);
@@ -594,7 +594,7 @@ function startChat(name, mode) {
   showPage('chat', name);
   renderFanficBar(name);
   const fanfic = st.chatMode === 'fanfic';
-  const key = fanfic ? 'fanfic:' + name : name;
+  const key = fanfic ? 'fanfic:' + name : (st.activeSlice ? `slice:${st.activeSlice}` : name);
   if (!st.chatLog[key]) {
     const script = fanfic ? (store.getFanfic(name) || {})
       : (store.getChatScript(name) || { intro: '你有什么事？', options: [['自我介绍', '原来如此。你倒是个有趣的人。'], ['问问近况', '近日诸事繁杂，不过还算安稳。'], ['请他讲故事', '既然你想听，那我便讲一段旧事。']] });
@@ -673,7 +673,7 @@ $('#searchContacts').oninput = e => renderContacts(e.target.value.trim());
 $('#page-contacts .row[data-open-person="new"]').onclick = () => { renderFriendRequests(); showPage('newfriends', '新的朋友'); };
 $('#openMoments').onclick = () => goMoments();
 $('#openShake').onclick = () => showPage('shake', '摇一摇');
-$('#openNearby').onclick = () => { loadNearby(); renderNearby(); showPage('nearby', '附近'); };
+document.addEventListener('click', e => { const entry = e.target.closest('#openNearby'); if (!entry) return; e.preventDefault(); loadNearby(); renderNearby(); showPage('nearby', '附近'); });
 $('#nearbySearch').onclick = () => { nearbyState.results = nearbyPeople(NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]); saveNearby(); renderNearby(); };
 $('#nearbyProvince').onchange = e => { const i = NEARBY_PLACES.findIndex(p => p.region === e.target.value); nearbyState.place = i < 0 ? 0 : i; nearbyState.results = []; saveNearby(); renderNearby(); };
 $('#autoTranslateToggle').onchange = e => { setAutoTranslation(e.target.checked); renderMoments(); renderNearby(); };
