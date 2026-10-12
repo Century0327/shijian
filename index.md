@@ -41,6 +41,7 @@ Changes: Initial scaffold.
 │   ├── [timeline.js](js/timeline.js)
 │   └── [voice.js](js/voice.js)
 ├── [scripts/](scripts)
+│   ├── [audit_story_quality.js](scripts/audit_story_quality.js)
 │   ├── [gen_scenes.py](scripts/gen_scenes.py)
 │   ├── [inject_scene_imgs.js](scripts/inject_scene_imgs.js)
 │   ├── [remap_acts.js](scripts/remap_acts.js)
