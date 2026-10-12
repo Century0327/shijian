@@ -3,6 +3,9 @@
 Updated: 2026-10-12
 
 ## In-progress work（进行中任务，优先交接）
+- Friend deletion: 人物资料页好友状态按钮已改为“删除好友”，通过页面内统一确认层二次确认；删除写回账号隔离的好友 localStorage，保留既有申请历史。
+- Player subtitle pacing: 角色来电剧情选择后不再用 350ms 计时推进；玩家字幕持续显示，点击画面、字幕或“点击屏幕继续”后才显示角色回应。
+- Dialogue research: 本轮联网成功，已读取 Scripta 潜台词、喵学堂对白与潜台词、捏界人物声音、公开 GitHub《对白：目的与潜台词》正文；后续扩写按人物目的、直说风险、潜台词、声音辨识与背景解说禁忌审核。
 - Xiang Yu writing pass: `data/storycalls.js` 中项羽四幕已重排为会稽观秦、巨鹿决战、鸿门迟决、垓下乌江；`data/translations.js` 中八条项羽朋友圈翻译已按语气和标点规则重写，当前为 EXPERIMENTAL，等待用户检查后再扩写其他人物。
 - Writing governance: `AGENTS.md` 已加入对白/朋友圈翻译的五项前置分析（情景、性格、情绪、目的、知识边界）以及史料原话/叙述/演绎的标注边界。
 - Research limitation: 本轮已获得网络权限，但 Google、DuckDuckGo 的实际请求仍被执行环境出口代理以 403 拒绝；不得把未打开的网页写成已检索来源。

@@ -32,6 +32,19 @@ function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<'
 function toast(s) { const el = $('#toast'); el.textContent = s; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2200); }
 function openLogoutModal() { const modal = $('#logoutModal'); if (!modal) return; modal.classList.remove('hidden'); modal.style.display = 'grid'; }
 function closeLogoutModal() { const modal = $('#logoutModal'); if (!modal) return; modal.classList.add('hidden'); modal.style.display = 'none'; }
+function openDeleteFriendModal(name) {
+  const modal = $('#deleteFriendModal'); if (!modal) return;
+  $('#deleteFriendName').textContent = name;
+  modal.dataset.person = name;
+  modal.classList.remove('hidden');
+  modal.style.display = 'grid';
+}
+function closeDeleteFriendModal() {
+  const modal = $('#deleteFriendModal'); if (!modal) return;
+  modal.classList.add('hidden');
+  modal.style.display = 'none';
+  modal.dataset.person = '';
+}
 function requireLogin() {
   if (window.ShiJianAuth?.loggedIn()) return true;
   toast('登录后才能保存进度和进行互动');
@@ -387,7 +400,7 @@ function acceptCall() {
   $('#coStatus').textContent = `连线中 · ${store.formatYear(c.entry.year)}年 · ${c.entry.place}`;
   startStoryCall();
 }
-/* 字幕推进：点一下屏幕播一句，上一句消失；choice 停下等选 */
+/* 字幕推进：角色台词和玩家选择都停留到下一次点击；choice 停下等选。 */
 function advanceCall() {
   const c = st.call; if (!c || !c.connected || c.finished) return;
   if ($('#coChoices').children.length) return;   /* choice 挂起：必须选一个回复 */
@@ -430,7 +443,7 @@ function renderCallChoices(options) {
     $('#coLine').innerHTML = `<i class="me-line">${esc(opt[0])}</i>`;
     $('#coSpeaker').textContent = '你';
     $('#coChoices').innerHTML = '';
-    setTimeout(advanceCall, 350);
+    $('#coHint').textContent = '点击屏幕继续 · 你的回复';
   });
 }
 /* 播完 out（挂断词）：标记已读 + 出史册入口；挂断按钮随时可退 */
@@ -475,6 +488,8 @@ function hangupCall() {
 }
 /* overlay 交互：点视频区/字幕区推进一句；接听、挂断随时可退 */
 $('#coVideo').onclick = () => advanceCall();
+$('#coLine').onclick = () => advanceCall();
+$('#coHint').onclick = () => advanceCall();
 $('#coVoice').onclick = ev => {
   ev.stopPropagation();
   const on = window.ShiJianVoice.toggle();
@@ -580,8 +595,9 @@ function openPerson(name) {
   $('#personBio').textContent = p.bio || '资料待补充';
   $('#personRelations').textContent = p.relations || '关系待核验';
   const friended = store.isFriend(name);
-  $('#personAdd').textContent = friended ? '已是好友' : '添加到通讯录';
-  $('#personAdd').disabled = friended;
+  $('#personAdd').textContent = friended ? '删除好友' : '添加到通讯录';
+  $('#personAdd').classList.toggle('danger', friended);
+  $('#personAdd').disabled = false;
   $('#personMessage').textContent = friended ? '发消息' : '加好友后可发消息';
   let status = `所选时空：${store.formatYear(st.year)} 年 · ${store.eraOf(st.year)}`;
   if (p.life) {
@@ -714,7 +730,7 @@ $('#personMessage').onclick = () => {
 $('#personMoments').onclick = () => openProfileMoments(st.person);
 $('#personAdd').onclick = () => {
   if (!requireLogin()) return;
-  if (store.isFriend(st.person)) { toast('这位名人已经在你的通讯录里啦'); return; }
+  if (store.isFriend(st.person)) { openDeleteFriendModal(st.person); return; }
   if (store.requestFriend(st.person, '你好，想和你认识一下。')) { $('#personAdd').textContent = '申请中'; $('#personAdd').disabled = true; toast('好友申请已发出，等待回应'); setTimeout(() => { store.respondFriendRequest(st.person, friendResponse(st.person, 'accept')); renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200); }
 };
 $('#submitAdd').onclick = () => {
@@ -768,6 +784,20 @@ $('#meAuthButton').onclick = () => {
 $('#logoutCancel').onclick = closeLogoutModal;
 $('#logoutConfirm').onclick = () => { window.ShiJianAuth.signOut(); closeLogoutModal(); renderAuthState(); toast('已退出登录'); };
 $('#logoutModal').onclick = e => { if (e.target.id === 'logoutModal') closeLogoutModal(); };
+$('#deleteFriendCancel').onclick = closeDeleteFriendModal;
+$('#deleteFriendConfirm').onclick = () => {
+  const name = $('#deleteFriendModal').dataset.person;
+  if (!name || !store.removeFriend(name)) { closeDeleteFriendModal(); return; }
+  closeDeleteFriendModal();
+  renderChats();
+  renderContacts();
+  $('#personAdd').textContent = '添加到通讯录';
+  $('#personAdd').classList.remove('danger');
+  $('#personAdd').disabled = false;
+  $('#personMessage').textContent = '加好友后可发消息';
+  toast(`已删除好友「${name}」`);
+};
+$('#deleteFriendModal').onclick = e => { if (e.target.id === 'deleteFriendModal') closeDeleteFriendModal(); };
 async function authSubmit() {
   const username = $('#authUsername').value.trim(), password = $('#authPassword').value;
   if (!/^[A-Za-z0-9_]{3,32}$/.test(username) || password.length < 6) { $('#authStatus').textContent = '用户名需 3—32 位字母、数字或下划线，密码至少 6 位'; return; }

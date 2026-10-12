@@ -160,6 +160,13 @@
     try { window.localStorage.setItem(FKEY, JSON.stringify(friends)); } catch (e) {}
     return true;
   }
+  function removeFriend(name) {
+    const index = friends.list.indexOf(name);
+    if (index < 0) return false;
+    friends.list.splice(index, 1);
+    try { window.localStorage.setItem(FKEY, JSON.stringify(friends)); } catch (e) {}
+    return true;
+  }
   function getFriends() { return friends.list.slice(); }
   let requests = (() => { try { return JSON.parse(localStorage.getItem(RKEY) || '[]'); } catch (e) { return []; } })();
   function saveRequests() { try { localStorage.setItem(RKEY, JSON.stringify(requests)); } catch (e) {} }
@@ -191,7 +198,7 @@
     getEvents, getMoments, getStations, nextStation, prevStation, nearestStationInEra, peekFirstPost,
     getChatScript, translate,
     getMomentById, getStoryEntries, markActRead, isActRead, actProgress, getNextAct, isFanficUnlocked, getFanfic,
-    isFriend, addFriend, getFriends, requestFriend, getFriendRequests, resolveFriendRequest, setFriendRequestReason, respondFriendRequest,
+    isFriend, addFriend, removeFriend, getFriends, requestFriend, getFriendRequests, resolveFriendRequest, setFriendRequestReason, respondFriendRequest,
     /* —— Agent 接入点 —— */
     useAdapter(a) { adapter = Object.assign({}, localAdapter, a); }
   };
