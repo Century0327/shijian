@@ -18,6 +18,7 @@ Updated: 2026-10-12
 - Logout confirmation: 仅登录后“我”页面昵称右侧的退出按钮显示确认弹窗，取消不会清除当前会话。
 - Logout entry correction: 登录/注册页不再显示退出按钮；登录后的“我”页面昵称右侧按钮负责退出并弹出确认。
 - Auth hardening: 会话统一为 v2 结构并兼容旧 localStorage；刷新自动迁移，登录/注册共用资料保存，退出使用应用内确认弹窗；资源版本已更新。
+- Modal cache fix: 已确认源码不存在浏览器 `confirm` 调用，并再次升级 CSS/JS 版本，确保 Pages 不继续加载旧版退出逻辑。
 - Cache fix: auth.js/app.js/styles.css 资源版本已升级，避免 Pages 使用旧缓存；登录成功会写入 profile 昵称。
 - Session normalization: auth.js 现在统一解析 RPC 返回值并生成玩家 id/username 会话，避免“登录成功但仍未登录”。
 - Auth SQL fix: schema.sql 已改为显式调用 extensions.crypt 与 extensions.gen_salt；用户需重新执行更新后的 SQL。
