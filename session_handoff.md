@@ -10,6 +10,7 @@ Updated: 2026-10-12
 - Custom players: 已加入 supabase/schema.sql 与 register_player/login_player/save_player_state RPC；需在 Supabase SQL Editor 执行 schema 后才能注册登录。
 - Auth UI: 注册与登录已合并为单一“登录”按钮；未注册自动注册并登录。若出现 schema cache 错误，需重新执行 schema.sql。
 - Profile UI: 未登录默认显示头像“佚”和“未登录”；删除“我添加的名人”；原登录位置改为登录后的编辑资料入口。
+- Auth fix: 自建 players 会话现在以 session.id 判断登录；登录后“我”页面会显示玩家昵称、已登录和退出登录。
 - Auth SQL fix: schema.sql 已改为显式调用 extensions.crypt 与 extensions.gen_salt；用户需重新执行更新后的 SQL。
 - Interaction updates: 微信列表头像单击直接进聊天；聊天页头像单击进资料、双击拍一拍；朋友圈时代筛选再次点击取消；时间轴从首端初始化并记忆位置与筛选。
 - Code flow implemented: 选择第 N 幕只进入来电状态；acceptCall 后才调用 startStoryCall，推进该幕剧情并允许记录完成进度。

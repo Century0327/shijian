@@ -5,7 +5,7 @@
   const SKEY = 'shijian.auth.v1';
   let session = null;
   try { session = JSON.parse(localStorage.getItem(SKEY) || 'null'); } catch (e) {}
-  function loggedIn() { return !!session?.access_token; }
+  function loggedIn() { return !!session?.id; }
   function getSession() { return session; }
   async function callRpc(name, body) {
     if (!KEY) throw new Error('尚未配置 Supabase anon key');

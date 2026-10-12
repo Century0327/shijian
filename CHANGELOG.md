@@ -11,6 +11,7 @@
 
 | Date | Change | Judge | Notes |
 |---|---|---|---|
+| 2026-10-12 | 修正自建玩家会话的登录状态判断 | ai | 自建账号使用 player id 判断登录，不再要求 Email Auth access_token |
 | 2026-10-12 | 调整“我”页面资料状态 | human | 默认头像改为“佚”；移除添加名人入口；原登录位置改为编辑资料 |
 | 2026-10-12 | 修正玩家表密码哈希函数的 Supabase schema 路径 | ai | 显式使用 extensions.crypt / extensions.gen_salt，避免 crypt 搜索路径错误 |
 | 2026-10-12 | 合并注册/登录入口 | ai | 单一“登录”按钮；用户名不存在时自动注册并登录，页面提示词已统一 |
