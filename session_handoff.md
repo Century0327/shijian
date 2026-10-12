@@ -3,6 +3,7 @@
 Updated: 2026-10-13
 
 ## In-progress work（进行中任务，优先交接）
+- Player-authored insight: 玩家选项可先说出角色尚未形成的关键判断，角色当场接受/反驳并可跨幕回想；项羽第一幕“剑不能告诉你兵从哪里来”已从角色自悟改为玩家选项。全人物待按默认四幕（可六/八幕、非线性和多次反转）补全。
 - Human-dialogue rewrite: 用户确认现有剧情存在“假装成第一人称的第三人称叙述”；`AGENTS.md` 已固化反传记口播、反自我分析、简单动词、单拍单信息、背景外置等规则，项羽第一幕已按暗室当下事件重写，等待人工体验。
 - Question-choice invariant: 角色对玩家的问句下一拍必须为 `choice`；现有直接提问已补选项，引述/反问/自问已改为间接表达；`scripts/validate_storycalls.js` 提供自动门禁。
 - Call motivation model: 每一幕来电新增 `callReason`，固定分析触发事件、主导情绪、显性需要、隐性需要和玩家关系角色；项羽四幕选项已从采访式提问改为共鸣、安慰、建议、反驳和陪伴。
