@@ -3,6 +3,7 @@
 Updated: 2026-10-12
 
 ## In-progress work（进行中任务，优先交接）
+- Terminology decision: “来电/接听来电”是通用通讯状态；“剧情通话”是接听后的一类叙事通话；“时空连线”仅指剧情通话入口；普通来电不默认包含剧情。
 - Current task: 通话 UI 已直接合并到 main；正式布局为整屏手机通话，删除独立 debug 页面与“心纸君”术语。
 - Current task: 通话 UI 调试原型已复制到 \`debug/call-ui-xiangyu.html\`，准备通过 GitHub Pages 独立路径展示。
 - Current task: 三件事 —— ① 安装并运行 project-governance（已完成 init，待提交）；
