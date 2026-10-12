@@ -148,6 +148,7 @@
   let authForFriends = null;
   try { authForFriends = JSON.parse(window.localStorage.getItem('shijian.auth.v1') || 'null'); } catch (e) {}
   const FKEY = 'shijian.friends.v1.' + (authForFriends?.username || 'guest');
+  const RKEY = 'shijian.friendRequests.v1.' + (authForFriends?.username || 'guest');
   let friends = (() => {
     try { return JSON.parse(window.localStorage.getItem(FKEY)) || { list: [] }; }
     catch (e) { return { list: [] }; }
@@ -160,6 +161,17 @@
     return true;
   }
   function getFriends() { return friends.list.slice(); }
+  let requests = (() => { try { return JSON.parse(localStorage.getItem(RKEY) || '[]'); } catch (e) { return []; } })();
+  function saveRequests() { try { localStorage.setItem(RKEY, JSON.stringify(requests)); } catch (e) {} }
+  function requestFriend(name, message = '') {
+    if (!name || isFriend(name) || requests.some(r => r.name === name && r.status === 'pending')) return false;
+    requests.push({ name, message, status: 'pending', createdAt: Date.now() }); saveRequests(); return true;
+  }
+  function getFriendRequests() { return requests.slice(); }
+  function resolveFriendRequest(name, status) {
+    const r = requests.find(x => x.name === name && x.status === 'pending'); if (!r) return false;
+    r.status = status; if (status === 'accepted') addFriend(name); saveRequests(); return true;
+  }
 
   function translate(text) {
     let out = String(text);
@@ -177,7 +189,7 @@
     getEvents, getMoments, getStations, nextStation, prevStation, nearestStationInEra, peekFirstPost,
     getChatScript, translate,
     getMomentById, getStoryEntries, markActRead, isActRead, actProgress, getNextAct, isFanficUnlocked, getFanfic,
-    isFriend, addFriend, getFriends,
+    isFriend, addFriend, getFriends, requestFriend, getFriendRequests, resolveFriendRequest,
     /* —— Agent 接入点 —— */
     useAdapter(a) { adapter = Object.assign({}, localAdapter, a); }
   };

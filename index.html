@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>史间 · 信息式历史社交</title>
-<link rel="stylesheet" href="css/styles.css?v=5.5">
+<link rel="stylesheet" href="css/styles.css?v=5.6">
 </head>
 <body>
 <div class="phone">
@@ -16,7 +16,7 @@
  <section class="page" id="page-contacts">
   <div class="searchbar"><span>⌕ </span><input id="searchContacts" placeholder="搜索名人"></div>
   <div class="list">
-   <div class="row" data-open-person="new"><div class="tool-icon">＋</div><div class="row-main"><div class="row-title">新的朋友</div><div class="row-preview">查看添加申请与时空校验</div></div></div>
+   <div class="row" data-open-person="new"><div class="tool-icon">＋</div><div class="row-main"><div class="row-title">新的朋友 <i class="tab-badge hidden" id="friendRequestBadge"></i></div><div class="row-preview">查看添加申请与时空校验</div></div></div>
    <div class="section-label">跨越千年的通讯录</div>
    <div id="contactList"></div>
   </div>
@@ -41,7 +41,7 @@
   <div class="tool-detail login-panel" style="margin-top:0"><h3>登录史间</h3><p class="login-note">使用自定义用户名和密码，不需要邮箱。</p><label>用户名</label><input id="authUsername" autocomplete="username" placeholder="3—32 位字母、数字或下划线"><label>密码</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="至少 6 位"><button class="primary" id="authSubmit">登录</button><div class="login-hint">未注册将自动注册并登录</div><div class="hint" id="authStatus">当前未登录</div></div>
  </section>
  <section class="page" id="page-moments">
-  <div class="moments-cover"><div><div class="cover-title">朋友圈</div><div class="cover-sub" id="momentsCoverSub">北宋 · 元丰五年 · 1082</div></div><div class="cover-right">令</div></div>
+  <div class="moments-cover"><div><div class="cover-title">朋友圈</div><div class="cover-sub" id="momentsCoverSub">北宋 · 元丰五年 · 1082</div></div><div class="cover-right" id="momentsCoverAvatar">佚</div></div>
   <div class="era-chips" id="eraChips"></div>
   <div class="date-strip" id="momentBar">
    <button id="stationPrev" class="rail-step" aria-label="上一站" title="上一站">‹</button>
@@ -109,7 +109,7 @@
  <section class="page" id="page-shake"><div class="shake-panel"><div class="shake-circle">↔</div><h2 style="font-size:20px;font-weight:500;margin:0 0 8px">摇一摇，遇见同一时空的人</h2><p style="font-size:13px;color:#999;line-height:1.8;max-width:270px">只会遇见当前年份在世的人。也许是一位旧友，也许什么都不会发生。</p><button class="primary" id="shakeNow" style="margin-top:14px;padding:12px 30px">摇一摇</button><div id="shakeResult" style="margin-top:18px;font-size:14px"></div></div></section>
  <section class="page" id="page-about"><div class="tool-detail" style="margin-top:0"><h3>关于史间</h3><p>史间是一个历史社交网络概念原型。它用微信式界面承载历史人物动态、聊天与互动剧情。</p><p>《史记》相关动态与大事依据中华书局点校本通行文本整理；北宋部分为演绎演示。系年凡例在每条动态下方标注：<b>原文系年</b>（史有明文）、<b>传统系年</b>（学界通行说法）、<b>演绎</b>（创作）。</p><p>数据与界面完全分离：内容在 <b>data/</b> 目录（人物、动态、大事、对话、白话对照），界面在 index.html 与 js/。数据层提供统一适配器接口（js/store.js 的 useAdapter），未来可无缝接入 AI Agent 动态生成内容。</p></div></section>
  <nav class="tabbar" id="tabbar">
- <button class="tab active" data-tab="wechat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2 1-4.1A7.4 7.4 0 0 1 4.5 5.5 8.2 8.2 0 0 1 12 3c4.4 0 8 3.8 8 8.5Z"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke-linecap="round"/></svg></span><span>信息</span></button>
+  <button class="tab active" data-tab="wechat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2 1-4.1A7.4 7.4 0 0 1 4.5 5.5 8.2 8.2 0 0 1 12 3c4.4 0 8 3.8 8 8.5Z"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke-linecap="round"/></svg></span><span>信息<i class="tab-badge hidden" id="wechatUnreadBadge"></i></button>
   <button class="tab" data-tab="contacts"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.4-3.1 2.4-4.8 5.5-4.8s5.1 1.7 5.5 4.8M16 5.5a3 3 0 0 1 0 5.8M17 14.5c2.1.4 3.3 1.9 3.6 4" stroke-linecap="round"/></svg></span><span>通讯录</span></button>
   <button class="tab" data-tab="discover"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m15.7 8.3-2.1 5.3-5.3 2.1 2.1-5.3 5.3-2.1Z" stroke-linejoin="round"/></svg></span><span>发现</span></button>
   <button class="tab" data-tab="me"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.5" r="3.4"/><path d="M4.5 20c.5-4 3.1-6.1 7.5-6.1s7 2.1 7.5 6.1" stroke-linecap="round"/></svg></span><span>我</span></button>
@@ -124,10 +124,10 @@
 <script src="data/translations.js?v=5.3"></script>
 <script src="data/storycalls.js?v=5.3"></script>
 <script src="data/fanfics.js?v=5.3"></script>
-<script src="js/store.js?v=5.3"></script>
+<script src="js/store.js?v=5.4"></script>
 <script src="js/timeline.js?v=5.3"></script>
 <script src="js/voice.js?v=5.3"></script>
 <div class="confirm-modal hidden" id="logoutModal" style="display:none" role="dialog" aria-modal="true" aria-labelledby="logoutTitle"><div class="confirm-card"><h3 id="logoutTitle">退出登录</h3><p>确定退出当前账号吗？</p><div class="confirm-actions"><button class="secondary" id="logoutCancel">取消</button><button class="danger" id="logoutConfirm">退出</button></div></div></div>
 <script src="js/auth.js?v=3"></script>
-<script src="js/app.js?v=5.7"></script>
+<script src="js/app.js?v=5.8"></script>
 </body></html>

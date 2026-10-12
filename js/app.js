@@ -49,6 +49,7 @@ function renderAuthState() {
   $('#meAuthButton').textContent = logged ? '退出登录' : '注册/登录';
   $('#meLogin').querySelector('.row-title').innerHTML = '编辑资料 <span style="color:#aaa">›</span>';
   $('#authStatus').textContent = logged ? '当前已登录' : (window.ShiJianAuth?.configured() ? '当前未登录' : '等待配置 Supabase anon key');
+  const cover = $('#momentsCoverAvatar'); if (cover) cover.textContent = logged ? (profile.avatar || session.avatar || '佚') : '佚';
 }
 function saveProfileFromAccount(account, fallbackId) {
   const displayName = account.display_name || account.displayName || '';
@@ -127,6 +128,14 @@ function renderContacts(filter = '') {
   }).join('');
   $$('#contactList [data-person]').forEach(r => r.onclick = () => openPerson(r.dataset.person));
 }
+function renderFriendRequests() {
+  const root = $('#requests'); if (!root) return;
+  const pending = store.getFriendRequests().filter(r => r.status === 'pending');
+  [$('#friendRequestBadge'), $('#wechatUnreadBadge')].forEach(b => { if (b) b.classList.toggle('hidden', pending.length === 0); });
+  root.innerHTML = pending.length ? pending.map(r => `<div class="request-card"><b>${esc(r.name)}</b><div class="hint">验证消息：${esc(r.message || '想和你认识一下')}</div><div class="request-status">申请已发出，等待对方回应……</div></div>`).join('') : '<p style="font-size:13px;color:#999">暂时没有新的好友申请。</p>';
+  root.querySelectorAll('[data-accept-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.acceptRequest, 'accepted'); renderFriendRequests(); renderChats(); renderContacts(); toast('已同意好友申请'); });
+  root.querySelectorAll('[data-reject-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.rejectRequest, 'rejected'); renderFriendRequests(); toast('已拒绝好友申请'); });
+}
 
 /* ---------- 朋友圈：时代快捷跳转 ---------- */
 function renderEraChips() {
@@ -162,10 +171,10 @@ function renderPost(p) {
      <div class="moment-name" data-open-person="${esc(p.person)}">${esc(p.person)}<span style="font-weight:400;color:#b2b2b2;font-size:11px">　${esc(p.certainty || '')}</span></div>
      <button class="moment-lock" data-lock="${esc(p.person)}">🔒 该内容已隐藏　<i>添加「${esc(p.person)}」为好友后可见</i></button>
      <div class="moment-bottom"><span>${esc(p.time || '')}　${esc(dateLabel)}</span><div><button class="moment-actions" data-cm="${esc(p.id)}">···</button></div></div>
-     <div class="comments" id="cm-${esc(p.id)}">${comments.map(c => {
+     <div class="comments" id="cm-${esc(p.id)}">${comments.map((c, ci) => {
       const author = c.includes('：') ? c.split('：')[0] : c.split(':')[0];
       const body = c.includes('：') ? c.substring(c.indexOf('：') + 1) : c.includes(':') ? c.substring(c.indexOf(':') + 1) : c;
-      return `<div class="comment-line"><span class="comment-author" data-open-person="${esc(author)}">${esc(author)}</span>：${esc(body)}</div>`;
+      return `<div class="comment-line"><span class="comment-author" data-open-person="${esc(author)}">${esc(author)}</span>：${esc(body)} <button class="comment-translate" data-comment-translate="${esc(p.id)}-${ci}">译</button><div class="comment-translation hidden" id="ct-${esc(p.id)}-${ci}">${esc(store.translate(body) || '暂无对应译文')}</div></div>`;
     }).join('')}</div>
      <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:9px;font-size:12px;color:#576b95">
       <button class="action" data-like="${esc(p.id)}">${liked ? '♥' : '♡'} ${p.likes + (liked ? 1 : 0)} 赞</button>
@@ -185,7 +194,7 @@ function renderPost(p) {
     const author = c.includes('：') ? c.split('：')[0] : c.split(':')[0];
     const body = c.includes('：') ? c.substring(c.indexOf('：') + 1) : c.includes(':') ? c.substring(c.indexOf(':') + 1) : c;
     const ck = p.id + '-' + ci;
-    return `<div class="comment-line"><span class="comment-author" data-open-person="${esc(author)}">${esc(author)}</span>：${esc(body)}<button class="comment-like" data-comment-like="${esc(ck)}">${st.commentLikes.has(ck) ? '♥' : '♡'}</button></div>`;
+    return `<div class="comment-line"><span class="comment-author" data-open-person="${esc(author)}">${esc(author)}</span>：${esc(body)}<button class="comment-translate" data-comment-translate="${esc(ck)}">译</button><button class="comment-like" data-comment-like="${esc(ck)}">${st.commentLikes.has(ck) ? '♥' : '♡'}</button><div class="comment-translation hidden" id="ct-${esc(ck)}">${esc(store.translate(body) || '暂无对应译文')}</div></div>`;
   }).join('')}<div class="comment-form"><input id="commentInput-${esc(p.id)}" placeholder="评论一句……"><button data-send-comment="${esc(p.id)}">发送</button></div></div>
    <div style="display:flex;gap:15px;flex-wrap:wrap;margin-top:9px;font-size:12px;color:#576b95">
     <button class="action" data-like="${esc(p.id)}">${liked ? '♥' : '♡'} ${p.likes + (liked ? 1 : 0)} 赞</button>
@@ -195,6 +204,7 @@ function renderPost(p) {
 }
 
 function bindMomentEvents(root) {
+  root.querySelectorAll('[data-comment-translate]').forEach(b => b.onclick = e => { e.stopPropagation(); $('#ct-' + CSS.escape(b.dataset.commentTranslate))?.classList.toggle('hidden'); });
   root.querySelectorAll('[data-os]').forEach(b => b.onclick = () => $('#os-' + CSS.escape(b.dataset.os))?.classList.toggle('show'));
   root.querySelectorAll('[data-cm]').forEach(b => b.onclick = () => $('#cm-' + CSS.escape(b.dataset.cm))?.classList.toggle('show'));
   root.querySelectorAll('[data-like]').forEach(b => b.onclick = () => {
@@ -644,7 +654,7 @@ $('#topPlus').onclick = () => showPage('add', '添加名人');
 $('#topSearch').onclick = () => { if (st.page === 'wechat') $('#searchChats').focus(); else if (st.page === 'contacts') $('#searchContacts').focus(); else toast('搜索功能将在后续版本完善'); };
 $('#searchChats').oninput = e => renderChats(e.target.value.trim());
 $('#searchContacts').oninput = e => renderContacts(e.target.value.trim());
-$('#page-contacts .row[data-open-person="new"]').onclick = () => showPage('newfriends', '新的朋友');
+$('#page-contacts .row[data-open-person="new"]').onclick = () => { renderFriendRequests(); showPage('newfriends', '新的朋友'); };
 $('#openMoments').onclick = () => goMoments();
 $('#openShake').onclick = () => showPage('shake', '摇一摇');
 $('#momentPickDate').onclick = () => { renderTimeline(); showPage('timeline', '历史年轮'); };
@@ -671,13 +681,7 @@ $('#personMoments').onclick = () => openProfileMoments(st.person);
 $('#personAdd').onclick = () => {
   if (!requireLogin()) return;
   if (store.isFriend(st.person)) { toast('这位名人已经在你的通讯录里啦'); return; }
-  if (store.addFriend(st.person)) {
-    $('#personAdd').textContent = '已是好友';
-    $('#personAdd').disabled = true;
-    $('#personMessage').textContent = '发消息';
-    renderChats(); renderContacts();
-    toast('已添加——TA 朋友圈的全部内容也解锁了');
-  }
+  if (store.requestFriend(st.person, '你好，想和你认识一下。')) { $('#personAdd').textContent = '申请中'; $('#personAdd').disabled = true; toast('好友申请已发出，等待回应'); setTimeout(() => { renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200); }
 };
 $('#submitAdd').onclick = () => {
   const n = $('#addName').value.trim();
@@ -693,16 +697,16 @@ $('#submitAdd').onclick = () => {
       else if (d != null && wantYear > d) check = '校验结果：TA 此时已经离世。';
       else check = '校验结果：TA 此时在世，可以添加。';
     } else check = '此人物暂无生卒年数据，无法自动校验。';
-    store.addFriend(n);
+    store.requestFriend(n, $('#addReason').value.trim() || '你好，想和你认识一下。');
     EXTRA[n] = EXTRA[n] || {};
     $('#addResult').innerHTML = `「${esc(n)}」已加入通讯录。${esc(check)}`;
   } else {
-    store.addFriend(n);
+    store.requestFriend(n, $('#addReason').value.trim() || '你好，想和你认识一下。');
     EXTRA[n] = { avatar: n.slice(0, 1), title: '新加入人物 · 待核验', bio: '由用户提交，尚未核验。', relations: '待核验' };
     $('#addResult').innerHTML = `已添加「${esc(n)}」。史间档案里暂时没有 TA 的记载，TA 的动态与连线将保持空白。`;
   }
   renderChats(); renderContacts();
-  toast('已添加到通讯录');
+  renderFriendRequests(); toast('好友申请已发出，等待回应');
 };
 $('#meAbout').onclick = () => showPage('about', '关于史间');
 $('#meLogin').onclick = () => {
@@ -784,12 +788,9 @@ $('#morePat').onclick = () => {
   toast('已拍一拍');
 };
 $('#shakeNow').onclick = () => {
+  const circle = $('.shake-circle'); const button = $('#shakeNow'); if (button.disabled) return; button.disabled = true; button.textContent = '寻找中…'; circle?.classList.add('is-shaking');
   const alive = Object.values(PEOPLE).filter(p => !p.life || ((p.life[0] == null || st.year >= p.life[0]) && (p.life[1] == null || st.year <= p.life[1])));
-  if (!alive.length) { $('#shakeResult').innerHTML = '<div class="empty">这一年的时空静悄悄的……换个年份再摇吧。</div>'; return; }
-  const p = alive[Math.floor(Math.random() * alive.length)];
-  $('#shakeResult').innerHTML = `<div class="row" style="text-align:left;margin-top:12px;border-radius:6px">${avatar(p.name, true)}<div class="row-main"><div class="row-title profile-link" id="shakePerson">${esc(p.name)}</div><div class="row-preview">同一时空的陌生人 · ${esc(store.formatYear(st.year))} 年在世</div></div><button class="secondary" id="shakeAdd">认识一下</button></div>`;
-  $('#shakePerson').onclick = () => openPerson(p.name);
-  $('#shakeAdd').onclick = () => { openPerson(p.name); toast('先看看对方的资料吧'); };
+  setTimeout(() => { circle?.classList.remove('is-shaking'); button.disabled = false; button.textContent = '再摇一次'; if (!alive.length) { $('#shakeResult').innerHTML = '<div class="empty">这一年的时空静悄悄的……换个年份再摇吧。</div>'; return; } const p = alive[Math.floor(Math.random() * alive.length)]; const known = store.isFriend(p.name); $('#shakeResult').innerHTML = `<div class="row" style="text-align:left;margin-top:12px;border-radius:6px">${avatar(p.name, true)}<div class="row-main"><div class="row-title profile-link" id="shakePerson">${esc(p.name)}</div><div class="row-preview">同一时空的${known ? '好友' : '陌生人'} · ${esc(store.formatYear(st.year))} 年在世</div></div><button class="secondary" id="shakeAdd">${known ? '发消息' : '认识一下'}</button></div>`; $('#shakePerson').onclick = () => openPerson(p.name); $('#shakeAdd').onclick = () => { openPerson(p.name); toast(known ? '可以开始聊天了' : '先看看对方的资料吧'); }; }, 800);
 };
 $('#topPlus').addEventListener('contextmenu', e => { e.preventDefault(); showPage('add', '添加名人'); });
 
@@ -822,6 +823,7 @@ window.addEventListener('resize', () => { if (st.page === 'moments') Rail.refres
 /* ---------- 初始化 ---------- */
 function init() {
   buildPeople();
+  renderFriendRequests();
   renderAuthState();
   const p0 = store.peekFirstPost(st.year);
   if (p0) { st.month = p0.month; st.day = p0.day; }
