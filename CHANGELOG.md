@@ -11,6 +11,7 @@
 
 | Date | Change | Judge | Notes |
 |---|---|---|---|
+| 2026-10-12 | 将邮箱 Auth 改为自建玩家表 RPC | human | 用户名/密码注册登录，不要求真实邮箱；SQL 位于 supabase/schema.sql |
 | 2026-10-12 | 配置 Supabase Auth 快速开发连接 | human | 使用与 anon key 匹配的 fvczhdgevqjkhtvujunr 项目 URL；不使用 service_role |
 | 2026-10-12 | 将注册/登录入口移至“我”头像右侧 | ai | 未登录显示“注册/登录”，登录后显示“退出登录”，按钮直接可点击 |
 | 2026-10-12 | 接入默认未登录的账号入口与 Supabase Auth 适配层 | ai | “我”页提供登录/注册同页流程；未登录互动会引导登录；anon key 不入库 |

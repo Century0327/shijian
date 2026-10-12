@@ -700,15 +700,17 @@ $('#meAuthButton').onclick = () => {
   if (window.ShiJianAuth?.loggedIn()) { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); }
   else { showPage('login', '注册 / 登录'); renderAuthState(); }
 };
-$('#authSubmit').onclick = async () => {
-  const email = $('#authEmail').value.trim(), password = $('#authPassword').value;
-  if (!email || password.length < 6) { $('#authStatus').textContent = '请输入邮箱和至少 6 位密码'; return; }
+async function authSubmit(mode) {
+  const username = $('#authUsername').value.trim(), password = $('#authPassword').value;
+  if (!/^[A-Za-z0-9_]{3,32}$/.test(username) || password.length < 6) { $('#authStatus').textContent = '用户名需 3—32 位字母、数字或下划线，密码至少 6 位'; return; }
   $('#authStatus').textContent = '正在登录…';
   try {
-    await window.ShiJianAuth.signInOrSignUp(email, password);
+    await (mode === 'register' ? window.ShiJianAuth.register(username, password) : window.ShiJianAuth.signInOrSignUp(username, password));
     renderAuthState(); showPage('me', '我'); toast('已登录，游玩进度将与账号关联');
   } catch (e) { $('#authStatus').textContent = e.message; }
-};
+}
+$('#authSubmit').onclick = () => authSubmit('login');
+$('#authRegister').onclick = () => authSubmit('register');
 $('#authLogout').onclick = () => { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); };
 window.addEventListener('shijian:auth', renderAuthState);
 $('#translateBtn').onclick = () => {
