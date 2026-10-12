@@ -166,6 +166,13 @@ button{min-height:40px;transition:background-color .16s ease,color .16s ease,tra
 .co-auto{position:absolute;z-index:6;top:18px;right:58px;background:rgba(0,0,0,.35);border:0;border-radius:8px;color:#fff;font-size:11px;padding:6px 8px}
 .co-review{display:none;position:absolute;z-index:6;right:16px;bottom:92px;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:rgba(0,0,0,.38);color:#fff;padding:7px 9px;font-size:12px}
 .co-review:not(.hidden){display:block}
+/* 来电先以当前页面顶部窄弹窗呈现，接听后才切换到整屏通话。 */
+.call-overlay.call-incoming{inset:0;background:transparent;display:block;pointer-events:none}
+.call-overlay.call-incoming .co-video{position:absolute;inset:12px 10px auto;height:72px;min-height:0;border-radius:15px;background:#182331f5;box-shadow:0 8px 24px rgba(0,0,0,.28);pointer-events:auto;z-index:4}
+.call-overlay.call-incoming .co-bg,.call-overlay.call-incoming .co-fig,.call-overlay.call-incoming .co-subs,.call-overlay.call-incoming .co-voice,.call-overlay.call-incoming .co-auto,.call-overlay.call-incoming .co-hangup{display:none}
+.call-overlay.call-incoming .co-status{top:12px;left:14px;right:100px;background:none;padding:0}
+.call-overlay.call-incoming .co-accept{bottom:15px;left:auto;right:12px;transform:none;padding:9px 13px;font-size:12px;letter-spacing:0}
+.call-overlay.call-incoming .co-review{display:none}
 .system-note{text-align:center;font-size:12px;color:#8a7a5a;background:#faf6ec;border-radius:8px;padding:8px 10px;margin:10px 2px;line-height:1.6}
 .system-note.annals{text-align:left;background:#f3f7f2;color:#3d4a3a;border:1px solid #dfe8dd}
 .ev-row{display:flex;gap:10px;border-left:2px solid #d7c39c;padding:8px 0 8px 12px;margin:12px 0;font-size:13px;align-items:flex-start}

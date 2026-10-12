@@ -275,6 +275,7 @@ function startCall(name, entryId) {
   const p = personOf(name);
   const ov = $('#callOverlay');
   ov.classList.remove('hidden');
+  ov.classList.add('call-incoming');
   $('#coAvatar').textContent = p?.avatar || name.slice(0, 1);
   $('#coAvatar').className = 'call-avatar ' + (p?.cls || '');
   const bg = entry.bg || {};
@@ -298,6 +299,7 @@ function startCall(name, entryId) {
 function acceptCall() {
   const c = st.call; if (!c || c.connected) return;
   c.connected = true;
+  $('#callOverlay').classList.remove('call-incoming');
   $('#coAccept').classList.add('hidden');
   $('#coHangup').classList.remove('hidden');
   $('#coStatus').textContent = `连线中 · ${store.formatYear(c.entry.year)}年 · ${c.entry.place}`;
