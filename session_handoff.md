@@ -27,6 +27,7 @@ Updated: 2026-10-12
 - Nearby completion pass: 修正头像 flex 压缩导致的椭圆；筛选按钮新增页面内面板与时间/关系条件；地点数据移至 `data/locations.js` 并纳入索引。
 - Notification and requests: 通讯录仅显示好友申请红点；信息仅显示消息/剧情未读；申请同意/拒绝后转入灰色历史记录，同意才加入联系人并显示在信息列表。
 - Request history: 好友申请历史现在保留申请消息、同意回应/拒绝原因和处理时间；历史记录继续按灰色状态展示。
+- Character data expansion: 新增 `data/character_responses.js` 保存角色独立同意/拒绝回应；`data/locations.js` 增加关系时间段与来源字段，后续按角色继续补充核验。
 - Cache fix: auth.js/app.js/styles.css 资源版本已升级，避免 Pages 使用旧缓存；登录成功会写入 profile 昵称。
 - Session normalization: auth.js 现在统一解析 RPC 返回值并生成玩家 id/username 会话，避免“登录成功但仍未登录”。
 - Auth SQL fix: schema.sql 已改为显式调用 extensions.crypt 与 extensions.gen_salt；用户需重新执行更新后的 SQL。

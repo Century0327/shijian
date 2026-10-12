@@ -54,6 +54,7 @@ function renderAuthState() {
 function autoTranslationEnabled() { return localStorage.getItem('shijian.autoTranslate.v1') === '1'; }
 function setAutoTranslation(on) { localStorage.setItem('shijian.autoTranslate.v1', on ? '1' : '0'); }
 function markInfoUnread() { const n = Number(localStorage.getItem('shijian.unread.v1') || 0) + 1; localStorage.setItem('shijian.unread.v1', String(n)); $('#wechatUnreadBadge')?.classList.remove('hidden'); }
+function friendResponse(name, type) { return window.SHIJIAN_DATA.friendResponses?.[name]?.[type] || (type === 'accept' ? '我看见你的来信了，先认识一下吧。' : '当前暂不方便建立联系。'); }
 function clearInfoUnread() { localStorage.setItem('shijian.unread.v1', '0'); $('#wechatUnreadBadge')?.classList.add('hidden'); }
 function saveProfileFromAccount(account, fallbackId) {
   const displayName = account.display_name || account.displayName || '';
@@ -142,7 +143,7 @@ function renderFriendRequests() {
   const history = all.filter(r => r.status === 'accepted' || r.status === 'rejected');
   if (history.length) root.innerHTML += `<div class="request-history"><div class="section-label">历史申请</div>${history.map(r => `<div class="request-card is-history"><b>${esc(r.name)}</b><span class="request-status">已${r.status === 'accepted' ? '同意' : '拒绝'}</span><div class="hint">申请消息：${esc(r.message || '未填写')}</div>${r.status === 'accepted' ? `<div class="hint">对方回应：${esc(r.response || '已同意添加好友。')}</div>` : `<div class="hint">拒绝原因：${esc(r.responseReason || '未填写')}</div>`}</div>`).join('')}</div>`;
   root.querySelectorAll('[data-accept-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.acceptRequest, 'accepted'); renderFriendRequests(); renderChats(); renderContacts(); toast('已同意好友申请'); });
-  root.querySelectorAll('[data-reject-request]').forEach(b => b.onclick = () => { const reason = '当前暂不方便建立联系。'; store.setFriendRequestReason?.(b.dataset.rejectRequest, reason); store.resolveFriendRequest(b.dataset.rejectRequest, 'rejected'); renderFriendRequests(); toast('已拒绝好友申请，原因已记录'); });
+  root.querySelectorAll('[data-reject-request]').forEach(b => b.onclick = () => { const reason = friendResponse(b.dataset.rejectRequest, 'reject'); store.setFriendRequestReason?.(b.dataset.rejectRequest, reason); store.resolveFriendRequest(b.dataset.rejectRequest, 'rejected'); renderFriendRequests(); toast('已拒绝好友申请，原因已记录'); });
 }
 
 /* ---------- 朋友圈：时代快捷跳转 ---------- */
@@ -714,7 +715,7 @@ $('#personMoments').onclick = () => openProfileMoments(st.person);
 $('#personAdd').onclick = () => {
   if (!requireLogin()) return;
   if (store.isFriend(st.person)) { toast('这位名人已经在你的通讯录里啦'); return; }
-  if (store.requestFriend(st.person, '你好，想和你认识一下。')) { $('#personAdd').textContent = '申请中'; $('#personAdd').disabled = true; toast('好友申请已发出，等待回应'); setTimeout(() => { store.respondFriendRequest(st.person, '我看见你的来信了，先认识一下吧。'); renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200); }
+  if (store.requestFriend(st.person, '你好，想和你认识一下。')) { $('#personAdd').textContent = '申请中'; $('#personAdd').disabled = true; toast('好友申请已发出，等待回应'); setTimeout(() => { store.respondFriendRequest(st.person, friendResponse(st.person, 'accept')); renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200); }
 };
 $('#submitAdd').onclick = () => {
   const n = $('#addName').value.trim();
@@ -740,7 +741,7 @@ $('#submitAdd').onclick = () => {
   }
   renderChats(); renderContacts();
   renderFriendRequests(); toast('好友申请已发出，等待回应');
-  setTimeout(() => { store.respondFriendRequest(n, '收到你的消息了，先认识一下吧。'); renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200);
+  setTimeout(() => { store.respondFriendRequest(n, friendResponse(n, 'accept')); renderFriendRequests(); toast('新的朋友：收到一条申请回应'); }, 1200);
 };
 $('#meAbout').onclick = () => showPage('about', '关于史间');
 $('#meLogin').onclick = () => {

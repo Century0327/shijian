@@ -10,6 +10,7 @@ Changes: Initial scaffold.
 ├── [css/](css)
 │   └── [styles.css](css/styles.css)
 ├── [data/](data)
+│   ├── [character_responses.js](data/character_responses.js)
 │   ├── [chats.js](data/chats.js)
 │   ├── [events.js](data/events.js)
 │   ├── [fanfics.js](data/fanfics.js)
