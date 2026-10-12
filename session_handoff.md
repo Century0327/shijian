@@ -3,6 +3,7 @@
 Updated: 2026-10-12
 
 ## In-progress work（进行中任务，优先交接）
+- Current task: 通话 UI 已直接合并到 main；正式布局为整屏手机通话，删除独立 debug 页面与“心纸君”术语。
 - Current task: 通话 UI 调试原型已复制到 \`debug/call-ui-xiangyu.html\`，准备通过 GitHub Pages 独立路径展示。
 - Current task: 三件事 —— ① 安装并运行 project-governance（已完成 init，待提交）；
   ② `data/translations.js` 换用户持有的正确版本（含「哼！这位置我也坐得」类文案）；

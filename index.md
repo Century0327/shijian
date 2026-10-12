@@ -18,8 +18,6 @@ Changes: Initial scaffold.
 │   ├── [people.js](data/people.js)
 │   ├── [storycalls.js](data/storycalls.js)
 │   └── [translations.js](data/translations.js)
-├── [debug/](debug)
-│   └── [call-ui-xiangyu.html](debug/call-ui-xiangyu.html)
 ├── [img/](img)
 │   └── [scenes/](img/scenes)
 │       ├── [boat.svg](img/scenes/boat.svg)

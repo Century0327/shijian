@@ -290,6 +290,8 @@ function startCall(name, entryId) {
   $('#coChoices').innerHTML = '';
   $('#coActions').innerHTML = '';
   $('#coHint').textContent = '';
+  $('#coReview').classList.add('hidden');
+  $('#coAuto').textContent = '自动播放：开';
   $('#coAccept').classList.remove('hidden');     /* 呼叫中：先接听 */
   $('#coHangup').classList.add('hidden');
 }
@@ -365,6 +367,11 @@ function finishCall() {
       : `第 ${pg.read} 集读完——下一集已解锁`);
   }
   $('#coActions').innerHTML = '<button id="coAnnals">史册 · 本集考据</button>';
+  $('#coReview').classList.remove('hidden');
+  $('#coReview').onclick = ev => {
+    ev.stopPropagation();
+    $('#coAnnals').click();
+  };
   $('#coAnnals').onclick = ev => {
     ev.stopPropagation();
     const a = entry.annals || {};
@@ -394,6 +401,12 @@ $('#coVoice').onclick = ev => {
 };
 $('#coVoice').textContent = window.ShiJianVoice.enabled() ? '🔊' : '🔇';
 $('#coVoice').classList.toggle('off', !window.ShiJianVoice.enabled());
+$('#coAuto').onclick = ev => {
+  ev.stopPropagation();
+  const on = $('#coAuto').dataset.on !== 'false';
+  $('#coAuto').dataset.on = String(!on);
+  $('#coAuto').textContent = '自动播放：' + (on ? '关' : '开');
+};
 $('#coAccept').onclick = ev => { ev.stopPropagation(); acceptCall(); };
 $('#coHangup').onclick = ev => { ev.stopPropagation(); hangupCall(); };
 $('#cpClose').onclick = () => $('#callPicker').classList.add('hidden');
