@@ -3,6 +3,7 @@
 Updated: 2026-10-13
 
 ## In-progress work（进行中任务，优先交接）
+- Question-choice invariant: 角色对玩家的问句下一拍必须为 `choice`；现有直接提问已补选项，引述/反问/自问已改为间接表达；`scripts/validate_storycalls.js` 提供自动门禁。
 - Call motivation model: 每一幕来电新增 `callReason`，固定分析触发事件、主导情绪、显性需要、隐性需要和玩家关系角色；项羽四幕选项已从采访式提问改为共鸣、安慰、建议、反驳和陪伴。
 - Xiang Yu personal-story rewrite: 原四幕“大事记对白”已完全替换；当前四幕为“然后呢 / 三日以后 / 玉玦在手 / 最后一条船”，以不肯低头、领兵责任、拒绝暗算、无法面对辜负逐层认识人物。
 - Moments translation rule: 朋友圈翻译卡片只读取 `心理 OS：` 后的正文，不再同时显示字面译文、表面状态或“心里话/心理”标签；项羽相关译文已压缩为短句。

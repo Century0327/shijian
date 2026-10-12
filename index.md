@@ -43,7 +43,8 @@ Changes: Initial scaffold.
 ├── [scripts/](scripts)
 │   ├── [gen_scenes.py](scripts/gen_scenes.py)
 │   ├── [inject_scene_imgs.js](scripts/inject_scene_imgs.js)
-│   └── [remap_acts.js](scripts/remap_acts.js)
+│   ├── [remap_acts.js](scripts/remap_acts.js)
+│   └── [validate_storycalls.js](scripts/validate_storycalls.js)
 ├── [supabase/](supabase)
 │   └── [schema.sql](supabase/schema.sql)
 ├── [AGENTS.md](AGENTS.md) — Project protocol: rules, permissions, AI behavior
