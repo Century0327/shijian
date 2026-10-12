@@ -169,7 +169,7 @@
   }
   function getFriendRequests() { return requests.slice(); }
   function resolveFriendRequest(name, status) {
-    const r = requests.find(x => x.name === name && x.status === 'pending'); if (!r) return false;
+    const r = requests.find(x => x.name === name && (x.status === 'pending' || x.status === 'responded')); if (!r) return false;
     r.status = status; if (status === 'accepted') addFriend(name); saveRequests(); return true;
   }
   function respondFriendRequest(name, message) { const r = requests.find(x => x.name === name && x.status === 'pending'); if (!r) return false; r.status = 'responded'; r.response = message; saveRequests(); return true; }

@@ -53,6 +53,8 @@ function renderAuthState() {
 }
 function autoTranslationEnabled() { return localStorage.getItem('shijian.autoTranslate.v1') === '1'; }
 function setAutoTranslation(on) { localStorage.setItem('shijian.autoTranslate.v1', on ? '1' : '0'); }
+function markInfoUnread() { const n = Number(localStorage.getItem('shijian.unread.v1') || 0) + 1; localStorage.setItem('shijian.unread.v1', String(n)); $('#wechatUnreadBadge')?.classList.remove('hidden'); }
+function clearInfoUnread() { localStorage.setItem('shijian.unread.v1', '0'); $('#wechatUnreadBadge')?.classList.add('hidden'); }
 function saveProfileFromAccount(account, fallbackId) {
   const displayName = account.display_name || account.displayName || '';
   localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: account.username || account.accountId || fallbackId, name: displayName === '穿越者' ? '' : displayName, avatar: account.avatar || '佚', signature: account.signature || '' }));
@@ -132,9 +134,13 @@ function renderContacts(filter = '') {
 }
 function renderFriendRequests() {
   const root = $('#requests'); if (!root) return;
-  const pending = store.getFriendRequests().filter(r => r.status === 'pending' || r.status === 'responded');
-  [$('#friendRequestBadge'), $('#wechatUnreadBadge')].forEach(b => { if (b) b.classList.toggle('hidden', pending.length === 0); });
-  root.innerHTML = pending.length ? pending.map(r => `<div class="request-card"><b>${esc(r.name)}</b><div class="hint">验证消息：${esc(r.message || '想和你认识一下')}</div>${r.status === 'responded' ? `<div class="hint">${esc(r.response || '对方通过了你的申请。')}</div><div class="request-actions"><button class="primary" data-accept-request="${esc(r.name)}">接受</button><button class="secondary" data-reject-request="${esc(r.name)}">拒绝</button></div>` : '<div class="request-status">申请已发出，等待对方回应……</div>'}</div>`).join('') : '<p style="font-size:13px;color:#999">暂时没有新的好友申请。</p>';
+  const all = store.getFriendRequests(); const pending = all.filter(r => r.status === 'pending' || r.status === 'responded');
+  const unread = Number(localStorage.getItem('shijian.unread.v1') || 0);
+  $('#friendRequestBadge')?.classList.toggle('hidden', !all.some(r => r.status === 'responded'));
+  $('#wechatUnreadBadge')?.classList.toggle('hidden', unread <= 0);
+  root.innerHTML = pending.length ? pending.map(r => `<div class="request-card"><b>${esc(r.name)}</b><div class="hint">验证消息：${esc(r.message || '想和你认识一下')}</div>${r.status === 'responded' ? `<div class="hint">${esc(r.response || '对方通过了你的申请。')}</div><div class="request-actions"><button class="primary" data-accept-request="${esc(r.name)}">同意</button><button class="secondary" data-reject-request="${esc(r.name)}">拒绝</button></div>` : '<div class="request-status">申请已发出，等待回应……</div>'}</div>`).join('') : '<p style="font-size:13px;color:#999">暂时没有新的好友申请。</p>';
+  const history = all.filter(r => r.status === 'accepted' || r.status === 'rejected');
+  if (history.length) root.innerHTML += `<div class="request-history"><div class="section-label">历史申请</div>${history.map(r => `<div class="request-card is-history"><b>${esc(r.name)}</b><span class="request-status">已${r.status === 'accepted' ? '同意' : '拒绝'}</span></div>`).join('')}</div>`;
   root.querySelectorAll('[data-accept-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.acceptRequest, 'accepted'); renderFriendRequests(); renderChats(); renderContacts(); toast('已同意好友申请'); });
   root.querySelectorAll('[data-reject-request]').forEach(b => b.onclick = () => { store.resolveFriendRequest(b.dataset.rejectRequest, 'rejected'); renderFriendRequests(); toast('已拒绝好友申请'); });
 }
@@ -591,6 +597,7 @@ function openPerson(name) {
 /* ---------- 聊天（正史 canon / 二创 fanfic 双层，fanfic 需读完剧情解锁） ---------- */
 function startChat(name, mode) {
   st.person = name;
+  clearInfoUnread();
   st.chatMode = (mode === 'fanfic' && store.getFanfic(name)) ? 'fanfic' : 'canon';
   showPage('chat', name);
   renderFanficBar(name);
@@ -625,7 +632,7 @@ function renderFanficBar(name) {
   }
 }
 function renderChat(name) {
-  const log = st.chatLog[(st.chatMode === 'fanfic' ? 'fanfic:' : '') + name] || [];
+  const log = st.chatLog[(st.chatMode === 'fanfic' ? 'fanfic:' : '') + (st.activeSlice ? `slice:${st.activeSlice}` : name)] || [];
   $('#chatBody').innerHTML = '<div class="chat-time">' + store.formatYear(st.year) + ' 年 · ' + st.month + '初' + st.day + '</div>' +
     log.map(m => m.system
       ? `<div class="system-note">${esc(m.text)}</div>`
@@ -648,6 +655,7 @@ function patPerson(name) {
   if (n % 3 === 1) {
     if (!st.chatLog[name]) st.chatLog[name] = [];
     st.chatLog[name].push({ from: name, text: '（你拍了我一下？）' });
+    markInfoUnread();
     renderChats();
     toast(`${name}给你发来一条消息`);
   } else toast(lines[n % lines.length]);
@@ -668,7 +676,7 @@ $('#backBtn').onclick = () => {
   if (fallback === 'discover') st.momentOwner = null;
 };
 $('#topPlus').onclick = () => showPage('add', '添加名人');
-$('#topSearch').onclick = () => { if (st.page === 'wechat') $('#searchChats').focus(); else if (st.page === 'contacts') $('#searchContacts').focus(); else toast('搜索功能将在后续版本完善'); };
+$('#topSearch').onclick = () => { if (st.page === 'wechat') { clearInfoUnread(); $('#searchChats').focus(); } else if (st.page === 'contacts') $('#searchContacts').focus(); else toast('搜索功能将在后续版本完善'); };
 $('#searchChats').oninput = e => renderChats(e.target.value.trim());
 $('#searchContacts').oninput = e => renderContacts(e.target.value.trim());
 $('#page-contacts .row[data-open-person="new"]').onclick = () => { renderFriendRequests(); showPage('newfriends', '新的朋友'); };
