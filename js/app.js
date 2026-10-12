@@ -275,7 +275,7 @@ function nearbyPeople(place) {
   return names.map(n => personOf(n)).filter(Boolean).filter(p => !p.life || (p.life[0] == null || y >= p.life[0]) && (p.life[1] == null || y <= p.life[1])).sort(() => Math.random() - .5).slice(0, 6);
 }
 function renderNearby() {
-  const place = NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]; $('#nearbyPlaceButton').textContent = `${place.old}⌄`; $('#nearbyMeta').textContent = `按朋友圈当前年份 · ${store.formatYear(st.year)} 年${autoTranslationEnabled() ? ` · 今·${place.modern}` : ''}`;
+  const place = NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]; $('#nearbyProvince').value = place.region; $('#nearbyCity').innerHTML = `<option>${place.modern}</option>`; $('#nearbyDistrict').innerHTML = `<option>${place.old}</option>`; $('#nearbyMeta').textContent = `按朋友圈当前年份 · ${store.formatYear(st.year)} 年${autoTranslationEnabled() ? ` · 今·${place.modern}` : ''}`;
   const nodes = $('#nearbyNodes'); if (!nodes) return; const positions = [[18,24],[68,18],[78,52],[20,66],[50,78],[42,38]]; nodes.innerHTML = (nearbyState.results || []).map((p,i) => { const pos = positions[i] || [Math.random()*70+10,Math.random()*70+10]; return `<button class="nearby-node" style="left:${pos[0]}%;top:${pos[1]}%" data-nearby-person="${esc(p.name)}">${avatar(p.name, true)}<span>${esc(p.name)}<small>${esc(p.era || '')} · ${esc(place.old)}${autoTranslationEnabled() ? ` · 今·${esc(place.modern)}` : ''}</small></span></button>`; }).join(''); nodes.querySelectorAll('[data-nearby-person]').forEach(b => b.onclick = () => openPerson(b.dataset.nearbyPerson)); $('#nearbyHint').textContent = nearbyState.results?.length ? `发现 ${nearbyState.results.length} 位与${place.old}有关的角色` : '点击“搜寻”发现这片土地上的故人';
 }
 
@@ -675,7 +675,7 @@ $('#openMoments').onclick = () => goMoments();
 $('#openShake').onclick = () => showPage('shake', '摇一摇');
 $('#openNearby').onclick = () => { loadNearby(); renderNearby(); showPage('nearby', '附近'); };
 $('#nearbySearch').onclick = () => { nearbyState.results = nearbyPeople(NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]); saveNearby(); renderNearby(); };
-$('#nearbyPlaceButton').onclick = () => { nearbyState.place = (nearbyState.place + 1) % NEARBY_PLACES.length; nearbyState.results = []; saveNearby(); renderNearby(); };
+$('#nearbyProvince').onchange = e => { const i = NEARBY_PLACES.findIndex(p => p.region === e.target.value); nearbyState.place = i < 0 ? 0 : i; nearbyState.results = []; saveNearby(); renderNearby(); };
 $('#autoTranslateToggle').onchange = e => { setAutoTranslation(e.target.checked); renderMoments(); renderNearby(); };
 $('#momentPickDate').onclick = () => { renderTimeline(); showPage('timeline', '历史年轮'); };
 $('#timelineEra').onchange = buildTimelineYears;
