@@ -11,6 +11,7 @@
 
 | Date | Change | Judge | Notes |
 |---|---|---|---|
+| 2026-10-12 | 调整“我”页面资料状态 | human | 默认头像改为“佚”；移除添加名人入口；原登录位置改为编辑资料 |
 | 2026-10-12 | 修正玩家表密码哈希函数的 Supabase schema 路径 | ai | 显式使用 extensions.crypt / extensions.gen_salt，避免 crypt 搜索路径错误 |
 | 2026-10-12 | 合并注册/登录入口 | ai | 单一“登录”按钮；用户名不存在时自动注册并登录，页面提示词已统一 |
 | 2026-10-12 | 将邮箱 Auth 改为自建玩家表 RPC | human | 用户名/密码注册登录，不要求真实邮箱；SQL 位于 supabase/schema.sql |

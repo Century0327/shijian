@@ -38,9 +38,12 @@ function requireLogin() {
 }
 function renderAuthState() {
   const logged = window.ShiJianAuth?.loggedIn();
-  $('#meSub').textContent = logged ? '已登录 · 游玩进度将与账号同步' : '未登录 · 登录后保存你的游玩进度';
+  const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
+  $('#meAvatar').textContent = logged ? (profile.avatar || '佚') : '佚';
+  $('#meTitle').textContent = logged ? (profile.name || window.ShiJianAuth.getSession()?.username || '穿越者') : '穿越者';
+  $('#meSub').textContent = logged ? (profile.signature || '已登录 · 游玩进度将与账号同步') : '未登录';
   $('#meAuthButton').textContent = logged ? '退出登录' : '注册/登录';
-  $('#meLogin').querySelector('.row-title').innerHTML = logged ? '账号设置 <span style="color:#aaa">›</span>' : '登录 / 注册 <span style="color:#aaa">›</span>';
+  $('#meLogin').querySelector('.row-title').innerHTML = '编辑资料 <span style="color:#aaa">›</span>';
   $('#authStatus').textContent = logged ? '当前已登录' : (window.ShiJianAuth?.configured() ? '当前未登录' : '等待配置 Supabase anon key');
 }
 function personOf(name) { return PEOPLE[name] || EXTRA[name] || null; }
@@ -57,7 +60,7 @@ function showPage(page, title, opts = {}) {
   st.page = page;
   $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
   $$('[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === page));
-  const subpages = ['moments', 'timeline', 'person', 'chat', 'translator', 'add', 'newfriends', 'about', 'shake', 'profilemoments', 'login'];
+const subpages = ['moments', 'timeline', 'person', 'chat', 'translator', 'add', 'newfriends', 'about', 'shake', 'profilemoments', 'login', 'profile-edit'];
   $('#tabbar').classList.toggle('hidden', subpages.includes(page));
   $('#backBtn').classList.toggle('hidden', !subpages.includes(page));
   $('#topTitle').textContent = title || ({ wechat: '微信', contacts: '通讯录', discover: '发现', me: '我' }[page] || page);
@@ -693,9 +696,19 @@ $('#submitAdd').onclick = () => {
   renderChats(); renderContacts();
   toast('已添加到通讯录');
 };
-$('#mePeople').onclick = () => { showPage('contacts', '通讯录'); toast('这里可以查看和管理已添加人物'); };
 $('#meAbout').onclick = () => showPage('about', '关于史间');
-$('#meLogin').onclick = () => { showPage('login', '登录 / 注册'); renderAuthState(); };
+$('#meLogin').onclick = () => {
+  if (!requireLogin()) return;
+  const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
+  $('#profileName').value = profile.name || window.ShiJianAuth.getSession()?.username || '穿越者';
+  $('#profileAvatar').value = profile.avatar || '佚';
+  $('#profileSignature').value = profile.signature || '';
+  showPage('profile-edit', '编辑资料');
+};
+$('#profileSave').onclick = () => {
+  localStorage.setItem('shijian.profile.v1', JSON.stringify({ name: $('#profileName').value.trim() || '穿越者', avatar: $('#profileAvatar').value.trim().slice(0, 2) || '佚', signature: $('#profileSignature').value.trim() }));
+  renderAuthState(); showPage('me', '我'); toast('资料已保存');
+};
 $('#meAuthButton').onclick = () => {
   if (window.ShiJianAuth?.loggedIn()) { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); }
   else { showPage('login', '注册 / 登录'); renderAuthState(); }

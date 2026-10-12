@@ -28,12 +28,14 @@
   </div>
  </section>
  <section class="page" id="page-me">
-  <div class="contact-head"><div class="avatar av-me">令</div><div class="me-identity"><h2 id="meTitle">穿越者</h2><p id="meSub">未登录 · 登录后保存你的游玩进度</p></div><button class="me-auth-button" id="meAuthButton">注册/登录</button></div>
+  <div class="contact-head"><div class="avatar av-me" id="meAvatar">佚</div><div class="me-identity"><h2 id="meTitle">穿越者</h2><p id="meSub">未登录</p></div><button class="me-auth-button" id="meAuthButton">注册/登录</button></div>
   <div class="list" style="margin-top:10px">
-   <div class="row" id="meLogin"><div class="tool-icon">⇥</div><div class="row-main"><div class="row-title">登录 / 注册 <span style="color:#aaa">›</span></div><div class="row-preview">未注册也可以直接创建账号并登录</div></div></div>
-   <div class="row" id="mePeople"><div class="tool-icon">♙</div><div class="row-main"><div class="row-title">我添加的名人 <span style="color:#aaa">›</span></div><div class="row-preview">管理你想认识的历史人物</div></div></div>
+   <div class="row" id="meLogin"><div class="tool-icon">✎</div><div class="row-main"><div class="row-title">编辑资料 <span style="color:#aaa">›</span></div><div class="row-preview">修改昵称、头像和个性签名</div></div></div>
    <div class="row" id="meAbout"><div class="tool-icon">ⓘ</div><div class="row-main"><div class="row-title">关于史间 <span style="color:#aaa">›</span></div><div class="row-preview">史料、演绎与想象力的边界</div></div></div>
   </div>
+ </section>
+ <section class="page" id="page-profile-edit">
+  <div class="tool-detail login-panel" style="margin-top:0"><h3>编辑资料</h3><label>昵称</label><input id="profileName" maxlength="20"><label>头像</label><input id="profileAvatar" maxlength="2" placeholder="输入一个字"><label>个性签名</label><input id="profileSignature" maxlength="60"><button class="primary" id="profileSave">保存</button></div>
  </section>
  <section class="page" id="page-login">
   <div class="tool-detail login-panel" style="margin-top:0"><h3>登录史间</h3><p class="login-note">使用自定义用户名和密码，不需要邮箱。</p><label>用户名</label><input id="authUsername" autocomplete="username" placeholder="3—32 位字母、数字或下划线"><label>密码</label><input id="authPassword" type="password" autocomplete="current-password" placeholder="至少 6 位"><button class="primary" id="authSubmit">登录</button><div class="login-hint">未注册将自动注册并登录</div><button class="secondary" id="authLogout">退出登录</button><div class="hint" id="authStatus">当前未登录</div></div>
