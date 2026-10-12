@@ -38,7 +38,8 @@ function requireLogin() {
 }
 function renderAuthState() {
   const logged = window.ShiJianAuth?.loggedIn();
-  const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
+  let profile = {};
+  try { profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}') || {}; } catch (e) {}
   $('#meAvatar').textContent = logged ? (profile.avatar || '佚') : '佚';
   $('#meTitle').textContent = logged ? (profile.name || window.ShiJianAuth.getSession()?.username || '穿越者') : '穿越者';
   $('#meSub').textContent = logged ? (profile.signature || '已登录 · 游玩进度将与账号同步') : '未登录';
@@ -718,7 +719,8 @@ async function authSubmit() {
   if (!/^[A-Za-z0-9_]{3,32}$/.test(username) || password.length < 6) { $('#authStatus').textContent = '用户名需 3—32 位字母、数字或下划线，密码至少 6 位'; return; }
   $('#authStatus').textContent = '正在登录…';
   try {
-    await window.ShiJianAuth.signInOrSignUp(username, password);
+    const account = await window.ShiJianAuth.signInOrSignUp(username, password);
+    localStorage.setItem('shijian.profile.v1', JSON.stringify({ name: account.username || username, avatar: '佚', signature: '' }));
     renderAuthState(); showPage('me', '我'); toast('已登录，游玩进度将与账号关联');
   } catch (e) {
     if (/用户名或密码错误|不存在|not found/i.test(e.message)) {
