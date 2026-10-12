@@ -203,9 +203,10 @@ function renderPost(p) {
       <button class="action" data-cm="${esc(p.id)}">评论 ${comments.length}</button>
      </div></div></article>`;
   }
-  const white = store.translate(p.text);
-  const osHtml = esc(white) + (white === p.text ? '<br><span style="color:#b3a98f">（本地对照表暂无此句，接入 Agent 后可动态翻译）</span>' : '') +
-    (p.os ? `<br><br><span style="color:#a0906c">心里话：</span>${esc(p.os)}` : '');
+  const rawThought = String(p.os || '').trim();
+  const thoughtMatch = rawThought.match(/心理\s*OS\s*[：:]\s*([\s\S]*)/i);
+  const translatedThought = (thoughtMatch ? thoughtMatch[1] : rawThought).trim();
+  const osHtml = esc(translatedThought || store.translate(p.text));
   return `<article class="moment">${avatar(p.person, true)}<div class="moment-body">
    <div class="moment-name" data-open-person="${esc(p.person)}">${esc(p.person)}<span style="font-weight:400;color:#b2b2b2;font-size:11px">　${esc(p.certainty || '')}</span></div>
    <div class="moment-text">${esc(p.text)}</div>
