@@ -15,6 +15,7 @@ Updated: 2026-10-12
 - Registration mapping: 自动注册分支此前未写入资料缓存，现已统一使用 `accountId` 与 `name` 保存，编辑页通过认证会话读取账号 ID。
 - Profile defaults: 编辑资料页账号 ID 自动填当前账号，昵称默认空白；“我”页面仅在空昵称时显示“穿越者”占位。
 - Friend isolation: 好友 localStorage 按账号 ID 分区，新注册账号不会继承其他账号好友；底部“微信”入口已统一改为“信息”。
+- Logout confirmation: 两个退出登录入口均增加确认弹窗，取消不会清除当前会话。
 - Cache fix: auth.js/app.js/styles.css 资源版本已升级，避免 Pages 使用旧缓存；登录成功会写入 profile 昵称。
 - Session normalization: auth.js 现在统一解析 RPC 返回值并生成玩家 id/username 会话，避免“登录成功但仍未登录”。
 - Auth SQL fix: schema.sql 已改为显式调用 extensions.crypt 与 extensions.gen_salt；用户需重新执行更新后的 SQL。

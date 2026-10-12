@@ -717,7 +717,7 @@ $('#profileSave').onclick = () => {
   renderAuthState(); showPage('me', '我'); toast('资料已保存');
 };
 $('#meAuthButton').onclick = () => {
-  if (window.ShiJianAuth?.loggedIn()) { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); }
+  if (window.ShiJianAuth?.loggedIn()) { if (!window.confirm('确定要退出当前账号吗？')) return; window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); }
   else { showPage('login', '注册 / 登录'); renderAuthState(); }
 };
 async function authSubmit() {
@@ -743,7 +743,7 @@ async function authSubmit() {
   }
 }
 $('#authSubmit').onclick = () => authSubmit();
-$('#authLogout').onclick = () => { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); };
+$('#authLogout').onclick = () => { if (!window.ShiJianAuth?.loggedIn()) return; if (!window.confirm('确定要退出当前账号吗？')) return; window.ShiJianAuth.signOut(); renderAuthState(); showPage('me', '我'); toast('已退出登录'); };
 window.addEventListener('shijian:auth', renderAuthState);
 $('#translateBtn').onclick = () => {
   const v = $('#translateInput').value.trim();
