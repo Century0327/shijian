@@ -51,6 +51,8 @@ function renderAuthState() {
   $('#authStatus').textContent = logged ? '当前已登录' : (window.ShiJianAuth?.configured() ? '当前未登录' : '等待配置 Supabase anon key');
   const cover = $('#momentsCoverAvatar'); if (cover) cover.textContent = logged ? (profile.avatar || session.avatar || '佚') : '佚';
 }
+function autoTranslationEnabled() { return localStorage.getItem('shijian.autoTranslate.v1') === '1'; }
+function setAutoTranslation(on) { localStorage.setItem('shijian.autoTranslate.v1', on ? '1' : '0'); }
 function saveProfileFromAccount(account, fallbackId) {
   const displayName = account.display_name || account.displayName || '';
   localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: account.username || account.accountId || fallbackId, name: displayName === '穿越者' ? '' : displayName, avatar: account.avatar || '佚', signature: account.signature || '' }));
@@ -69,7 +71,7 @@ function showPage(page, title, opts = {}) {
   st.page = page;
   $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
   $$('[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === page));
-const subpages = ['moments', 'timeline', 'person', 'chat', 'translator', 'add', 'newfriends', 'about', 'shake', 'profilemoments', 'login', 'profile-edit'];
+const subpages = ['moments', 'timeline', 'person', 'chat', 'translator', 'add', 'newfriends', 'about', 'shake', 'nearby', 'profilemoments', 'login', 'profile-edit'];
   $('#tabbar').classList.toggle('hidden', subpages.includes(page));
   $('#backBtn').classList.toggle('hidden', !subpages.includes(page));
   $('#topTitle').textContent = title || ({ wechat: '信息', contacts: '通讯录', discover: '发现', me: '我' }[page] || page);
@@ -189,7 +191,7 @@ function renderPost(p) {
    <div class="moment-text">${esc(p.text)}</div>
    <div class="moment-note">${esc(p.note || '演绎动态')}${p.source ? ` ｜ 《${esc(p.source.book)}》· ${esc(p.source.chapter)}` : ''}</div>
    <div class="moment-bottom"><span>${esc(p.time || '')}　${esc(dateLabel)}</span><div><button class="moment-actions" data-cm="${esc(p.id)}">···</button></div></div>
-   <div class="os" id="os-${esc(p.id)}">${osHtml}</div>
+   <div class="os${autoTranslationEnabled() ? ' show' : ''}" id="os-${esc(p.id)}">${osHtml}</div>
    <div class="comments" id="cm-${esc(p.id)}">${comments.map((c, ci) => {
     const author = c.includes('：') ? c.split('：')[0] : c.split(':')[0];
     const body = c.includes('：') ? c.substring(c.indexOf('：') + 1) : c.includes(':') ? c.substring(c.indexOf(':') + 1) : c;
@@ -261,6 +263,20 @@ function renderMoments() {
   const list = $('#momentsList');
   list.innerHTML = head + (res.posts.map(p => renderPost(p)).join('') || '<div class="empty">这段时空静悄悄的。</div>');
   bindMomentEvents(list);
+}
+
+const NEARBY_PLACES = [{ old: '洛阳', modern: '洛阳市', region: '河南省' }, { old: '长安', modern: '西安市', region: '陕西省' }, { old: '临淄', modern: '淄博市', region: '山东省' }, { old: '会稽', modern: '绍兴市', region: '浙江省' }, { old: '江宁', modern: '南京市', region: '江苏省' }];
+function nearbyStorageKey() { return 'shijian.nearby.v1.' + (window.ShiJianAuth?.accountId?.() || 'guest'); }
+let nearbyState = (() => { try { return JSON.parse(localStorage.getItem(nearbyStorageKey()) || '{"place":0,"results":[]}'); } catch (e) { return { place: 0, results: [] }; } })();
+function loadNearby() { try { nearbyState = JSON.parse(localStorage.getItem(nearbyStorageKey()) || '{"place":0,"results":[]}'); } catch (e) { nearbyState = { place: 0, results: [] }; } }
+function saveNearby() { localStorage.setItem(nearbyStorageKey(), JSON.stringify(nearbyState)); }
+function nearbyPeople(place) {
+  const y = st.year; const names = place.old === '洛阳' ? ['李白', '杜甫', '司马光', '曹植', '白居易'] : place.old === '长安' ? ['李白', '杜甫', '司马迁', '诸葛亮'] : place.old === '会稽' ? ['勾践', '范蠡'] : place.old === '江宁' ? ['王安石', '陶渊明'] : ['孔子', '蔺相如', '廉颇'];
+  return names.map(n => personOf(n)).filter(Boolean).filter(p => !p.life || (p.life[0] == null || y >= p.life[0]) && (p.life[1] == null || y <= p.life[1])).sort(() => Math.random() - .5).slice(0, 6);
+}
+function renderNearby() {
+  const place = NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]; $('#nearbyPlaceButton').textContent = `${place.old}⌄`; $('#nearbyMeta').textContent = `按朋友圈当前年份 · ${store.formatYear(st.year)} 年${autoTranslationEnabled() ? ` · 今·${place.modern}` : ''}`;
+  const nodes = $('#nearbyNodes'); if (!nodes) return; const positions = [[18,24],[68,18],[78,52],[20,66],[50,78],[42,38]]; nodes.innerHTML = (nearbyState.results || []).map((p,i) => { const pos = positions[i] || [Math.random()*70+10,Math.random()*70+10]; return `<button class="nearby-node" style="left:${pos[0]}%;top:${pos[1]}%" data-nearby-person="${esc(p.name)}">${avatar(p.name, true)}<span>${esc(p.name)}<small>${esc(p.era || '')} · ${esc(place.old)}${autoTranslationEnabled() ? ` · 今·${esc(place.modern)}` : ''}</small></span></button>`; }).join(''); nodes.querySelectorAll('[data-nearby-person]').forEach(b => b.onclick = () => openPerson(b.dataset.nearbyPerson)); $('#nearbyHint').textContent = nearbyState.results?.length ? `发现 ${nearbyState.results.length} 位与${place.old}有关的角色` : '点击“搜寻”发现这片土地上的故人';
 }
 
 /* 人物朋友圈（碎片层：动态归档）。剧情入口在聊天页 ＋ → 时空连线 */
@@ -657,6 +673,10 @@ $('#searchContacts').oninput = e => renderContacts(e.target.value.trim());
 $('#page-contacts .row[data-open-person="new"]').onclick = () => { renderFriendRequests(); showPage('newfriends', '新的朋友'); };
 $('#openMoments').onclick = () => goMoments();
 $('#openShake').onclick = () => showPage('shake', '摇一摇');
+$('#openNearby').onclick = () => { loadNearby(); renderNearby(); showPage('nearby', '附近'); };
+$('#nearbySearch').onclick = () => { nearbyState.results = nearbyPeople(NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]); saveNearby(); renderNearby(); };
+$('#nearbyPlaceButton').onclick = () => { nearbyState.place = (nearbyState.place + 1) % NEARBY_PLACES.length; nearbyState.results = []; saveNearby(); renderNearby(); };
+$('#autoTranslateToggle').onchange = e => { setAutoTranslation(e.target.checked); renderMoments(); renderNearby(); };
 $('#momentPickDate').onclick = () => { renderTimeline(); showPage('timeline', '历史年轮'); };
 $('#timelineEra').onchange = buildTimelineYears;
 $('#applyTimeline').onclick = () => {
@@ -826,6 +846,7 @@ function init() {
   buildPeople();
   renderFriendRequests();
   renderAuthState();
+  $('#autoTranslateToggle').checked = autoTranslationEnabled();
   const p0 = store.peekFirstPost(st.year);
   if (p0) { st.month = p0.month; st.day = p0.day; }
   Rail.mount($('#timeRail'), {
