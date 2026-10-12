@@ -9,11 +9,19 @@ const meta = store.getMeta();
 
 let st = {
   page: 'wechat', navStack: [],
-  year: meta.defaultYear || 1082, month: '四月', day: 5,
+  year: meta.range?.[0] || meta.defaultYear || 1082, month: '四月', day: 5,
   person: '苏轼', chatLog: {},
   likes: new Set(), commentLikes: new Set(), userComments: {}, patCount: {},
-  momentOwner: null, playing: false, playTimer: null
+  momentOwner: null, momentEra: null, playing: false, playTimer: null
 };
+const MOMENT_VIEW_KEY = 'shijian.moments.view.v1';
+try {
+  const savedView = JSON.parse(localStorage.getItem(MOMENT_VIEW_KEY) || 'null');
+  if (savedView) { if (Number.isFinite(savedView.year)) st.year = savedView.year; st.momentEra = savedView.era ?? null; }
+} catch (e) {}
+function saveMomentView() {
+  try { localStorage.setItem(MOMENT_VIEW_KEY, JSON.stringify({ year: st.year, era: st.momentEra })); } catch (e) {}
+}
 let PEOPLE = {};      // name -> person（来自数据层）
 let EXTRA = {};       // 用户自行添加的人物（运行时状态，不属于史料数据）
 
@@ -104,6 +112,12 @@ function renderEraChips() {
   ).join('');
   $$('#eraChips [data-era]').forEach(b => b.onclick = () => {
     const e = eras[Number(b.dataset.era)];
+    if (st.momentEra === Number(b.dataset.era)) {
+      st.momentEra = null; saveMomentView(); renderEraChips(); renderMoments();
+      toast('已取消时代筛选，显示全部朋友圈');
+      return;
+    }
+    st.momentEra = Number(b.dataset.era);
     jumpTo(store.nearestStationInEra(e), { scroll: true });
     toast(`跳到 ${e.name}（${store.formatYear(e.start)}—${store.formatYear(e.end)}）`);
   });
@@ -202,7 +216,9 @@ function rerenderCurrentList() {
 }
 
 function renderMoments() {
-  const res = store.getMoments({ year: st.year });
+  const base = st.momentEra == null ? store.getMoments({ year: st.year }) : store.getMoments({ year: null });
+  const era = st.momentEra == null ? null : store.getEras()[st.momentEra];
+  const res = era ? { ...base, posts: base.posts.filter(p => p.year >= era.start && p.year <= era.end) } : base;
   $('#momentsCoverSub').textContent = `${store.formatYear(st.year)} 年 · ${store.eraOf(st.year)}`;
   updateDateLabel();
   let head = '';
@@ -423,6 +439,7 @@ $('#cpClose').onclick = () => $('#callPicker').classList.add('hidden');
 /* ---------- 穿越核心 ---------- */
 function jumpTo(year, opts = {}) {
   st.year = year;
+  saveMomentView();
   const p = store.peekFirstPost(year);
   if (p) { st.month = p.month; st.day = p.day; }
   Rail.setYear(year, { animate: !opts.fromDrag });
@@ -706,11 +723,16 @@ $('#topPlus').addEventListener('contextmenu', e => { e.preventDefault(); showPag
 let avatarClickTimer = null;
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-avatar-person]');
-  if (el) { clearTimeout(avatarClickTimer); avatarClickTimer = setTimeout(() => openPerson(el.dataset.avatarPerson), 220); }
+  if (el) {
+    const chatRow = el.closest('[data-chat]');
+    if (st.page === 'wechat' && chatRow) { startChat(chatRow.dataset.chat); return; }
+    clearTimeout(avatarClickTimer);
+    avatarClickTimer = setTimeout(() => openPerson(el.dataset.avatarPerson), 220);
+  }
 });
 document.addEventListener('dblclick', e => {
   const el = e.target.closest('[data-avatar-person]');
-  if (el) { clearTimeout(avatarClickTimer); e.preventDefault(); patPerson(el.dataset.avatarPerson); }
+  if (el && st.page === 'chat') { clearTimeout(avatarClickTimer); e.preventDefault(); patPerson(el.dataset.avatarPerson); }
 });
 
 /* 键盘：Esc 返回；←/→ 在朋友圈切换时间驿站 */
