@@ -7,6 +7,7 @@
   try { session = JSON.parse(localStorage.getItem(SKEY) || 'null'); } catch (e) {}
   function loggedIn() { return !!(session?.id || session?.player_id || session?.user?.id); }
   function getSession() { return session; }
+  function accountId() { return session?.username || ''; }
   async function callRpc(name, body) {
     if (!KEY) throw new Error('尚未配置 Supabase anon key');
     const r = await fetch(URL + '/rest/v1/rpc/' + name, { method: 'POST', headers: { apikey: KEY, Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
@@ -40,5 +41,5 @@
     window.dispatchEvent(new Event('shijian:auth'));
     return true;
   }
-  window.ShiJianAuth = { loggedIn, getSession, signInOrSignUp, register, updateProfile, signOut, configured: () => !!KEY };
+  window.ShiJianAuth = { loggedIn, getSession, accountId, signInOrSignUp, register, updateProfile, signOut, configured: () => !!KEY };
 })();

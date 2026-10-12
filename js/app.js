@@ -703,7 +703,7 @@ $('#meLogin').onclick = () => {
   if (!requireLogin()) return;
   const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
   const session = window.ShiJianAuth.getSession() || {};
-  $('#profileAccountId').value = session.username || profile.accountId || '';
+  $('#profileAccountId').value = window.ShiJianAuth.accountId?.() || session.username || profile.accountId || '';
   $('#profileName').value = profile.name || '穿越者';
   $('#profileAvatar').value = profile.avatar || '佚';
   $('#profileSignature').value = profile.signature || '';
@@ -711,7 +711,7 @@ $('#meLogin').onclick = () => {
 };
 $('#profileSave').onclick = () => {
   const previous = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
-  localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: previous.accountId || window.ShiJianAuth.getSession()?.username || '', name: $('#profileName').value.trim() || '穿越者', avatar: $('#profileAvatar').value.trim().slice(0, 2) || '佚', signature: $('#profileSignature').value.trim() }));
+  localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: window.ShiJianAuth.accountId?.() || previous.accountId || '', name: $('#profileName').value.trim() || '穿越者', avatar: $('#profileAvatar').value.trim().slice(0, 2) || '佚', signature: $('#profileSignature').value.trim() }));
   const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
   window.ShiJianAuth.updateProfile?.(profile).catch(() => {});
   renderAuthState(); showPage('me', '我'); toast('资料已保存');
@@ -731,7 +731,8 @@ async function authSubmit() {
   } catch (e) {
     if (/用户名或密码错误|不存在|not found/i.test(e.message)) {
       try {
-        await window.ShiJianAuth.register(username, password);
+        const account = await window.ShiJianAuth.register(username, password);
+        localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: account.username || username, name: account.display_name || '穿越者', avatar: account.avatar || '佚', signature: account.signature || '' }));
         renderAuthState(); showPage('me', '我'); toast('账号已创建并登录');
         return;
       } catch (registerError) { e = registerError; }
