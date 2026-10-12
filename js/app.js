@@ -296,6 +296,14 @@ function startCall(name, entryId) {
   $('#coAccept').classList.remove('hidden');     /* 呼叫中：先接听 */
   $('#coHangup').classList.add('hidden');
 }
+/* 只有玩家接听后，角色来电才正式进入该幕剧情。 */
+function startStoryCall() {
+  const c = st.call;
+  if (!c || !c.connected || c.started) return;
+  c.started = true;
+  $('#coHint').textContent = '点击屏幕继续 · ' + c.entry.title;
+  advanceCall();
+}
 function acceptCall() {
   const c = st.call; if (!c || c.connected) return;
   c.connected = true;
@@ -303,8 +311,7 @@ function acceptCall() {
   $('#coAccept').classList.add('hidden');
   $('#coHangup').classList.remove('hidden');
   $('#coStatus').textContent = `连线中 · ${store.formatYear(c.entry.year)}年 · ${c.entry.place}`;
-  $('#coHint').textContent = '点击屏幕继续 · ' + c.entry.title;
-  advanceCall();
+  startStoryCall();
 }
 /* 字幕推进：点一下屏幕播一句，上一句消失；choice 停下等选 */
 function advanceCall() {

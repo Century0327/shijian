@@ -3,6 +3,7 @@
 Updated: 2026-10-12
 
 ## In-progress work（进行中任务，优先交接）
+- Code flow implemented: 选择第 N 幕只进入来电状态；acceptCall 后才调用 startStoryCall，推进该幕剧情并允许记录完成进度。
 - Canonical story-call flow: 时空连线 → 第 N 幕剧情 → 角色来电 → 玩家接听 → 通话界面进行该幕剧情。
 - Terminology correction: “角色个人剧情”统一称“角色来电剧情”，当前仅四幕生平大事件，未来可扩展为六幕/八幕；其他内容分别称角色朋友圈、角色普通聊天、角色二创聊天。
 - Interaction vocabulary: 已在 AGENTS.md 固化“发现 → 建立关系 → 通讯 → 内容模式 → 叙事结果”链路；来电可由聊天、朋友圈、资料、剧情或二创互动触发，剧情通话只是接听后的内容类型。
