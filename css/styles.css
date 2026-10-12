@@ -166,6 +166,7 @@ button{min-height:40px;transition:background-color .16s ease,color .16s ease,tra
 .co-auto{position:absolute;z-index:6;top:18px;right:58px;background:rgba(0,0,0,.35);border:0;border-radius:8px;color:#fff;font-size:11px;padding:6px 8px}
 .co-review{display:none;position:absolute;z-index:6;right:16px;bottom:92px;border:1px solid rgba(255,255,255,.3);border-radius:8px;background:rgba(0,0,0,.38);color:#fff;padding:7px 9px;font-size:12px}
 .co-review:not(.hidden){display:block}
+.login-panel{padding:20px 16px}.login-panel label{display:block;font-size:12px;color:#777;margin:14px 0 5px}.login-panel input{display:block;width:100%;min-height:42px;border:1px solid #ddd;border-radius:7px;padding:10px;font-size:14px}.login-panel button{width:100%;margin-top:14px}
 /* 来电先以当前页面顶部窄弹窗呈现，接听后才切换到整屏通话。 */
 .call-overlay.call-incoming{inset:0;background:transparent;display:block;pointer-events:none}
 .call-overlay.call-incoming .co-video{position:absolute;inset:12px 10px auto;height:72px;min-height:0;border-radius:15px;background:#182331f5;box-shadow:0 8px 24px rgba(0,0,0,.28);pointer-events:auto;z-index:4}

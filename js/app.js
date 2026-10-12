@@ -30,6 +30,18 @@ function buildPeople() { PEOPLE = {}; store.getPeople().forEach(p => PEOPLE[p.na
 /* ---------- 基础工具 ---------- */
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function toast(s) { const el = $('#toast'); el.textContent = s; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2200); }
+function requireLogin() {
+  if (window.ShiJianAuth?.loggedIn()) return true;
+  toast('登录后才能保存进度和进行互动');
+  showPage('me', '我');
+  return false;
+}
+function renderAuthState() {
+  const logged = window.ShiJianAuth?.loggedIn();
+  $('#meSub').textContent = logged ? '已登录 · 游玩进度将与账号同步' : '未登录 · 登录后保存你的游玩进度';
+  $('#meLogin').querySelector('.row-title').innerHTML = logged ? '账号设置 <span style="color:#aaa">›</span>' : '登录 / 注册 <span style="color:#aaa">›</span>';
+  $('#authStatus').textContent = logged ? '当前已登录' : (window.ShiJianAuth?.configured() ? '当前未登录' : '等待配置 Supabase anon key');
+}
 function personOf(name) { return PEOPLE[name] || EXTRA[name] || null; }
 function avatar(name, round = false) {
   const p = personOf(name) || { avatar: (name || '客').slice(0, 1), cls: '' };
@@ -44,7 +56,7 @@ function showPage(page, title, opts = {}) {
   st.page = page;
   $$('.page').forEach(p => p.classList.toggle('active', p.id === 'page-' + page));
   $$('[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === page));
-  const subpages = ['moments', 'timeline', 'person', 'chat', 'translator', 'add', 'newfriends', 'about', 'shake', 'profilemoments'];
+  const subpages = ['moments', 'timeline', 'person', 'chat', 'translator', 'add', 'newfriends', 'about', 'shake', 'profilemoments', 'login'];
   $('#tabbar').classList.toggle('hidden', subpages.includes(page));
   $('#backBtn').classList.toggle('hidden', !subpages.includes(page));
   $('#topTitle').textContent = title || ({ wechat: '微信', contacts: '通讯录', discover: '发现', me: '我' }[page] || page);
@@ -639,11 +651,13 @@ $('#stationPrev').onclick = () => { if (st.playing) setPlaying(false); stationSt
 $('#stationNext').onclick = () => { if (st.playing) setPlaying(false); stationStep(1); };
 
 $('#personMessage').onclick = () => {
+  if (!requireLogin()) return;
   if (!store.isFriend(st.person)) { toast('先添加 TA 为好友，才能发消息'); return; }
   startChat(st.person);
 };
 $('#personMoments').onclick = () => openProfileMoments(st.person);
 $('#personAdd').onclick = () => {
+  if (!requireLogin()) return;
   if (store.isFriend(st.person)) { toast('这位名人已经在你的通讯录里啦'); return; }
   if (store.addFriend(st.person)) {
     $('#personAdd').textContent = '已是好友';
@@ -680,6 +694,18 @@ $('#submitAdd').onclick = () => {
 };
 $('#mePeople').onclick = () => { showPage('contacts', '通讯录'); toast('这里可以查看和管理已添加人物'); };
 $('#meAbout').onclick = () => showPage('about', '关于史间');
+$('#meLogin').onclick = () => { showPage('login', '登录 / 注册'); renderAuthState(); };
+$('#authSubmit').onclick = async () => {
+  const email = $('#authEmail').value.trim(), password = $('#authPassword').value;
+  if (!email || password.length < 6) { $('#authStatus').textContent = '请输入邮箱和至少 6 位密码'; return; }
+  $('#authStatus').textContent = '正在登录…';
+  try {
+    await window.ShiJianAuth.signInOrSignUp(email, password);
+    renderAuthState(); showPage('me', '我'); toast('已登录，游玩进度将与账号关联');
+  } catch (e) { $('#authStatus').textContent = e.message; }
+};
+$('#authLogout').onclick = () => { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); };
+window.addEventListener('shijian:auth', renderAuthState);
 $('#translateBtn').onclick = () => {
   const v = $('#translateInput').value.trim();
   if (!v) { toast('先输入一句话'); return; }
@@ -689,6 +715,7 @@ $('#translateBtn').onclick = () => {
     (white === v ? '<p style="margin:6px 0 0;color:#b3a98f;font-size:12px">本地对照表暂无此句——接入 AI Agent 后可整句动态翻译。</p>' : '');
 };
 $('#chatSend').onclick = () => {
+  if (!requireLogin()) return;
   const v = $('#chatText').value.trim();
   if (!v) return;
   const log = st.chatLog[st.person] || [];
@@ -700,7 +727,7 @@ $('#chatSend').onclick = () => {
 $('#chatText').onkeydown = e => { if (e.key === 'Enter') $('#chatSend').click(); };
 /* ＋ 面板：时空连线（剧情视频通话）/ 拍一拍 */
 $('#chatMore').onclick = () => $('#moreSheet').classList.toggle('hidden');
-$('#moreCall').onclick = () => { $('#moreSheet').classList.add('hidden'); openCallPicker(st.person || st.momentOwner); };
+$('#moreCall').onclick = () => { if (!requireLogin()) return; $('#moreSheet').classList.add('hidden'); openCallPicker(st.person || st.momentOwner); };
 $('#morePat').onclick = () => {
   $('#moreSheet').classList.add('hidden');
   const n = st.person || st.momentOwner;
@@ -748,6 +775,7 @@ window.addEventListener('resize', () => { if (st.page === 'moments') Rail.refres
 /* ---------- 初始化 ---------- */
 function init() {
   buildPeople();
+  renderAuthState();
   const p0 = store.peekFirstPost(st.year);
   if (p0) { st.month = p0.month; st.day = p0.day; }
   Rail.mount($('#timeRail'), {
