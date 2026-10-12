@@ -15,14 +15,18 @@
     return data;
   }
   async function signInOrSignUp(username, password) {
-    const data = await callRpc('login_player', { p_username: username, p_password: password });
-    session = data; localStorage.setItem(SKEY, JSON.stringify(data));
+    const raw = await callRpc('login_player', { p_username: username, p_password: password });
+    const data = Array.isArray(raw) ? raw[0] : (raw.player || raw.data || raw);
+    session = { id: data.id || data.player_id || username, username: data.username || username, progress: data.progress || {}, unlocks: data.unlocks || {} };
+    localStorage.setItem(SKEY, JSON.stringify(session));
     window.dispatchEvent(new Event('shijian:auth'));
     return data;
   }
   async function register(username, password) {
-    const data = await callRpc('register_player', { p_username: username, p_password: password });
-    session = data; localStorage.setItem(SKEY, JSON.stringify(data));
+    const raw = await callRpc('register_player', { p_username: username, p_password: password });
+    const data = Array.isArray(raw) ? raw[0] : (raw.player || raw.data || raw);
+    session = { id: data.id || data.player_id || username, username: data.username || username, progress: data.progress || {}, unlocks: data.unlocks || {} };
+    localStorage.setItem(SKEY, JSON.stringify(session));
     window.dispatchEvent(new Event('shijian:auth'));
     return data;
   }

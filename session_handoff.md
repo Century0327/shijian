@@ -12,6 +12,7 @@ Updated: 2026-10-12
 - Profile UI: 未登录默认显示头像“佚”和“未登录”；删除“我添加的名人”；原登录位置改为登录后的编辑资料入口。
 - Auth fix: 自建 players 会话现在以 session.id 判断登录；登录后“我”页面会显示玩家昵称、已登录和退出登录。
 - Cache fix: auth.js/app.js/styles.css 资源版本已升级，避免 Pages 使用旧缓存；登录成功会写入 profile 昵称。
+- Session normalization: auth.js 现在统一解析 RPC 返回值并生成玩家 id/username 会话，避免“登录成功但仍未登录”。
 - Auth SQL fix: schema.sql 已改为显式调用 extensions.crypt 与 extensions.gen_salt；用户需重新执行更新后的 SQL。
 - Interaction updates: 微信列表头像单击直接进聊天；聊天页头像单击进资料、双击拍一拍；朋友圈时代筛选再次点击取消；时间轴从首端初始化并记忆位置与筛选。
 - Code flow implemented: 选择第 N 幕只进入来电状态；acceptCall 后才调用 startStoryCall，推进该幕剧情并允许记录完成进度。
