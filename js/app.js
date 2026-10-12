@@ -272,7 +272,7 @@ let nearbyState = (() => { try { return JSON.parse(localStorage.getItem(nearbySt
 function loadNearby() { try { nearbyState = JSON.parse(localStorage.getItem(nearbyStorageKey()) || '{"place":0,"results":[],"time":"current","relation":"all"}'); } catch (e) { nearbyState = { place: 0, results: [], time: 'current', relation: 'all' }; } }
 function saveNearby() { localStorage.setItem(nearbyStorageKey(), JSON.stringify(nearbyState)); }
 function nearbyPeople(place) {
-  const y = st.year; const names = place.old === '洛阳' ? ['李白', '杜甫', '司马光', '曹植', '白居易'] : place.old === '长安' ? ['李白', '杜甫', '司马迁', '诸葛亮'] : place.old === '会稽' ? ['勾践', '范蠡'] : place.old === '江宁' ? ['王安石', '陶渊明'] : ['孔子', '蔺相如', '廉颇']; const range = nearbyState.time === 'around' ? 10 : 0;
+  const y = st.year; const names = (place.people || []).map(id => Object.values(PEOPLE).find(p => p.id === id)?.name).filter(Boolean); const range = nearbyState.time === 'around' ? 10 : 0;
   return names.map(n => personOf(n)).filter(Boolean).filter(p => nearbyState.time === 'all' || !p.life || (p.life[0] == null || y + range >= p.life[0]) && (p.life[1] == null || y - range <= p.life[1])).filter(() => nearbyState.relation === 'all' || place.relations.includes(nearbyState.relation)).sort(() => Math.random() - .5).slice(0, 6).map(p => ({ ...p, sliceId: `${p.id}-${y}-${place.old}`, sliceYear: y, slicePlace: place.old, relation: nearbyState.relation }));
 }
 function renderNearby() {
