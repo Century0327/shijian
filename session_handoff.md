@@ -13,6 +13,7 @@ Updated: 2026-10-12
 - Auth fix: 自建 players 会话现在以 session.id 判断登录；登录后“我”页面会显示玩家昵称、已登录和退出登录。
 - Account naming: 已分离账号 ID 与昵称；账号 ID 只用于登录/数据定位，昵称用于“我”页面和剧情展示，资料编辑页显示只读账号 ID。
 - Registration mapping: 自动注册分支此前未写入资料缓存，现已统一使用 `accountId` 与 `name` 保存，编辑页通过认证会话读取账号 ID。
+- Profile defaults: 编辑资料页账号 ID 自动填当前账号，昵称默认空白；“我”页面仅在空昵称时显示“穿越者”占位。
 - Cache fix: auth.js/app.js/styles.css 资源版本已升级，避免 Pages 使用旧缓存；登录成功会写入 profile 昵称。
 - Session normalization: auth.js 现在统一解析 RPC 返回值并生成玩家 id/username 会话，避免“登录成功但仍未登录”。
 - Auth SQL fix: schema.sql 已改为显式调用 extensions.crypt 与 extensions.gen_salt；用户需重新执行更新后的 SQL。
