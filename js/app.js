@@ -30,6 +30,8 @@ function buildPeople() { PEOPLE = {}; store.getPeople().forEach(p => PEOPLE[p.na
 /* ---------- 基础工具 ---------- */
 function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 function toast(s) { const el = $('#toast'); el.textContent = s; el.classList.add('show'); setTimeout(() => el.classList.remove('show'), 2200); }
+function openLogoutModal() { $('#logoutModal').classList.remove('hidden'); }
+function closeLogoutModal() { $('#logoutModal').classList.add('hidden'); }
 function requireLogin() {
   if (window.ShiJianAuth?.loggedIn()) return true;
   toast('登录后才能保存进度和进行互动');
@@ -47,6 +49,10 @@ function renderAuthState() {
   $('#meAuthButton').textContent = logged ? '退出登录' : '注册/登录';
   $('#meLogin').querySelector('.row-title').innerHTML = '编辑资料 <span style="color:#aaa">›</span>';
   $('#authStatus').textContent = logged ? '当前已登录' : (window.ShiJianAuth?.configured() ? '当前未登录' : '等待配置 Supabase anon key');
+}
+function saveProfileFromAccount(account, fallbackId) {
+  const displayName = account.display_name || account.displayName || '';
+  localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: account.username || account.accountId || fallbackId, name: displayName === '穿越者' ? '' : displayName, avatar: account.avatar || '佚', signature: account.signature || '' }));
 }
 function personOf(name) { return PEOPLE[name] || EXTRA[name] || null; }
 function avatar(name, round = false) {
@@ -717,22 +723,25 @@ $('#profileSave').onclick = () => {
   renderAuthState(); showPage('me', '我'); toast('资料已保存');
 };
 $('#meAuthButton').onclick = () => {
-  if (window.ShiJianAuth?.loggedIn()) { if (!window.confirm('确定要退出当前账号吗？')) return; window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); }
+  if (window.ShiJianAuth?.loggedIn()) { openLogoutModal(); }
   else { showPage('login', '注册 / 登录'); renderAuthState(); }
 };
+$('#logoutCancel').onclick = closeLogoutModal;
+$('#logoutConfirm').onclick = () => { window.ShiJianAuth.signOut(); closeLogoutModal(); renderAuthState(); toast('已退出登录'); };
+$('#logoutModal').onclick = e => { if (e.target.id === 'logoutModal') closeLogoutModal(); };
 async function authSubmit() {
   const username = $('#authUsername').value.trim(), password = $('#authPassword').value;
   if (!/^[A-Za-z0-9_]{3,32}$/.test(username) || password.length < 6) { $('#authStatus').textContent = '用户名需 3—32 位字母、数字或下划线，密码至少 6 位'; return; }
   $('#authStatus').textContent = '正在登录…';
   try {
     const account = await window.ShiJianAuth.signInOrSignUp(username, password);
-    localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: account.username || username, name: account.display_name && account.display_name !== '穿越者' ? account.display_name : '', avatar: account.avatar || '佚', signature: account.signature || '' }));
+    saveProfileFromAccount(account, username);
     renderAuthState(); showPage('me', '我'); toast('已登录，游玩进度将与账号关联');
   } catch (e) {
     if (/用户名或密码错误|不存在|not found/i.test(e.message)) {
       try {
         const account = await window.ShiJianAuth.register(username, password);
-        localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: account.username || username, name: account.display_name && account.display_name !== '穿越者' ? account.display_name : '', avatar: account.avatar || '佚', signature: account.signature || '' }));
+        saveProfileFromAccount(account, username);
         renderAuthState(); showPage('me', '我'); toast('账号已创建并登录');
         return;
       } catch (registerError) { e = registerError; }

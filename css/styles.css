@@ -186,3 +186,4 @@ button{min-height:40px;transition:background-color .16s ease,color .16s ease,tra
 .ev-row button{margin-left:auto;flex:0 0 auto;background:#f0e7d3;color:#7a6845;border-radius:5px;padding:5px 9px;font-size:12px;min-height:30px}
 .moment{animation:moment-in .28s ease}
 @keyframes moment-in{from{opacity:.3;transform:translateY(6px)}to{opacity:1;transform:none}}
+.confirm-modal{position:fixed;inset:0;z-index:80;background:#0006;display:grid;place-items:center;padding:24px}.confirm-card{width:min(320px,90vw);background:#fff;border-radius:12px;padding:22px;box-shadow:0 12px 40px #0003}.confirm-card h3{margin:0 0 8px;font-size:17px}.confirm-card p{margin:0 0 20px;color:#666;font-size:14px}.confirm-actions{display:flex;justify-content:flex-end;gap:10px}.confirm-actions button{min-width:72px}.danger{background:#fa5151;color:#fff;border-radius:7px;padding:10px 15px}
