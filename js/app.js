@@ -275,6 +275,8 @@ function startCall(name, entryId) {
   const p = personOf(name);
   const ov = $('#callOverlay');
   ov.classList.remove('hidden');
+  /* 调试角色：先只验证项羽的整屏通话布局，其他角色保留正式版布局。 */
+  ov.classList.toggle('debug-xiangyu', name === '项羽');
   $('#coAvatar').textContent = p?.avatar || name.slice(0, 1);
   $('#coAvatar').className = 'call-avatar ' + (p?.cls || '');
   const bg = entry.bg || {};
@@ -379,6 +381,7 @@ function hangupCall() {
   st.call = null;
   window.ShiJianVoice && window.ShiJianVoice.stop();
   $('#callOverlay').classList.add('hidden');
+  $('#callOverlay').classList.remove('debug-xiangyu');
   $('#coHangup').textContent = '挂断';
   $('#coActions').innerHTML = '';
   if (name && st.page === 'chat') renderFanficBar(name);   /* 挂断后刷新二创门进度 */

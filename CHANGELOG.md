@@ -11,6 +11,7 @@
 
 | Date | Change | Judge | Notes |
 |---|---|---|---|
+| 2026-10-12 | 建立 \`debug/call-ui-xiangyu\` 调试分支，先仅为项羽启用整屏通话布局 | ai | 非正式发布；验证通过后再评估抽象到其他角色 |
 | 2026-10-11 | 引入 project-governance v1.2.1 治理体系（init + 定制） | human | 用户指定来源 github.com/Century0327/project-governance |
 | 2026-10-11 | index.html 补 #coVoice 按钮与 voice.js 引用；gen_scenes.py 输出路径修正 | human | 用户在 AskUserQuestion 中确认"我来修复这 3 处，然后 git" |
 | 2026-10-11 | 建立 GitHub 仓库 Century0327/shijian（Public）并推送 main；开启 Pages | human | commit c29dd23；Pages 状态 built，站点 200 |

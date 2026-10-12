@@ -1,8 +1,10 @@
 # Session Handoff — 史间 · 微信式历史社交
 
-Updated: 2026-10-11
+Updated: 2026-10-12
 
 ## In-progress work（进行中任务，优先交接）
+- Current task: 通话 UI 调试版。已建立 \`debug/call-ui-xiangyu\` 分支，仅项羽启用整屏通话布局；待人工确认视觉后再扩展其他角色。
+- Validation: 浏览器验证了项羽调试类名、全屏视频区和底部悬浮对白层；正式分支布局未改。
 - Current task: 三件事 —— ① 安装并运行 project-governance（已完成 init，待提交）；
   ② `data/translations.js` 换用户持有的正确版本（含「哼！这位置我也坐得」类文案）；
   ③ 新增用户名密码登录 + 游玩进度云保存（Supabase 项目 ref：`nxiuafezfsmhbzmfmjqf`）。

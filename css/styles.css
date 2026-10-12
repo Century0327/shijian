@@ -156,6 +156,22 @@ button{min-height:40px;transition:background-color .16s ease,color .16s ease,tra
 .co-actions{display:flex;gap:10px}
 .co-actions button{flex:1;background:#d8c79a;color:#2a2415;border-radius:10px;padding:11px;font-size:13px;font-weight:600}
 .co-hint{font-size:11px;color:rgba(255,255,255,.42);text-align:center;min-height:16px}
+/* 调试版：仅项羽验证“整屏通话 + 悬浮对白 + 底部控制”布局。 */
+.call-overlay.debug-xiangyu{display:block;background:#0b111a}
+.debug-xiangyu .co-video{position:absolute;inset:0;width:100%;height:100%;min-height:0}
+.debug-xiangyu .co-bg{opacity:.72}
+.debug-xiangyu .co-fig{inset:13% 0 31%;padding-bottom:0}
+.debug-xiangyu .call-avatar{width:132px;height:132px;font-size:58px;border-color:#e3c88d}
+.debug-xiangyu .co-subs{position:absolute;z-index:4;left:16px;right:16px;bottom:86px;padding:0;background:none;display:block}
+.debug-xiangyu .co-speaker{padding:0 4px 6px;color:#e3c88d}
+.debug-xiangyu .co-line{min-height:0;padding:14px 16px;border:1px solid rgba(255,255,255,.22);border-radius:14px;background:rgba(13,20,31,.82);backdrop-filter:blur(9px);font-size:17px;line-height:1.7}
+.debug-xiangyu .co-choices{margin-top:9px}
+.debug-xiangyu .co-actions{margin-top:8px}
+.debug-xiangyu .co-hint{margin-top:7px}
+.debug-xiangyu .co-voice{top:18px;right:18px}
+.debug-xiangyu .co-status{top:18px;left:18px}
+.debug-xiangyu .co-hangup,.debug-xiangyu .co-accept{bottom:20px;z-index:6}
+.debug-xiangyu .co-accept{bottom:22px}
 .system-note{text-align:center;font-size:12px;color:#8a7a5a;background:#faf6ec;border-radius:8px;padding:8px 10px;margin:10px 2px;line-height:1.6}
 .system-note.annals{text-align:left;background:#f3f7f2;color:#3d4a3a;border:1px solid #dfe8dd}
 .ev-row{display:flex;gap:10px;border-left:2px solid #d7c39c;padding:8px 0 8px 12px;margin:12px 0;font-size:13px;align-items:flex-start}
