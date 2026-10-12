@@ -703,14 +703,15 @@ $('#meLogin').onclick = () => {
   if (!requireLogin()) return;
   const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
   const session = window.ShiJianAuth.getSession() || {};
-  $('#profileAccountId').value = session.username || '';
+  $('#profileAccountId').value = session.username || profile.accountId || '';
   $('#profileName').value = profile.name || '穿越者';
   $('#profileAvatar').value = profile.avatar || '佚';
   $('#profileSignature').value = profile.signature || '';
   showPage('profile-edit', '编辑资料');
 };
 $('#profileSave').onclick = () => {
-  localStorage.setItem('shijian.profile.v1', JSON.stringify({ name: $('#profileName').value.trim() || '穿越者', avatar: $('#profileAvatar').value.trim().slice(0, 2) || '佚', signature: $('#profileSignature').value.trim() }));
+  const previous = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
+  localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: previous.accountId || window.ShiJianAuth.getSession()?.username || '', name: $('#profileName').value.trim() || '穿越者', avatar: $('#profileAvatar').value.trim().slice(0, 2) || '佚', signature: $('#profileSignature').value.trim() }));
   const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
   window.ShiJianAuth.updateProfile?.(profile).catch(() => {});
   renderAuthState(); showPage('me', '我'); toast('资料已保存');
@@ -725,7 +726,7 @@ async function authSubmit() {
   $('#authStatus').textContent = '正在登录…';
   try {
     const account = await window.ShiJianAuth.signInOrSignUp(username, password);
-    localStorage.setItem('shijian.profile.v1', JSON.stringify({ name: account.display_name || '穿越者', avatar: account.avatar || '佚', signature: account.signature || '' }));
+    localStorage.setItem('shijian.profile.v1', JSON.stringify({ accountId: account.username || username, name: account.display_name || '穿越者', avatar: account.avatar || '佚', signature: account.signature || '' }));
     renderAuthState(); showPage('me', '我'); toast('已登录，游玩进度将与账号关联');
   } catch (e) {
     if (/用户名或密码错误|不存在|not found/i.test(e.message)) {
