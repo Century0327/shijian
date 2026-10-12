@@ -40,9 +40,10 @@ function renderAuthState() {
   const logged = window.ShiJianAuth?.loggedIn();
   let profile = {};
   try { profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}') || {}; } catch (e) {}
-  $('#meAvatar').textContent = logged ? (profile.avatar || '佚') : '佚';
-  $('#meTitle').textContent = logged ? (profile.name || window.ShiJianAuth.getSession()?.username || '穿越者') : '穿越者';
-  $('#meSub').textContent = logged ? (profile.signature || '已登录 · 游玩进度将与账号同步') : '未登录';
+  const session = window.ShiJianAuth.getSession() || {};
+  $('#meAvatar').textContent = logged ? (profile.avatar || session.avatar || '佚') : '佚';
+  $('#meTitle').textContent = logged ? (profile.name || session.display_name || '穿越者') : '穿越者';
+  $('#meSub').textContent = logged ? (profile.signature || session.signature || '已登录 · 游玩进度将与账号同步') : '未登录';
   $('#meAuthButton').textContent = logged ? '退出登录' : '注册/登录';
   $('#meLogin').querySelector('.row-title').innerHTML = '编辑资料 <span style="color:#aaa">›</span>';
   $('#authStatus').textContent = logged ? '当前已登录' : (window.ShiJianAuth?.configured() ? '当前未登录' : '等待配置 Supabase anon key');
@@ -701,13 +702,17 @@ $('#meAbout').onclick = () => showPage('about', '关于史间');
 $('#meLogin').onclick = () => {
   if (!requireLogin()) return;
   const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
-  $('#profileName').value = profile.name || window.ShiJianAuth.getSession()?.username || '穿越者';
+  const session = window.ShiJianAuth.getSession() || {};
+  $('#profileAccountId').value = session.username || '';
+  $('#profileName').value = profile.name || '穿越者';
   $('#profileAvatar').value = profile.avatar || '佚';
   $('#profileSignature').value = profile.signature || '';
   showPage('profile-edit', '编辑资料');
 };
 $('#profileSave').onclick = () => {
   localStorage.setItem('shijian.profile.v1', JSON.stringify({ name: $('#profileName').value.trim() || '穿越者', avatar: $('#profileAvatar').value.trim().slice(0, 2) || '佚', signature: $('#profileSignature').value.trim() }));
+  const profile = JSON.parse(localStorage.getItem('shijian.profile.v1') || '{}');
+  window.ShiJianAuth.updateProfile?.(profile).catch(() => {});
   renderAuthState(); showPage('me', '我'); toast('资料已保存');
 };
 $('#meAuthButton').onclick = () => {
@@ -720,7 +725,7 @@ async function authSubmit() {
   $('#authStatus').textContent = '正在登录…';
   try {
     const account = await window.ShiJianAuth.signInOrSignUp(username, password);
-    localStorage.setItem('shijian.profile.v1', JSON.stringify({ name: account.username || username, avatar: '佚', signature: '' }));
+    localStorage.setItem('shijian.profile.v1', JSON.stringify({ name: account.display_name || '穿越者', avatar: account.avatar || '佚', signature: account.signature || '' }));
     renderAuthState(); showPage('me', '我'); toast('已登录，游玩进度将与账号关联');
   } catch (e) {
     if (/用户名或密码错误|不存在|not found/i.test(e.message)) {
