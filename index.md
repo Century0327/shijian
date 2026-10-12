@@ -34,6 +34,7 @@ Changes: Initial scaffold.
 │       └── [window.svg](img/scenes/window.svg)
 ├── [js/](js)
 │   ├── [app.js](js/app.js)
+│   ├── [auth.js](js/auth.js)
 │   ├── [store.js](js/store.js)
 │   ├── [timeline.js](js/timeline.js)
 │   └── [voice.js](js/voice.js)
