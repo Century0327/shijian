@@ -24,6 +24,7 @@ rolled back.
 | v5.3（commit c29dd23） | 前端原型基线 | yes | human | git c29dd23 / Pages built | 用户确认修复 3 处接线后提交；冒烟测试通过 |
 | v5.3-fix（接线补齐） | index.html 旧版 → 新版 | yes | human | 对话确认记录 | 补 #coVoice 按钮 + voice.js 引用，修复启动崩溃 |
 | 项羽四幕对白重写（工作区） | 角色来电剧情与朋友圈翻译 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `data/translations.js` | 等待用户检查人物语气后再作为其他角色扩写基线 |
+| 史记人物与长篇节奏扩充（工作区） | 四幕剧情 / 六名角色资料 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `data/people.js` / `data/moments.js` | 项羽四幕已补幕间衔接；六名角色完成基础交互数据，等待 Pages 人工验收 |
 | 好友删除与玩家字幕停留（工作区） | 资料页 / 角色来电剧情 | no / EXPERIMENTAL | ai | `js/store.js` / `js/app.js` / `index.html` | 自动与静态检查通过，等待 Pages 人工交互确认 |
 
 ## 同名多版本文件的权威判定（2026-10-11 三批上传）
