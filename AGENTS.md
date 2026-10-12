@@ -141,7 +141,7 @@
 
 - **角色朋友圈**：角色发布的动态与历史碎片，属于朋友圈浏览内容。
 - **角色普通聊天**：正史模式下的日常即时聊天，不等于角色个人剧情。
-- **角色来电剧情**：角色主动来电并由玩家接听后展开的生平大事件，目前四幕，未来可扩展为六幕、八幕。
+- **角色来电剧情**：玩家点击“时空连线”→点击第 N 幕剧情→角色来电→玩家接听→通话界面进行该幕剧情；当前四幕生平大事件，未来可扩展为六幕、八幕。
 - **角色二创聊天**：二创模式下的虚构聊天，通常偏恋爱向。
 - **角色二创来电剧情**：若未来加入二创来电，则使用此名称，不能与角色来电剧情混称。
 
@@ -151,7 +151,7 @@
 - 接听状态使用 accepted / connected，不要用 storyStarted。
 - 内容类型使用 contentType: ordinary | story | fanfic。
 - 来源使用 triggerSource: chat | moment | profile | story | fanfic | other。
-- openCallPicker 只表示打开角色来电剧情入口；startCall 表示开始一次来电流程；startStoryCall 仅用于已确认的角色来电剧情。
+- openCallPicker 只表示打开“时空连线”入口；选择第 N 幕只表示选定剧情，不表示剧情已经开始；startCall 表示触发角色来电流程；acceptCall 表示玩家接听；startStoryCall 仅用于接听后开始该幕剧情。
 - UI 文案中“来电”“接听”“通话”“剧情通话”“二创通话”“时空连线”必须按上述定义使用。
 
 ## File Authority Levels
