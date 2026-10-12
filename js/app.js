@@ -265,17 +265,18 @@ function renderMoments() {
   bindMomentEvents(list);
 }
 
-const NEARBY_PLACES = [{ old: '洛阳', modern: '洛阳市', region: '河南省' }, { old: '长安', modern: '西安市', region: '陕西省' }, { old: '临淄', modern: '淄博市', region: '山东省' }, { old: '会稽', modern: '绍兴市', region: '浙江省' }, { old: '江宁', modern: '南京市', region: '江苏省' }];
+const NEARBY_PLACES = window.SHIJIAN_DATA.locations || [];
+const NEARBY_ADMIN = { '河南省': ['洛阳市','开封市'], '陕西省': ['西安市'], '山东省': ['淄博市'], '浙江省': ['绍兴市'], '江苏省': ['南京市'] };
 function nearbyStorageKey() { return 'shijian.nearby.v1.' + (window.ShiJianAuth?.accountId?.() || 'guest'); }
-let nearbyState = (() => { try { return JSON.parse(localStorage.getItem(nearbyStorageKey()) || '{"place":0,"results":[]}'); } catch (e) { return { place: 0, results: [] }; } })();
-function loadNearby() { try { nearbyState = JSON.parse(localStorage.getItem(nearbyStorageKey()) || '{"place":0,"results":[]}'); } catch (e) { nearbyState = { place: 0, results: [] }; } }
+let nearbyState = (() => { try { return JSON.parse(localStorage.getItem(nearbyStorageKey()) || '{"place":0,"results":[],"time":"current","relation":"all"}'); } catch (e) { return { place: 0, results: [], time: 'current', relation: 'all' }; } })();
+function loadNearby() { try { nearbyState = JSON.parse(localStorage.getItem(nearbyStorageKey()) || '{"place":0,"results":[],"time":"current","relation":"all"}'); } catch (e) { nearbyState = { place: 0, results: [], time: 'current', relation: 'all' }; } }
 function saveNearby() { localStorage.setItem(nearbyStorageKey(), JSON.stringify(nearbyState)); }
 function nearbyPeople(place) {
-  const y = st.year; const names = place.old === '洛阳' ? ['李白', '杜甫', '司马光', '曹植', '白居易'] : place.old === '长安' ? ['李白', '杜甫', '司马迁', '诸葛亮'] : place.old === '会稽' ? ['勾践', '范蠡'] : place.old === '江宁' ? ['王安石', '陶渊明'] : ['孔子', '蔺相如', '廉颇'];
-  return names.map(n => personOf(n)).filter(Boolean).filter(p => !p.life || (p.life[0] == null || y >= p.life[0]) && (p.life[1] == null || y <= p.life[1])).sort(() => Math.random() - .5).slice(0, 6).map(p => ({ ...p, sliceId: `${p.id}-${y}-${place.old}`, sliceYear: y, slicePlace: place.old }));
+  const y = st.year; const names = place.old === '洛阳' ? ['李白', '杜甫', '司马光', '曹植', '白居易'] : place.old === '长安' ? ['李白', '杜甫', '司马迁', '诸葛亮'] : place.old === '会稽' ? ['勾践', '范蠡'] : place.old === '江宁' ? ['王安石', '陶渊明'] : ['孔子', '蔺相如', '廉颇']; const range = nearbyState.time === 'around' ? 10 : 0;
+  return names.map(n => personOf(n)).filter(Boolean).filter(p => nearbyState.time === 'all' || !p.life || (p.life[0] == null || y + range >= p.life[0]) && (p.life[1] == null || y - range <= p.life[1])).filter(() => nearbyState.relation === 'all' || place.relations.includes(nearbyState.relation)).sort(() => Math.random() - .5).slice(0, 6).map(p => ({ ...p, sliceId: `${p.id}-${y}-${place.old}`, sliceYear: y, slicePlace: place.old, relation: nearbyState.relation }));
 }
 function renderNearby() {
-  const place = NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]; $('#nearbyProvince').value = place.region; $('#nearbyCity').innerHTML = `<option>${place.modern}</option>`; $('#nearbyDistrict').innerHTML = `<option>${place.old}</option>`; $('#nearbyMeta').textContent = `按朋友圈当前年份 · ${store.formatYear(st.year)} 年${autoTranslationEnabled() ? ` · 今·${place.modern}` : ''}`;
+  const place = NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]; $('#nearbyProvince').value = place.region; $('#nearbyCity').innerHTML = (NEARBY_ADMIN[place.region] || [place.modern]).map(x => `<option value="${x}">${x}</option>`).join(''); $('#nearbyCity').value = place.modern; $('#nearbyDistrict').innerHTML = `<option value="${place.district}">${place.district}</option>`; $('#nearbyMeta').textContent = `按朋友圈当前年份 · ${store.formatYear(st.year)} 年${autoTranslationEnabled() ? ` · 今·${place.modern}` : ''}`;
   const nodes = $('#nearbyNodes'); if (!nodes) return; const positions = [[18,24],[68,18],[78,52],[20,66],[50,78],[42,38]]; nodes.innerHTML = (nearbyState.results || []).map((p,i) => { const pos = positions[i] || [Math.random()*70+10,Math.random()*70+10]; return `<button class="nearby-node" style="left:${pos[0]}%;top:${pos[1]}%" data-nearby-person="${esc(p.name)}" data-slice="${esc(p.sliceId || '')}">${avatar(p.name, true)}<span>${esc(p.name)}<small>${esc(p.era || '')} · ${esc(p.sliceYear || st.year)}年 · ${esc(place.old)}${autoTranslationEnabled() ? ` · 今·${esc(place.modern)}` : ''}</small></span></button>`; }).join(''); nodes.querySelectorAll('[data-nearby-person]').forEach(b => b.onclick = () => { nearbyState.activeSlice = b.dataset.slice; saveNearby(); st.activeSlice = b.dataset.slice; openPerson(b.dataset.nearbyPerson); }); $('#nearbyHint').textContent = nearbyState.results?.length ? `发现 ${nearbyState.results.length} 位与${place.old}有关的角色` : '点击“搜寻”发现这片土地上的故人';
 }
 
@@ -676,6 +677,10 @@ $('#openShake').onclick = () => showPage('shake', '摇一摇');
 document.addEventListener('click', e => { const entry = e.target.closest('#openNearby'); if (!entry) return; e.preventDefault(); loadNearby(); renderNearby(); showPage('nearby', '附近'); });
 $('#nearbySearch').onclick = () => { nearbyState.results = nearbyPeople(NEARBY_PLACES[nearbyState.place] || NEARBY_PLACES[0]); saveNearby(); renderNearby(); };
 $('#nearbyProvince').onchange = e => { const i = NEARBY_PLACES.findIndex(p => p.region === e.target.value); nearbyState.place = i < 0 ? 0 : i; nearbyState.results = []; saveNearby(); renderNearby(); };
+$('#nearbyCity').onchange = e => { const i = NEARBY_PLACES.findIndex(p => p.modern === e.target.value); if (i >= 0) nearbyState.place = i; nearbyState.results = []; saveNearby(); renderNearby(); };
+$('#nearbyFilterButton').onclick = () => { $('#nearbyTimeFilter').value = nearbyState.time || 'current'; $('#nearbyRelationFilter').value = nearbyState.relation || 'all'; $('#nearbyFilterModal').classList.remove('hidden'); };
+$('#nearbyFilterReset').onclick = () => { nearbyState.time = 'current'; nearbyState.relation = 'all'; $('#nearbyTimeFilter').value = 'current'; $('#nearbyRelationFilter').value = 'all'; };
+$('#nearbyFilterApply').onclick = () => { nearbyState.time = $('#nearbyTimeFilter').value; nearbyState.relation = $('#nearbyRelationFilter').value; nearbyState.results = []; saveNearby(); $('#nearbyFilterModal').classList.add('hidden'); renderNearby(); };
 $('#autoTranslateToggle').onchange = e => { setAutoTranslation(e.target.checked); renderMoments(); renderNearby(); };
 $('#momentPickDate').onclick = () => { renderTimeline(); showPage('timeline', '历史年轮'); };
 $('#timelineEra').onchange = buildTimelineYears;

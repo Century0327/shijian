@@ -24,6 +24,7 @@ Updated: 2026-10-12
 - Nearby: 发现页新增默认洛阳的附近雷达地图；搜寻按朋友圈当前年份筛选多名角色，地点可切换并按账号记忆；自动翻译开关控制“今·现代地点名”和朋友圈译文默认展开。
 - Nearby location correction: 地点改为省/市/区三级选择；此前搜寻为空是因为只有临时人物名单且默认 1082 年过滤掉多数人物，现已补充地点映射并保留严格年份匹配。
 - Temporal slices: 同一角色在不同时间地点作为独立相遇切片展示，联系人身份仍合并；资料页和正史聊天记录携带切片标识，避免不同人生阶段混用。
+- Nearby completion pass: 修正头像 flex 压缩导致的椭圆；筛选按钮新增页面内面板与时间/关系条件；地点数据移至 `data/locations.js` 并纳入索引。
 - Cache fix: auth.js/app.js/styles.css 资源版本已升级，避免 Pages 使用旧缓存；登录成功会写入 profile 昵称。
 - Session normalization: auth.js 现在统一解析 RPC 返回值并生成玩家 id/username 会话，避免“登录成功但仍未登录”。
 - Auth SQL fix: schema.sql 已改为显式调用 extensions.crypt 与 extensions.gen_salt；用户需重新执行更新后的 SQL。

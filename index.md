@@ -13,6 +13,7 @@ Changes: Initial scaffold.
 │   ├── [chats.js](data/chats.js)
 │   ├── [events.js](data/events.js)
 │   ├── [fanfics.js](data/fanfics.js)
+│   ├── [locations.js](data/locations.js)
 │   ├── [meta.js](data/meta.js)
 │   ├── [moments.js](data/moments.js)
 │   ├── [people.js](data/people.js)
