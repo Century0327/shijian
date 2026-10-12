@@ -700,17 +700,27 @@ $('#meAuthButton').onclick = () => {
   if (window.ShiJianAuth?.loggedIn()) { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); }
   else { showPage('login', '注册 / 登录'); renderAuthState(); }
 };
-async function authSubmit(mode) {
+async function authSubmit() {
   const username = $('#authUsername').value.trim(), password = $('#authPassword').value;
   if (!/^[A-Za-z0-9_]{3,32}$/.test(username) || password.length < 6) { $('#authStatus').textContent = '用户名需 3—32 位字母、数字或下划线，密码至少 6 位'; return; }
   $('#authStatus').textContent = '正在登录…';
   try {
-    await (mode === 'register' ? window.ShiJianAuth.register(username, password) : window.ShiJianAuth.signInOrSignUp(username, password));
+    await window.ShiJianAuth.signInOrSignUp(username, password);
     renderAuthState(); showPage('me', '我'); toast('已登录，游玩进度将与账号关联');
-  } catch (e) { $('#authStatus').textContent = e.message; }
+  } catch (e) {
+    if (/用户名或密码错误|不存在|not found/i.test(e.message)) {
+      try {
+        await window.ShiJianAuth.register(username, password);
+        renderAuthState(); showPage('me', '我'); toast('账号已创建并登录');
+        return;
+      } catch (registerError) { e = registerError; }
+    }
+    $('#authStatus').textContent = /schema cache|register_player|login_player/i.test(e.message)
+      ? '数据库函数未部署，请先执行 supabase/schema.sql'
+      : e.message;
+  }
 }
-$('#authSubmit').onclick = () => authSubmit('login');
-$('#authRegister').onclick = () => authSubmit('register');
+$('#authSubmit').onclick = () => authSubmit();
 $('#authLogout').onclick = () => { window.ShiJianAuth.signOut(); renderAuthState(); toast('已退出登录'); };
 window.addEventListener('shijian:auth', renderAuthState);
 $('#translateBtn').onclick = () => {

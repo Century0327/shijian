@@ -47,3 +47,4 @@ end $$;
 grant execute on function public.register_player(text,text) to anon, authenticated;
 grant execute on function public.login_player(text,text) to anon, authenticated;
 grant execute on function public.save_player_state(uuid,jsonb,jsonb) to anon, authenticated;
+notify pgrst, 'reload schema';
