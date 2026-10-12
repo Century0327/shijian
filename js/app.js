@@ -65,7 +65,7 @@ function showPage(page, title, opts = {}) {
 const subpages = ['moments', 'timeline', 'person', 'chat', 'translator', 'add', 'newfriends', 'about', 'shake', 'profilemoments', 'login', 'profile-edit'];
   $('#tabbar').classList.toggle('hidden', subpages.includes(page));
   $('#backBtn').classList.toggle('hidden', !subpages.includes(page));
-  $('#topTitle').textContent = title || ({ wechat: '微信', contacts: '通讯录', discover: '发现', me: '我' }[page] || page);
+  $('#topTitle').textContent = title || ({ wechat: '信息', contacts: '通讯录', discover: '发现', me: '我' }[page] || page);
   $('#topSearch').classList.toggle('hidden', ['moments', 'timeline', 'chat', 'translator', 'add', 'newfriends', 'about', 'person', 'shake', 'profilemoments', 'calls', 'call'].includes(page));
   $('#topPlus').classList.toggle('hidden', ['chat', 'translator', 'add', 'newfriends', 'about', 'person', 'shake', 'profilemoments', 'discover', 'moments', 'timeline'].includes(page));
   if (st.playing && page !== 'moments') setPlaying(false);

@@ -145,7 +145,9 @@
   function getFanfic(name) { return adapter.fanfics()[name] || null; }
 
   /* —— 好友关系（陌生人 → 好友）：初始为空，摇一摇/搜索/资料页申请添加；localStorage 持久化 —— */
-  const FKEY = 'shijian.friends.v1';
+  let authForFriends = null;
+  try { authForFriends = JSON.parse(window.localStorage.getItem('shijian.auth.v1') || 'null'); } catch (e) {}
+  const FKEY = 'shijian.friends.v1.' + (authForFriends?.username || 'guest');
   let friends = (() => {
     try { return JSON.parse(window.localStorage.getItem(FKEY)) || { list: [] }; }
     catch (e) { return { list: [] }; }

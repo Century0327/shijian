@@ -2,13 +2,13 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>史间 · 微信式历史社交</title>
+<title>史间 · 信息式历史社交</title>
 <link rel="stylesheet" href="css/styles.css?v=5.4">
 </head>
 <body>
 <div class="phone">
  <div class="status"><span id="statusTime">19:08</span><span>●●●　▰　▮</span></div>
- <header class="top" id="topbar"><div class="left"><button class="back hidden" id="backBtn">‹</button><h1 id="topTitle">微信</h1></div><div class="right"><button class="top-action" id="topSearch" aria-label="搜索">⌕</button><button class="top-action" id="topPlus" aria-label="更多">＋</button></div></header>
+ <header class="top" id="topbar"><div class="left"><button class="back hidden" id="backBtn">‹</button><h1 id="topTitle">信息</h1></div><div class="right"><button class="top-action" id="topSearch" aria-label="搜索">⌕</button><button class="top-action" id="topPlus" aria-label="更多">＋</button></div></header>
  <section class="page active" id="page-wechat">
   <div class="searchbar" id="chatSearch"><span>⌕ </span><input id="searchChats" placeholder="搜索历史人物 / 聊天记录"></div>
   <div class="list" id="chatList"></div>
@@ -109,7 +109,7 @@
  <section class="page" id="page-shake"><div class="shake-panel"><div class="shake-circle">↔</div><h2 style="font-size:20px;font-weight:500;margin:0 0 8px">摇一摇，遇见同一时空的人</h2><p style="font-size:13px;color:#999;line-height:1.8;max-width:270px">只会遇见当前年份在世的人。也许是一位旧友，也许什么都不会发生。</p><button class="primary" id="shakeNow" style="margin-top:14px;padding:12px 30px">摇一摇</button><div id="shakeResult" style="margin-top:18px;font-size:14px"></div></div></section>
  <section class="page" id="page-about"><div class="tool-detail" style="margin-top:0"><h3>关于史间</h3><p>史间是一个历史社交网络概念原型。它用微信式界面承载历史人物动态、聊天与互动剧情。</p><p>《史记》相关动态与大事依据中华书局点校本通行文本整理；北宋部分为演绎演示。系年凡例在每条动态下方标注：<b>原文系年</b>（史有明文）、<b>传统系年</b>（学界通行说法）、<b>演绎</b>（创作）。</p><p>数据与界面完全分离：内容在 <b>data/</b> 目录（人物、动态、大事、对话、白话对照），界面在 index.html 与 js/。数据层提供统一适配器接口（js/store.js 的 useAdapter），未来可无缝接入 AI Agent 动态生成内容。</p></div></section>
  <nav class="tabbar" id="tabbar">
-  <button class="tab active" data-tab="wechat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2 1-4.1A7.4 7.4 0 0 1 4.5 5.5 8.2 8.2 0 0 1 12 3c4.4 0 8 3.8 8 8.5Z"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke-linecap="round"/></svg></span><span>微信</span></button>
+ <button class="tab active" data-tab="wechat"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3.5 2 1-4.1A7.4 7.4 0 0 1 4.5 5.5 8.2 8.2 0 0 1 12 3c4.4 0 8 3.8 8 8.5Z"/><path d="M8 10h.01M12 10h.01M16 10h.01" stroke-linecap="round"/></svg></span><span>信息</span></button>
   <button class="tab" data-tab="contacts"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.4-3.1 2.4-4.8 5.5-4.8s5.1 1.7 5.5 4.8M16 5.5a3 3 0 0 1 0 5.8M17 14.5c2.1.4 3.3 1.9 3.6 4" stroke-linecap="round"/></svg></span><span>通讯录</span></button>
   <button class="tab" data-tab="discover"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="m15.7 8.3-2.1 5.3-5.3 2.1 2.1-5.3 5.3-2.1Z" stroke-linejoin="round"/></svg></span><span>发现</span></button>
   <button class="tab" data-tab="me"><span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.5" r="3.4"/><path d="M4.5 20c.5-4 3.1-6.1 7.5-6.1s7 2.1 7.5 6.1" stroke-linecap="round"/></svg></span><span>我</span></button>
