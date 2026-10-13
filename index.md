@@ -74,3 +74,7 @@ Changes: Initial scaffold.
 > `## Change log` 之后，或放入 `index_notes.json` / 自定义 section。
 > 若检测到两个标题之间存在人工内容，`index` 默认停止并提示，确认覆盖需加 `--force`。
 > 本文件的 Change log 只是 `CHANGELOG.md` 的镜像，决策与状态变化以 `CHANGELOG.md` 为唯一事实源。
+
+## Narrative writing references
+- [story-writing-research.md](docs/story-writing-research.md) — 项羽已确认剧情拆解与迁移原则
+- [liubang-four-act-rewrite-plan.md](docs/liubang-four-act-rewrite-plan.md) — 刘邦四幕重写计划与逐幕分析表

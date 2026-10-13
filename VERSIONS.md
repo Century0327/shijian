@@ -27,8 +27,9 @@ rolled back.
 | 项羽第一幕人类对白重写（工作区） | 第1幕 · 然后呢 | no / EXPERIMENTAL | human | `data/storycalls.js` / `AGENTS.md` | 删除传记口播式伪对白；以暗室当下事件和玩家关系推进，等待 Pages 人工体验确认 |
 | 玩家参与成长规则（工作区） | 全部角色来电剧情 | no / EXPERIMENTAL | human | `AGENTS.md` / `data/storycalls.js` | 项羽第一幕已将“剑不能回答兵从哪里来”移入玩家选项；后续人物扩写沿用跨幕回应结构 |
 | 刘邦四幕重写 v6.6 | 角色来电剧情 | no / REJECTED | human | commit `75f2066` / `data/storycalls.js` | 人工审阅不通过：历史新手看不懂、叙述感回潮、选项近义、缺钩子、来电原因与情绪不清；不得作为后续基准 |
-| 刘邦四幕重写 v6.7 | 角色来电剧情 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `scripts/audit_story_quality.js` | 按逐幕写作分析表重写，加入新手入口、可见来电动机、持续钩子及赞同/反对/追问选项；等待用户人工验收 |
-| 角色提问即时选项（工作区） | 全部角色来电剧情 | no / EXPERIMENTAL | human | `data/storycalls.js` / `scripts/validate_storycalls.js` | 问号结尾台词下一拍强制为 choice；等待 Pages 交互确认 |
+| 刘邦四幕重写 v6.7 | 角色来电剧情 | no / REJECTED | human | `data/storycalls.js` / 本轮对话 | 用户指出选项把“支持/阻止/追问”机械写成角色征询赞成与否，整体仍有较大问题；不得沿用为正文基准 |
+| 刘邦四幕重写计划 | 角色来电剧情 | no / PLAN | ai | `docs/liubang-four-act-rewrite-plan.md` / `docs/story-writing-research.md` | 对照项羽已确认稿重新梳理人物弧、逐幕分析表与创作方法；尚未动正文 |
+| 问答相邻自动检查（工作区） | 全部角色来电剧情 | no / EXPERIMENTAL | ai | `scripts/validate_storycalls.js` | 仅作潜在交互断点提示；不作为问号与 choice 必须相邻的写作规则 |
 | 史记人物与长篇节奏扩充（工作区） | 四幕剧情 / 六名角色资料 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `data/people.js` / `data/moments.js` | 项羽四幕已补幕间衔接；六名角色完成基础交互数据，等待 Pages 人工验收 |
 | 项羽人物个人剧情重写（工作区） | 四幕角色来电剧情 / 朋友圈翻译 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `data/moments.js` / `js/app.js` | 围绕“然后呢”重写人物认识弧线；等待 Pages 人工体验确认 |
 | 角色来电动机优化（工作区） | 通话原因 / 玩家选项行为 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `AGENTS.md` | 项羽四幕完成动机字段和情绪型选项改造，等待人工体验确认 |

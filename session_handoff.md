@@ -3,17 +3,17 @@
 Updated: 2026-10-13
 
 ## In-progress work（进行中任务，优先交接）
-- Liu Bang v6.7 awaiting human review: 四幕 `writingAnalysis` 与正文均已重写，按历史新手入口、可见来电原因、持续钩子及赞同/反对/追问落实；自动审计对刘邦无警告。禁止在用户验收刘邦前开始韩信。
-- Liu Bang rewrite rejected: v6.6 四幕人工审阅不通过，原因是历史新手无入口、`callReason` 未被演出、短句仍在复述历史、选项近义、幕内缺少持续钩子。必须重写刘邦；韩信继续冻结。验收表新增历史新手入口、可见来电动机、持续钩子、选项行为分叉、禁止拆句式传记五项。
+- Liu Bang v6.7 rejected: 用户指出选项把支持/阻止/追问误写成角色征询玩家赞成与否，整体仍有较大问题。已对照项羽已确认四幕重整创作原则，并新增刘邦四幕重写计划；本轮只改治理文档与计划，不改剧情正文。下一步按计划写刘邦四幕，用户审阅通过前不开始韩信。
+- Liu Bang v6.6 was rejected for unclear novice context, invisible call motive, biographical dialogue, similar choices, and weak scene tension. The later rigid checklist has since been replaced with the core constraints in `AGENTS.md`.
 - Human review queue: 项羽为唯一已确认基准；其他既有角色剧情全部退回重做。顺序固定为刘邦、韩信、陈胜、孔子、勾践、蔺相如、廉颇、屈原、荆轲、李广、司马迁、苏轼、黄庭坚、王安石、李清照、诸葛亮、陶渊明、李白、杜甫；一次交付一人，用户确认后才能继续。当前正在研究并重写刘邦。
-- Full-cast rewrite gate: `AGENTS.md` 已把历次剧情迭代合并为十项强制验收表；`scripts/audit_story_quality.js` 检查四幕数量、callReason、节拍、玩家选项、问答相邻、史册与传记口播风险。全角色扩写必须逐人通过，不允许一次性套模板。
+- Story writing principles: `AGENTS.md` 已将剧情规则整理为史实诚实、角色当下感、玩家真实参与、选择有区别、人物关系对白和历史可懂性等核心约束；拍数、选项分类和幕结构不作机械模板。项羽写法分析见 `docs/story-writing-research.md`，刘邦计划见 `docs/liubang-four-act-rewrite-plan.md`。
 - Player-authored insight: 玩家选项可先说出角色尚未形成的关键判断，角色当场接受/反驳并可跨幕回想；项羽第一幕“剑不能告诉你兵从哪里来”已从角色自悟改为玩家选项。全人物待按默认四幕（可六/八幕、非线性和多次反转）补全。
 - Human-dialogue rewrite: 用户确认现有剧情存在“假装成第一人称的第三人称叙述”；`AGENTS.md` 已固化反传记口播、反自我分析、简单动词、单拍单信息、背景外置等规则，项羽第一幕已按暗室当下事件重写，等待人工体验。
-- Question-choice invariant: 角色对玩家的问句下一拍必须为 `choice`；现有直接提问已补选项，引述/反问/自问已改为间接表达；`scripts/validate_storycalls.js` 提供自动门禁。
-- Call motivation model: 每一幕来电新增 `callReason`，固定分析触发事件、主导情绪、显性需要、隐性需要和玩家关系角色；项羽四幕选项已从采访式提问改为共鸣、安慰、建议、反驳和陪伴。
+- Dialogue interaction guidance: 玩家直接受邀回应时应自然给出选项；问句与选项的相邻关系是写作参考，不作为所有文本的机械格式。旧校验脚本仅作问题提示，不能替代人工判断。
+- Call motivation model: `callReason` fields can capture trigger, emotion, need, and player role as planning aids; scenes should make the motive perceptible without mechanically voicing those fields. Xiang Yu’s choices use varied relationship responses.
 - Xiang Yu personal-story rewrite: 原四幕“大事记对白”已完全替换；当前四幕为“然后呢 / 三日以后 / 玉玦在手 / 最后一条船”，以不肯低头、领兵责任、拒绝暗算、无法面对辜负逐层认识人物。
 - Moments translation rule: 朋友圈翻译卡片只读取 `心理 OS：` 后的正文，不再同时显示字面译文、表面状态或“心里话/心理”标签；项羽相关译文已压缩为短句。
-- Narrative expansion: 项羽四幕均扩写为独立的“起—承—转—合”，幕尾留下具体问题，下一幕前六拍用旧台词、旧承诺或旧物件回钩；四幕总节拍为 43/39/47/62，分支均收敛至史实。
+- Xiang Yu structure notes: 已确认稿通过现场冲突、玩家提出认识、旧问题跨幕回响和选择代价形成弧线；这些是写法参照，不要求其他角色复制相同段落或拍数。
 - Character expansion: 依据《史记》新增张良、萧何、商鞅、孙膑、伍子胥、霍去病；每人已具档案、朋友圈原文锚点、单句语气翻译、三项普通聊天、地点关系和独立好友回应。
 - Research sources: 已实际读取代号鸢 BWiki 主线目录、花亦山 TapTap 长评、燕云十六声官网、公开编剧结构分析，以及维基文库《史记》卷五十三、五十五、六十五、六十六、六十八、一百一十一。仅迁移钩子、递进、转折、关系变化等叙事方法，不复制商业游戏文案和专属名词。
 - Friend deletion: 人物资料页好友状态按钮已改为“删除好友”，通过页面内统一确认层二次确认；删除写回账号隔离的好友 localStorage，保留既有申请历史。

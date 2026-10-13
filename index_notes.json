@@ -9,5 +9,7 @@
   "CHANGELOG.md": "Decision and version history",
   "VERSIONS.md": "Stable version index with human judgments",
   "blacklist.json": "Failed parameters (permanent bans)",
-  "whitelist.json": "Verified parameters (preferred baselines)"
+  "whitelist.json": "Verified parameters (preferred baselines)",
+  "docs/story-writing-research.md": "Story writing research and Xiang Yu reference",
+  "docs/liubang-four-act-rewrite-plan.md": "Liu Bang four-act rewrite plan"
 }
