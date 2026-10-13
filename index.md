@@ -78,3 +78,4 @@ Changes: Initial scaffold.
 ## Narrative writing references
 - [story-writing-research.md](docs/story-writing-research.md) — 项羽已确认剧情拆解与迁移原则
 - [liubang-four-act-rewrite-plan.md](docs/liubang-four-act-rewrite-plan.md) — 刘邦四幕重写计划与逐幕分析表
+- [character-analysis-catalog.md](docs/character-analysis-catalog.md) — 全部既有角色的五项剧情人物分析表
