@@ -30,6 +30,7 @@ rolled back.
 | 刘邦四幕重写 v6.7 | 角色来电剧情 | no / REJECTED | human | `data/storycalls.js` / 本轮对话 | 用户指出选项把“支持/阻止/追问”机械写成角色征询赞成与否，整体仍有较大问题；不得沿用为正文基准 |
 | 刘邦第一幕草稿 v6.8 | 角色来电剧情 | no / EXPERIMENTAL | ai | `data/storycalls.js` / GitHub Pages | 丰西泽放徒正文等待用户审阅；第二至四幕正文未写 |
 | 刘邦第一幕聊天展示稿 | 角色来电剧情 | no / REJECTED | human | 本轮对话 | 未将情绪落实到语气词、标点与句式结构；不写入代码，不得作为后续文本基准。 |
+| 刘邦《空锁链》展示稿 | 角色来电剧情 | no / REJECTED | human | 本轮对话 | 现代通用口语、主题句与说明依赖过重，没有人物身份口舌和可演的当下攻防；不写入代码，不得作为后续文本基准。 |
 | 刘邦第二至四幕未审稿 | 角色来电剧情 | no / REJECTED | human | commit `767e836`（已由 `ec93ab9` 撤销） | 用户要求拒绝该笔未经审阅的正文提交；不得作为刘邦后续正文、细纲或写法依据。 |
 | 刘邦四幕重新构思 | 角色来电剧情 | no / HUMAN REVIEW | ai | `docs/liubang-four-act-rewrite-plan.md` / 《史记·高祖本纪》《项羽本纪》 | 五项分析表后附玩家位置与细纲；以空锁链、宫门外的车、没喝完的酒杯、第三句没人敢唱重构，正文冻结等待人工审阅。 |
 | 问答相邻自动检查（工作区） | 全部角色来电剧情 | no / EXPERIMENTAL | ai | `scripts/validate_storycalls.js` | 仅作潜在交互断点提示；不作为问号与 choice 必须相邻的写作规则 |
