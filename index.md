@@ -1,7 +1,7 @@
 # Directory Index — 史间 · 微信式历史社交
-<!-- index-meta: record_time=2026-10-12, max_depth=4, max_note_length=60, root_section="## Root layout", changelog_section="## Change log" -->
+<!-- index-meta: record_time=2026-10-13, max_depth=4, max_note_length=60, root_section="## Root layout", changelog_section="## Change log" -->
 
-Record time: 2026-10-12
+Record time: 2026-10-13
 Authority: `AGENTS.md` directory rules + `governance.py index`
 Changes: Initial scaffold.
 
@@ -20,6 +20,10 @@ Changes: Initial scaffold.
 │   ├── [people.js](data/people.js)
 │   ├── [storycalls.js](data/storycalls.js)
 │   └── [translations.js](data/translations.js)
+├── [docs/](docs)
+│   ├── [character-analysis-catalog.md](docs/character-analysis-catalog.md)
+│   ├── [liubang-four-act-rewrite-plan.md](docs/liubang-four-act-rewrite-plan.md) — Liu Bang four-act rewrite plan
+│   └── [story-writing-research.md](docs/story-writing-research.md) — Story writing research and Xiang Yu reference
 ├── [img/](img)
 │   └── [scenes/](img/scenes)
 │       ├── [boat.svg](img/scenes/boat.svg)

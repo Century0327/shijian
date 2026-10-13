@@ -3,6 +3,9 @@
 Updated: 2026-10-13
 
 ## In-progress work（进行中任务，优先交接）
+- **全量正文退回（2026-10-13）**：已同步最新主干 `01fda8b` 并比较刘邦 v6.6-v6.8、被回退稿与当前项羽/旧式角色稿。`data/storycalls.js` 的20位角色、29幕正文全部标记为 REWRITE REQUIRED；保留 ID、史实锚点、年代地点、场景候选和五项分析素材，任何现有台词/选项都不作为默认基线。
+- **玩家关系硬门槛（2026-10-13）**：角色主动来电是因为仍有判断、矛盾或代价需要玩家参与；玩家是平等关系对象，不是听众、部下或学生。禁用“别说话/你先听/先别出声/别问/我没答或应”“你倒/算你”及同功能的压制、评分、说教句式。人物可以回避事实，但必须回应玩家这句话。
+- **资料复核（2026-10-13）**：已实际打开 Michael David 对白笔记、Scripta 潜台词、Wikipedia Manual of Style / Writing better articles、国学导航《史记·高祖本纪》。曹禺材料在提交 `01fda8b` 中记录为已读；本次未取得稳定公开全文直链，因此不新增原文引语。
 - **全角色分析表（2026-10-13）**：用户要求停止剧情正文，只按治理文件补齐人物分析。`docs/character-analysis-catalog.md` 已覆盖 `storycalls.js` 的20位角色、29个既有节点，字段仅为情景、性格、情绪、目的、知识边界；不得将分析词直接写进台词。
 - **人物分析审阅框架（2026-10-13）**：用户要求恢复既定首层表，且必须严格按“情景、性格、情绪、目的、知识边界”五项提交；不得用人物弧/玩家位置/矛盾/史实锚点等通用编剧表替代。后四项仅作补充分析。规则已写入 `AGENTS.md`，刘邦四幕已据此重填，正文冻结等待用户审阅。
 - **刘邦四幕重新构思（2026-10-13）**：此前“把选择交还给人”的单线方案已废弃；当前只待审的四个场景为“空锁链 / 宫门外的车 / 一只没喝完的酒杯 / 第三句没人敢唱”。计划含五项分析、玩家位置和细纲，未写正文。
@@ -15,16 +18,16 @@ Updated: 2026-10-13
 - **不得把检查项念成台词（2026-10-13）**：第五展示稿已拒绝，“有人问我……我没答”是把来电动机、钩子与背景硬写成自述。后续先写人物行动与口舌、朗读，再用规则复核；动机只可由不挂电话、回避/松口、关系反应和行动后果显出。
 - **情绪语言执行（2026-10-13）**：情绪必须逐句经语气词、标点、句式、称谓、句长与停顿进入人物声音；不可只写在分析表、舞台说明或抽象总结中。语气要有角色与处境依据，不能把省略号、感叹号或口语词当通用贴纸。用户新增的写作要求必须同步进入治理文件或角色计划。刚展示的刘邦第一幕因此拒绝，不入代码。
 - **潜台词与多功能台词（2026-10-13）**：正文不得描述或命名情绪；角色与玩家每句台词都要有表层行动与语境可读的潜层，且至少承担两项功能（人物/关系、行动、必要背景、目的遮掩或揭露、信息位置、后续压力）。信息随时代认知、关系和利害流动。已读 Scripta、LitMemo、如鸢与燕云公开入口；代号鸢 BWiki 明示禁止 AI 训练，不提取其文本。详见 `docs/story-writing-research.md`。
-- Liu Bang v6.8 act one draft: 丰西泽放徒正文已写入 `data/storycalls.js` 并推送待 Pages 审阅；本幕选项由玩家主动回应，不使用赞成调查。第二至第四幕仍暂停，等待用户审阅第一幕后再按分析/细纲/正文阶段继续；刘邦通过前不开始韩信。
+- Liu Bang v6.8 act one draft: 丰西泽放徒正文仍存在于 `data/storycalls.js`，但已在本次关系审计中退回，不再等待通过，也不得作为后续正文基线；刘邦四幕只保留史实、场景构想和分析素材。
 - **Rejected prose commit**: commit `767e836` (Liu Bang acts two through four) was expressly rejected by the user and reverted in `ec93ab9`. Do not use it as a source, baseline, or review candidate.
 - Liu Bang v6.6 was rejected for unclear novice context, invisible call motive, biographical dialogue, similar choices, and weak scene tension. The later rigid checklist has since been replaced with the core constraints in `AGENTS.md`.
-- Human review queue: 项羽为唯一已确认基准；其他既有角色剧情全部退回重做。顺序固定为刘邦、韩信、陈胜、孔子、勾践、蔺相如、廉颇、屈原、荆轲、李广、司马迁、苏轼、黄庭坚、王安石、李清照、诸葛亮、陶渊明、李白、杜甫；逐人完成史料分析、细纲、审阅、正文、审阅。当前刘邦已完成分析和细纲。
+- Human review queue: 项羽此前确认过的只保留为结构历史记录，逐句对白已随29幕正文一并退回；全部角色都须重做。顺序固定为项羽、刘邦、韩信、陈胜、孔子、勾践、蔺相如、廉颇、屈原、荆轲、李广、司马迁、苏轼、黄庭坚、王安石、李清照、诸葛亮、陶渊明、李白、杜甫；逐人完成史料分析、利益关系、细纲、审阅、正文、审阅。
 - Story writing principles: `AGENTS.md` 已将剧情规则整理为史实诚实、角色当下感、玩家真实参与、选择有区别、人物关系对白和历史可懂性等核心约束；拍数、选项分类和幕结构不作机械模板。项羽写法分析见 `docs/story-writing-research.md`，刘邦计划见 `docs/liubang-four-act-rewrite-plan.md`。
 - Player-authored insight: 玩家选项可先说出角色尚未形成的关键判断，角色当场接受/反驳并可跨幕回想；项羽第一幕“剑不能告诉你兵从哪里来”已从角色自悟改为玩家选项。全人物待按默认四幕（可六/八幕、非线性和多次反转）补全。
 - Human-dialogue rewrite: 用户确认现有剧情存在“假装成第一人称的第三人称叙述”；`AGENTS.md` 已固化反传记口播、反自我分析、简单动词、单拍单信息、背景外置等规则，项羽第一幕已按暗室当下事件重写，等待人工体验。
 - Dialogue interaction guidance: 玩家直接受邀回应时应自然给出选项；问句与选项的相邻关系是写作参考，不作为所有文本的机械格式。旧校验脚本仅作问题提示，不能替代人工判断。
 - Call motivation model: `callReason` fields can capture trigger, emotion, need, and player role as planning aids; scenes should make the motive perceptible without mechanically voicing those fields. Xiang Yu’s choices use varied relationship responses.
-- Xiang Yu personal-story rewrite: 原四幕“大事记对白”已完全替换；当前四幕为“然后呢 / 三日以后 / 玉玦在手 / 最后一条船”，以不肯低头、领兵责任、拒绝暗算、无法面对辜负逐层认识人物。
+- Xiang Yu personal-story rewrite: “然后呢 / 三日以后 / 玉玦在手 / 最后一条船”的事件选择和跨幕回响可作结构素材；现有台词含压住玩家及居高临下句式，已全部退回。
 - Moments translation rule: 朋友圈翻译卡片只读取 `心理 OS：` 后的正文，不再同时显示字面译文、表面状态或“心里话/心理”标签；项羽相关译文已压缩为短句。
 - Xiang Yu structure notes: 已确认稿通过现场冲突、玩家提出认识、旧问题跨幕回响和选择代价形成弧线；这些是写法参照，不要求其他角色复制相同段落或拍数。
 - Character expansion: 依据《史记》新增张良、萧何、商鞅、孙膑、伍子胥、霍去病；每人已具档案、朋友圈原文锚点、单句语气翻译、三项普通聊天、地点关系和独立好友回应。
