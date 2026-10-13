@@ -31,7 +31,7 @@ rolled back.
 | 刘邦第一幕草稿 v6.8 | 角色来电剧情 | no / EXPERIMENTAL | ai | `data/storycalls.js` / GitHub Pages | 丰西泽放徒正文等待用户审阅；第二至四幕正文未写 |
 | 刘邦第一幕聊天展示稿 | 角色来电剧情 | no / REJECTED | human | 本轮对话 | 未将情绪落实到语气词、标点与句式结构；不写入代码，不得作为后续文本基准。 |
 | 刘邦第二至四幕未审稿 | 角色来电剧情 | no / REJECTED | human | commit `767e836`（已由 `ec93ab9` 撤销） | 用户要求拒绝该笔未经审阅的正文提交；不得作为刘邦后续正文、细纲或写法依据。 |
-| 刘邦四幕五项分析表 | 角色来电剧情 | no / HUMAN REVIEW | ai | `docs/liubang-four-act-rewrite-plan.md` / 《史记·高祖本纪》《项羽本纪》 | 审阅首层固定为情景、性格、情绪、目的、知识边界；其后才补来电、玩家、矛盾、史实。正文冻结，等待人工审阅。 |
+| 刘邦四幕重新构思 | 角色来电剧情 | no / HUMAN REVIEW | ai | `docs/liubang-four-act-rewrite-plan.md` / 《史记·高祖本纪》《项羽本纪》 | 五项分析表后附玩家位置与细纲；以空锁链、宫门外的车、没喝完的酒杯、第三句没人敢唱重构，正文冻结等待人工审阅。 |
 | 问答相邻自动检查（工作区） | 全部角色来电剧情 | no / EXPERIMENTAL | ai | `scripts/validate_storycalls.js` | 仅作潜在交互断点提示；不作为问号与 choice 必须相邻的写作规则 |
 | 史记人物与长篇节奏扩充（工作区） | 四幕剧情 / 六名角色资料 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `data/people.js` / `data/moments.js` | 项羽四幕已补幕间衔接；六名角色完成基础交互数据，等待 Pages 人工验收 |
 | 项羽人物个人剧情重写（工作区） | 四幕角色来电剧情 / 朋友圈翻译 | no / EXPERIMENTAL | ai | `data/storycalls.js` / `data/moments.js` / `js/app.js` | 围绕“然后呢”重写人物认识弧线；等待 Pages 人工体验确认 |
