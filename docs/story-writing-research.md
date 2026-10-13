@@ -39,6 +39,9 @@
 - Theatrefolk，Karen Loftus，《[Playwriting](https://www.theatrefolk.com/dta_units/playwriting.pdf)》课程单元：已下载并阅读。课程以角色、目标（objective）、障碍（obstacles）、策略（tactics）、解决和提高赌注组织，另设对白、舞台提示、角色对白与发展、时间/地点/行动统一等课。
 - Centerstage / Pennsylvania State University，《[Teaching Playwriting in Schools: Teacher’s Handbook](https://5210.psu.edu/wp-content/uploads/2018/06/06playwrightshandbook.pdf)》：已下载并阅读相关章节。手册要求将场景朗读、排演来发现问题；以对白和行动透露信息，避免叙述者；检查人物是否说出有特征的话、是否有清晰目标、障碍和牺牲，冲突是否没有过早解决；强调场景须让观众好奇“接下来会发生什么”。
 - Brigham Young University Theatre Education，《[Lesson 5 – Conflict](https://tedb.byu.edu/playwriting/lesson-5-conflict)》：已打开并阅读。该课把冲突具体化为两个角色为同一有价值物争夺，并用“他们各自为什么要它、此刻为何特殊、彼此是什么关系、地点在哪里”建立赌注；冲突要升级、达到转折、再转化或解决。
+- 曹禺，《关于剧本创作的两次讲话》（1950/1951，鲁煤速记，刊《文艺报》）：已打开并通读。要点：戏是给观众看的，一切技术从观众出发；「话是动作，对话不是叙述」，回叙要在动作中说；写的是事件眼前发生，不是人物彼此交代过去；要懂得暗示，用伏线唤起预感；“一门戏要清楚、有兴趣、结构统一”；台词应有节奏与音乐性，写得出、演得出。
+- Michael David，《[Some Notes on Writing Dialogue](https://www.michaeldavidplays.com/post/some-notes-on-writing-dialogue)》（Playwriting 101）：已打开并通读。可迁移结论：台词是行动，每句都在争取、阻挡、决定或改写权力；角色不为向观众说明而开口；人物很少正面回答问题（回避、反问、转移、答非所问）；权力活在节奏中（谁打断、谁换话题、谁逼出沉默、谁最后说）；潜台词来自“不能当众说出口的”羞耻、欲望、恐惧；对白必须可被身体朗读，重复与语法省略都自然；每个角色有“语言指纹”（句长、比喻习惯、玩笑或回避、确定或保留）；好对白制造麻烦，把人物逼到墙角。
+- Wikipedia《[Manual of Style](https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style)》与《[Writing better articles](https://en.wikipedia.org/wiki/Wikipedia:Writing_better_articles)》：已读“清晰与简洁”原则——只保留必要的词，“有力的写作是简洁的”，避免浮夸、模糊与不必要的复杂度。本项目只迁移这一编辑原则到对白的删改，不迁移百科体裁。
 
 ### 本项目从话剧教材迁移的审稿方法
 
