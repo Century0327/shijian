@@ -6,7 +6,8 @@ window.SHIJIAN_DATA.meta = {
   range: [-815, 1115],      // 时间轴可拖动范围（负数 = 公元前）
   defaultYear: 1082,        // 初始落点：北宋元丰五年
   tickStep: 5,              // 年轮刻度间隔（年）
-  playInterval: 2600        // 播放模式：每站停留毫秒数
+  playInterval: 2600,       // 纵览模式：单个代表点的最长停留毫秒数
+  playDuration: 20000       // 纵览模式：完整播放最长 20 秒
 };
 window.SHIJIAN_DATA.eras = [
   { name: '春秋', start: -770, end: -476 },

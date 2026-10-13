@@ -12,7 +12,8 @@ let st = {
   year: meta.range?.[0] || meta.defaultYear || 1082, month: '四月', day: 5,
   person: '苏轼', chatLog: {},
   likes: new Set(), commentLikes: new Set(), userComments: {}, patCount: {},
-  momentOwner: null, momentEra: null, activeSlice: null, playing: false, playTimer: null
+  momentOwner: null, momentEra: null, activeSlice: null, playing: false, playTimer: null,
+  playQueue: [], playIndex: 0, playInterval: 0
 };
 const MOMENT_VIEW_KEY = 'shijian.moments.view.v1';
 try {
@@ -166,6 +167,7 @@ function renderEraChips() {
     `<button data-era="${i}" class="${st.year >= e.start && st.year <= e.end ? 'active' : ''}">${esc(e.name)}</button>`
   ).join('');
   $$('#eraChips [data-era]').forEach(b => b.onclick = () => {
+    if (st.playing) setPlaying(false);
     const e = eras[Number(b.dataset.era)];
     if (st.momentEra === Number(b.dataset.era)) {
       st.momentEra = null; saveMomentView(); renderEraChips(); renderMoments();
@@ -173,7 +175,8 @@ function renderEraChips() {
       return;
     }
     st.momentEra = Number(b.dataset.era);
-    jumpTo(store.nearestStationInEra(e), { scroll: true });
+    const firstMoment = store.getMomentYears({ min: e.start, max: e.end })[0];
+    jumpTo(firstMoment ?? e.start, { scroll: true });
     toast(`跳到 ${e.name}（${store.formatYear(e.start)}—${store.formatYear(e.end)}）`);
   });
 }
@@ -273,9 +276,7 @@ function rerenderCurrentList() {
 }
 
 function renderMoments() {
-  const base = st.momentEra == null ? store.getMoments({ year: st.year }) : store.getMoments({ year: null });
-  const era = st.momentEra == null ? null : store.getEras()[st.momentEra];
-  const res = era ? { ...base, posts: base.posts.filter(p => p.year >= era.start && p.year <= era.end) } : base;
+  const res = store.getMoments({ year: st.year });
   $('#momentsCoverSub').textContent = `${store.formatYear(st.year)} 年 · ${store.eraOf(st.year)}`;
   updateDateLabel();
   let head = '';
@@ -541,21 +542,57 @@ function goMoments() {
   renderMoments();
 }
 
-/* ---------- 播放模式：只按下一条朋友圈所在年份推进 ---------- */
+/* ---------- 20 秒朝代纵览：每个时代最多播放首、尾两个朋友圈年份 ---------- */
 function setPlaying(on) {
+  clearTimeout(st.playTimer);
+  st.playTimer = null;
   st.playing = on;
   const b = $('#momentPlay');
-  if (b) { b.textContent = on ? '⏸ 暂停' : '▶ 播放'; b.classList.toggle('playing', on); }
-  clearInterval(st.playTimer);
-  if (on) {
-    st.playTimer = setInterval(stepPlay, meta.playInterval || 2600);
+  if (!on) {
+    st.playQueue = [];
+    st.playIndex = 0;
+    if (b) { b.textContent = '▶ 20秒纵览'; b.classList.remove('playing'); }
+    updateDateLabel();
+    return;
   }
+  const era = st.momentEra == null ? null : store.getEras()[st.momentEra];
+  st.playQueue = store.getMomentTourYears({ era });
+  st.playIndex = 0;
+  if (!st.playQueue.length) {
+    setPlaying(false);
+    toast(era ? `${era.name}还没有朋友圈` : '还没有可播放的朋友圈');
+    return;
+  }
+  const budget = Math.min(20000, Number(meta.playDuration) || 20000);
+  st.playInterval = Math.min(Number(meta.playInterval) || 2600, Math.floor((budget - 400) / st.playQueue.length));
+  if (b) b.classList.add('playing');
+  showTourPoint();
 }
 function stepPlay() {
-  const era = st.momentEra == null ? null : store.getEras()[st.momentEra];
-  const ns = store.nextMomentYear(st.year, era ? { min: era.start, max: era.end } : {});
-  if (ns == null) { setPlaying(false); toast(era ? `已播放完${era.name}的朋友圈` : '已播放到最后一条朋友圈'); return; }
-  jumpTo(ns);
+  if (!st.playing) return;
+  if (st.playIndex >= st.playQueue.length) {
+    const era = st.momentEra == null ? null : store.getEras()[st.momentEra];
+    setPlaying(false);
+    toast(era ? `已纵览${era.name}的朋友圈` : '已在 20 秒内纵览完整条时间轴');
+    return;
+  }
+  showTourPoint();
+}
+function showTourPoint() {
+  const year = st.playQueue[st.playIndex++];
+  jumpTo(year);
+  const total = st.playQueue.length;
+  const current = st.playIndex;
+  const b = $('#momentPlay');
+  if (b) b.textContent = `⏸ ${current}/${total}`;
+  $('#momentDateLabel').textContent = `纵览 ${current}/${total} · ${store.formatYear(year)} 年 · ${store.eraOf(year)}`;
+  const list = $('#momentsList');
+  if (list) {
+    list.classList.remove('playback-change');
+    void list.offsetWidth;
+    list.classList.add('playback-change');
+  }
+  st.playTimer = setTimeout(stepPlay, st.playInterval);
 }
 function stationStep(dir) {
   const target = dir > 0 ? store.nextStation(st.year) : store.prevStation(st.year);

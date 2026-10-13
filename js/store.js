@@ -10,7 +10,7 @@
    调用 ShiJianStore.useAdapter(adapter) 即可整体替换数据源，
    UI 层（js/app.js）一行都不用改：
 
-     meta()        => {app, version, range:[min,max], defaultYear, tickStep, playInterval}
+     meta()        => {app, version, range:[min,max], defaultYear, tickStep, playInterval, playDuration}
      eras()        => [{name, start, end}, ...]
      people()      => [{id,name,avatar,cls,era,life,lifeText,title,bio,relations,books,hook}, ...]
      person(id)    => 按 id 或 name 查单个人物（可返回 Promise）
@@ -101,6 +101,18 @@
   }
   function nextMomentYear(year, opt = {}) {
     return getMomentYears(opt).find(y => y > Number(year)) ?? null;
+  }
+  /* 20 秒纵览：每个时代只取有朋友圈年份的首、尾两个代表点。 */
+  function getMomentTourYears(opt = {}) {
+    const eras = opt.era ? [opt.era] : adapter.eras();
+    const picked = [];
+    eras.forEach(era => {
+      const years = getMomentYears({ owner: opt.owner, min: era.start, max: era.end });
+      if (!years.length) return;
+      picked.push(years[0]);
+      if (years.length > 1) picked.push(years[years.length - 1]);
+    });
+    return [...new Set(picked)].sort((a, b) => a - b);
   }
   function nearestStationInEra(era) {
     const s = getStations().filter(x => x.year >= era.start && x.year <= era.end);
@@ -205,7 +217,7 @@
     getEras: () => adapter.eras(),
     getPeople: () => adapter.people(),
     getPerson: (id) => adapter.person(id),
-    getEvents, getMoments, getStations, nextStation, prevStation, getMomentYears, nextMomentYear, nearestStationInEra, peekFirstPost,
+    getEvents, getMoments, getStations, nextStation, prevStation, getMomentYears, nextMomentYear, getMomentTourYears, nearestStationInEra, peekFirstPost,
     getChatScript, translate,
     getMomentById, getStoryEntries, markActRead, isActRead, actProgress, getNextAct, isFanficUnlocked, getFanfic,
     isFriend, addFriend, removeFriend, getFriends, requestFriend, getFriendRequests, resolveFriendRequest, setFriendRequestReason, respondFriendRequest,
