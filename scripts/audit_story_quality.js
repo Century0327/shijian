@@ -34,7 +34,7 @@ for (const [character, group] of Object.entries(data)) {
       if (/[？?]\s*$/.test(text) && script[index + 1]?.t !== 'choice') {
         failures.push(`${label} 第 ${index + 1} 拍: 角色提问后未紧随 choice`);
       }
-      if (/^(我叫|我是).{0,18}(字|号|人|官|今年)/.test(text)) {
+      if (/^我是.{0,18}(字|号|人|官|今年)/.test(text) || /^我叫[\u4e00-\u9fa5]{2,4}[，。]/.test(text)) {
         warnings.push(`${label} 第 ${index + 1} 拍: 疑似传记口播「${text.slice(0, 28)}」`);
       }
     });
