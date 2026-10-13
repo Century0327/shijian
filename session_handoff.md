@@ -4,6 +4,7 @@ Updated: 2026-10-13
 
 ## In-progress work（进行中任务，优先交接）
 - **人物分析审阅框架（2026-10-13）**：用户要求恢复既定首层表，且必须严格按“情景、性格、情绪、目的、知识边界”五项提交；不得用人物弧/玩家位置/矛盾/史实锚点等通用编剧表替代。后四项仅作补充分析。规则已写入 `AGENTS.md`，刘邦四幕已据此重填，正文冻结等待用户审阅。
+- **情绪语言执行（2026-10-13）**：情绪必须逐句经语气词、标点、句式、称谓、句长与停顿进入人物声音；不可只写在分析表、舞台说明或抽象总结中。语气要有角色与处境依据，不能把省略号、感叹号或口语词当通用贴纸。用户新增的写作要求必须同步进入治理文件或角色计划。刚展示的刘邦第一幕因此拒绝，不入代码。
 - Liu Bang v6.8 act one draft: 丰西泽放徒正文已写入 `data/storycalls.js` 并推送待 Pages 审阅；本幕选项由玩家主动回应，不使用赞成调查。第二至第四幕仍暂停，等待用户审阅第一幕后再按分析/细纲/正文阶段继续；刘邦通过前不开始韩信。
 - **Rejected prose commit**: commit `767e836` (Liu Bang acts two through four) was expressly rejected by the user and reverted in `ec93ab9`. Do not use it as a source, baseline, or review candidate.
 - Liu Bang v6.6 was rejected for unclear novice context, invisible call motive, biographical dialogue, similar choices, and weak scene tension. The later rigid checklist has since been replaced with the core constraints in `AGENTS.md`.
