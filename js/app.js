@@ -541,20 +541,20 @@ function goMoments() {
   renderMoments();
 }
 
-/* ---------- 播放模式（参考「历史年轮」一年一年动态体验） ---------- */
+/* ---------- 播放模式：只按下一条朋友圈所在年份推进 ---------- */
 function setPlaying(on) {
   st.playing = on;
   const b = $('#momentPlay');
   if (b) { b.textContent = on ? '⏸ 暂停' : '▶ 播放'; b.classList.toggle('playing', on); }
   clearInterval(st.playTimer);
   if (on) {
-    stepPlay();
     st.playTimer = setInterval(stepPlay, meta.playInterval || 2600);
   }
 }
 function stepPlay() {
-  const ns = store.nextStation(st.year);
-  if (ns == null) { setPlaying(false); toast('已到时间轴尽头——再按一次播放，从头再来'); return; }
+  const era = st.momentEra == null ? null : store.getEras()[st.momentEra];
+  const ns = store.nextMomentYear(st.year, era ? { min: era.start, max: era.end } : {});
+  if (ns == null) { setPlaying(false); toast(era ? `已播放完${era.name}的朋友圈` : '已播放到最后一条朋友圈'); return; }
   jumpTo(ns);
 }
 function stationStep(dir) {

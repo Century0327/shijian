@@ -21,6 +21,7 @@ rolled back.
 
 | Version | Series | Stable? | Judge | Evidence link | Notes |
 |---|---|---|---|---|---|
+| 朋友圈播放 v6.3 | 时间轴自动播放 | no / HUMAN REVIEW | human / ai | `js/store.js` / `js/app.js` | 按朋友圈实际年份推进并尊重时代筛选；等待 Pages 人工体验确认。 |
 | 公共角色资料扩展 v6.1 | 角色档案与非剧情互动 | no / HUMAN REVIEW | human / ai | `data/people.js` / `data/moments.js` / `data/chats.js` / `data/locations.js` | 新增 12 位角色并补齐公共资料；未修改 `data/storycalls.js`，史料边界与古今地点对应等待人工抽查。 |
 | v5.3（commit c29dd23） | 前端原型基线 | yes | human | git c29dd23 / Pages built | 用户确认修复 3 处接线后提交；冒烟测试通过 |
 | v5.3-fix（接线补齐） | index.html 旧版 → 新版 | yes | human | 对话确认记录 | 补 #coVoice 按钮 + voice.js 引用，修复启动崩溃 |

@@ -92,6 +92,16 @@
 
   function nextStation(year) { const s = getStations().filter(x => x.year > year); return s.length ? s[0].year : null; }
   function prevStation(year) { const s = getStations().filter(x => x.year < year); return s.length ? s[s.length - 1].year : null; }
+  function getMomentYears(opt = {}) {
+    let posts = allPosts();
+    if (opt.owner) posts = posts.filter(p => p.person === opt.owner);
+    const min = opt.min == null ? -Infinity : Number(opt.min);
+    const max = opt.max == null ? Infinity : Number(opt.max);
+    return [...new Set(posts.map(p => p.year).filter(y => y >= min && y <= max))].sort((a, b) => a - b);
+  }
+  function nextMomentYear(year, opt = {}) {
+    return getMomentYears(opt).find(y => y > Number(year)) ?? null;
+  }
   function nearestStationInEra(era) {
     const s = getStations().filter(x => x.year >= era.start && x.year <= era.end);
     return s.length ? s[0].year : era.start;
@@ -195,7 +205,7 @@
     getEras: () => adapter.eras(),
     getPeople: () => adapter.people(),
     getPerson: (id) => adapter.person(id),
-    getEvents, getMoments, getStations, nextStation, prevStation, nearestStationInEra, peekFirstPost,
+    getEvents, getMoments, getStations, nextStation, prevStation, getMomentYears, nextMomentYear, nearestStationInEra, peekFirstPost,
     getChatScript, translate,
     getMomentById, getStoryEntries, markActRead, isActRead, actProgress, getNextAct, isFanficUnlocked, getFanfic,
     isFriend, addFriend, removeFriend, getFriends, requestFriend, getFriendRequests, resolveFriendRequest, setFriendRequestReason, respondFriendRequest,
