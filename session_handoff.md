@@ -3,8 +3,8 @@
 Updated: 2026-10-13
 
 ## In-progress work（进行中任务，优先交接）
-- Liu Bang four-act text: 第二至四幕正文已按 `docs/liubang-four-act-rewrite-plan.md` 的分析与细纲写入 `data/storycalls.js`（入咸阳与约法、鸿门脱身、沛宫作歌），删除旧稿“你赞不赞成”式问卷选项，改为玩家主动回应加人物分支出声；第一幕一处反问改为陈述。`validate_storycalls.js` 通过，`audit_story_quality.js` 刘邦四幕无硬失败（仅第一幕一处“我叫他们走了”属正则误报）。改动在工作区，未提交推送；等待用户审阅后再定是否上线 Pages。
-- Liu Bang v6.8 act one draft: 丰西泽放徒正文此前已推送 Pages；本工作区稿在此基础上接续第二至四幕。刘邦通过前不开始韩信。
+- **人物分析审阅框架（2026-10-13）**：用户要求恢复既定首层表，且必须严格按“情景、性格、情绪、目的、知识边界”五项提交；不得用人物弧/玩家位置/矛盾/史实锚点等通用编剧表替代。后四项仅作补充分析。规则已写入 `AGENTS.md`，刘邦四幕已据此重填，正文冻结等待用户审阅。
+- Liu Bang v6.8 act one draft: 丰西泽放徒正文已写入 `data/storycalls.js` 并推送待 Pages 审阅；本幕选项由玩家主动回应，不使用赞成调查。第二至第四幕仍暂停，等待用户审阅第一幕后再按分析/细纲/正文阶段继续；刘邦通过前不开始韩信。
 - Liu Bang v6.6 was rejected for unclear novice context, invisible call motive, biographical dialogue, similar choices, and weak scene tension. The later rigid checklist has since been replaced with the core constraints in `AGENTS.md`.
 - Human review queue: 项羽为唯一已确认基准；其他既有角色剧情全部退回重做。顺序固定为刘邦、韩信、陈胜、孔子、勾践、蔺相如、廉颇、屈原、荆轲、李广、司马迁、苏轼、黄庭坚、王安石、李清照、诸葛亮、陶渊明、李白、杜甫；逐人完成史料分析、细纲、审阅、正文、审阅。当前刘邦已完成分析和细纲。
 - Story writing principles: `AGENTS.md` 已将剧情规则整理为史实诚实、角色当下感、玩家真实参与、选择有区别、人物关系对白和历史可懂性等核心约束；拍数、选项分类和幕结构不作机械模板。项羽写法分析见 `docs/story-writing-research.md`，刘邦计划见 `docs/liubang-four-act-rewrite-plan.md`。
