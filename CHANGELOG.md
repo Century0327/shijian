@@ -11,6 +11,7 @@
 
 | Date | Change | Judge | Notes |
 |---|---|---|---|
+| 2026-10-13 | 补录五份参考资料原文摘录入研究文档 | human / ai | 用户指定曹禺《关于剧本创作的两次讲话》、Michael David《Some Notes on Writing Dialogue》、Scripta《潜台词》、Wikipedia Manual of Style / Writing better articles、《史记·高祖本纪》；有效原文摘录已补入 `docs/story-writing-research.md` 附录（供逐句复核引用）。曹禺全文经文艺报/中国作家网取得；Wikipedia 本轮网络不可达，仅录已确认稳定原句并如实标注。 |
 | 2026-10-13 | 全量退回现有29幕剧情正文，并固化平等来电关系 | human / ai | 对比刘邦 v6.6-v6.8、项羽现稿与旧式角色稿；禁止“先听/别问/我没答”“你倒/算你”等压住、训诫或评分玩家的句式。史实锚点、场景与分析素材可复核保留，所有角色台词和玩家选项重写 |
 | 2026-10-13 | 补录情绪驱动、语气变化与人物声音指纹规则 | human / ai | 用户指出重写稿仍缺人物情绪、情绪驱动来电、语气变化与人物特征（性格/地域/当下情绪）；补读曹禺《关于剧本创作的两次讲话》、Michael David 对白笔记与 Wikipedia 写作规范，相关修订写入 AGENTS.md、LESSONS.md、story-writing-research.md |
 | 2026-10-13 | 完成刘邦第一幕正文草稿并推送 Pages 审阅 | ai | 丰西泽放徒；选项作为玩家主动回应而非角色赞成调查；逐支展示人物反应，史料原句与演绎分开标注；第二至四幕继续暂缓 |

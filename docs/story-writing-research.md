@@ -169,3 +169,74 @@
 - 不摘录或改写原作整段台词；只迁移节奏、信息露出顺序和交互结构。
 - 不把玩家选项写成角色对玩家发起的赞成调查。选项必须是玩家在角色处境中主动说的话；具体回应方向由现场需要决定。
 - 不用“心理 OS”、作者旁白或历史百科总结替代角色说话。
+
+---
+
+## 附录：五份参考资料的有效原文摘录（2026-10-13 补录）
+
+> 本附录与上文「只迁移方法、不复制台词」不同：以下为供逐句复核引用的原文，
+> 每条标明出处。本节为写作参考材料，不进入成品对白；仅短段引用，不转录整篇。
+> 史记原文为公版古籍，曹禺讲话、Michael David、Scripta 为公开写作教程之短段引用。
+
+### 1. 曹禺《关于剧本创作的两次讲话》（鲁煤速记，《文艺报》2010-11-22 刊）
+
+来源：<https://wyb.chinawriter.com.cn/Pad/content/201011/22/content19295.html>
+（第一次《关于编剧技巧》1950-01-15；第二次《关于戏剧诸问题》1951-03-09）
+
+- 「戏与其他文学之不同，是在于叫人看，叫观众看。」
+- 「戏，不是告诉的，不是说的（如大鼓），而是演出来的，所以是动作。动作，是重要到极点的，一切要从动作来。」
+- 「对话，是动作。对话，不是叙述。」「话剧的话要少叙述。」
+- 「小仲马说：戏，一要清楚，二要『兴趣』，三要统一。这些要求，都是以观众来的。」
+- 「舞台有它的含蓄性、暗示性；即有时不搬上舞台，倒比搬上好。」「这含蓄，这暗示，就是真实。」
+- 「所以戏要清楚。主题，观众看完后就能说出；故事，十几句话就能讲得出来。多一个角色当然不要；但多一条线索、多一段戏、多一句话也不要。」
+- 「要懂得暗示。你告诉了观众多少，其中暗示了多少——就是伏线多少。以暗示的笔锋，唤起观众预感。」
+- 「顶点，就是高潮。陡转要从这里表现。在高潮前，要逼、逼、逼，把一切往这里集中，举得高、高，而后陡转，摔得才脆。」
+- （1951）「没有感情，爱憎观念不强。」「你要写你容易懂的情绪，你写了自己都不相信的，则不要写。」「『从问题出发』，是太坏的东西。」
+
+### 2. Michael David《Some Notes on Writing Dialogue》
+
+来源：<https://www.michaeldavidplays.com/post/some-notes-on-writing-dialogue>
+
+- “Dialogue is action.” “Every line should do something: pursue a want, block another character, reveal a decision, change the power dynamic.”
+- “If a line could be removed without altering the scene’s trajectory, it’s decorative.”
+- “Characters don’t speak to inform the audience.”
+- “People rarely answer the question they’re asked.” “dodge → counter → redirect.” “Direct answers flatten tension.”
+- “Power lives in rhythm, not words: who interrupts, who changes the subject, who forces silence, who speaks last.”
+- “Subtext is the engine. What matters is what can’t be said: social rules, shame, desire, fear.”
+- “Dialogue must be speakable.” “Read lines aloud. If an actor has to ‘act around’ the language, rewrite it.”
+- “Each character has a verbal fingerprint: sentence length, metaphor habits, humor or avoidance, certainty vs. qualification. If lines can be swapped between characters, the dialogue isn’t finished.”
+- “The best dialogue creates trouble” — “corners characters.”
+
+### 3. Scripta Docs《潜台词》
+
+来源：<https://docs.scriptahq.com/zh/dialogue/subtext/>
+
+- 「潜台词（subtext）是对白表面之下的含义——角色*意思*是什么，而非角色*说了*什么。它是未说出口的真相、隐藏的动机、过于赤裸或过于危险而无法直接表达的情感。」
+- 「每一句对白在两个层面上运作：文本（text）——角色所说的字面话语；潜台词（subtext）——那些话语背后的真实含义、情感或意图。文本与潜台词之间的差距就是戏剧所在之处。差距越大，这句话创造的张力就越大。」
+- 「直白的对白（on-the-nose dialogue）——角色直说自己所想——只在一个维度上运作。潜台词增添了第二个维度。」
+- 技巧五则（原文小标题）：「使用迂回」「使用沉默和停顿」「使用肢体动作」「使用隐喻和类比」「使用误导」；其中「动作揭示了言语所否认的真相」。
+- 「观众应该始终理解一个场景中*正在发生什么*，即使角色没有直接说出来。如果潜台词遮蔽了故事而非加深了故事，你就做得过头了。故事的清晰度是最重要的；潜台词服务于故事，而非反过来。」
+
+### 4. Wikipedia: Manual of Style / Writing better articles
+
+来源：<https://en.wikipedia.org/wiki/Wikipedia:Manual_of_Style>、
+<https://en.wikipedia.org/wiki/Wikipedia:Writing_better_articles>
+
+> 注：本轮沙箱网络无法重新抓取 en.wikipedia.org（代理返回空 / 超时），以下仅录
+> 此前已确认的稳定原句，并标出「简洁」原则的原出处；本节为先前已读结论的回记，
+> 不冒充本轮抓取结果。
+
+- Manual of Style 首句（稳定原句）：“Editors should write articles using straightforward, succinct, easily understood language, and structure articles with consistent, reader-friendly layouts and formatting.”
+- Writing better articles 引用 Strunk & White《The Elements of Style》的简洁结论：“Omit needless words.”（对应中文「删去不必要的词」；同节“Vigorous writing is concise”，即有力写作是简洁的）。
+- 迁移到对白的编辑原则（本项目总结，非原文）：写清楚、写短；凡删去而行动与气质不变的句子一律删；宁用一个具体动作或物件，不用一串形容词与排比。
+
+### 5. 《史记》卷八·高祖本纪（国学导航，正文去三家注）
+
+来源：<http://www.guoxue123.com/shibu/0101/00sj/008.htm>（公版古籍）
+
+- 放徒（丰西泽）：「高祖以亭长为县送徒郦山，徒多道亡。自度比至皆亡之，到丰西泽中，止饮，夜乃解纵所送徒。曰：『公等皆去，吾亦从此逝矣！』徒中壮士愿从者十余人。」
+- 斩蛇：「行前者还报曰：『前有大蛇当径，愿还。』高祖醉，曰：『壮士行，何畏！』乃前，拔剑击斩蛇。蛇遂分为两，径开。」
+- 白帝赤帝：「嫗曰：『吾，白帝子也，化为蛇，当道，今为赤帝子斩之，故哭。』」
+- 约法三章（入关）：「召诸县父老豪桀曰：『父老苦秦苛法久矣，诽谤者族，偶语者弃市。吾与诸侯约，先入关者王之，吾当王关中。与父老约，法三章耳：杀人者死，伤人及盗抵罪。余悉除去秦法，诸吏人皆案堵如故。』」「凡吾所以来，为父老除害，非有所侵暴，无恐！且吾所以还军霸上，待诸侯至而定约束耳。」
+- 鸿门（本纪简笔；详宴在《项羽本纪》卷七）：「沛公左司马曹无伤闻项王怒，欲攻沛公，使人言项羽曰：『沛公欲王关中，令子婴为相，珍宝尽有之。』」「沛公以樊哙、张良故，得解归。归，立诛曹无伤。」
+- 大风歌：「高祖还归，过沛，留。置酒沛宫……酒酣，高祖击筑，自为歌诗曰：『大风起兮云飞扬，威加海内兮归故乡，安得猛士兮守四方！』……高祖乃起舞，慷慨伤怀，泣数行下。谓沛父兄曰：『游子悲故乡。吾虽都关中，万岁后吾魂魄犹乐思沛。』」
