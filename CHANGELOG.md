@@ -11,6 +11,7 @@
 
 | Date | Change | Judge | Notes |
 |---|---|---|---|
+| 2026-10-13 | 扩展 12 位公共角色资料并清理过期治理规则 | human / ai | 按用户要求只扩展档案、朋友圈及短译、普通聊天、地点和好友回应，不新增角色来电剧情；人物总数由 26 增至 38。“附近”省市区改从地点数据生成，并按当前年份解析同一现代地点的历史古称。`AGENTS.md` 合并重复条款；`session_handoff.md` 删除失效状态。 |
 | 2026-10-13 | 补录五份参考资料原文摘录入研究文档 | human / ai | 用户指定曹禺《关于剧本创作的两次讲话》、Michael David《Some Notes on Writing Dialogue》、Scripta《潜台词》、Wikipedia Manual of Style / Writing better articles、《史记·高祖本纪》；有效原文摘录已补入 `docs/story-writing-research.md` 附录（供逐句复核引用）。曹禺全文经文艺报/中国作家网取得；Wikipedia 本轮网络不可达，仅录已确认稳定原句并如实标注。 |
 | 2026-10-13 | 全量退回现有29幕剧情正文，并固化平等来电关系 | human / ai | 对比刘邦 v6.6-v6.8、项羽现稿与旧式角色稿；禁止“先听/别问/我没答”“你倒/算你”等压住、训诫或评分玩家的句式。史实锚点、场景与分析素材可复核保留，所有角色台词和玩家选项重写 |
 | 2026-10-13 | 补录情绪驱动、语气变化与人物声音指纹规则 | human / ai | 用户指出重写稿仍缺人物情绪、情绪驱动来电、语气变化与人物特征（性格/地域/当下情绪）；补读曹禺《关于剧本创作的两次讲话》、Michael David 对白笔记与 Wikipedia 写作规范，相关修订写入 AGENTS.md、LESSONS.md、story-writing-research.md |

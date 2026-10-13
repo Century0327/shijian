@@ -80,6 +80,6 @@ Changes: Initial scaffold.
 > 本文件的 Change log 只是 `CHANGELOG.md` 的镜像，决策与状态变化以 `CHANGELOG.md` 为唯一事实源。
 
 ## Narrative writing references
-- [story-writing-research.md](docs/story-writing-research.md) — 项羽已确认剧情拆解与迁移原则
+- [story-writing-research.md](docs/story-writing-research.md) — 剧情关系审计、对白研究与历史结构参考
 - [liubang-four-act-rewrite-plan.md](docs/liubang-four-act-rewrite-plan.md) — 刘邦四幕重写计划与逐幕分析表
 - [character-analysis-catalog.md](docs/character-analysis-catalog.md) — 全部既有角色的五项剧情人物分析表
