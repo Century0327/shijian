@@ -3,9 +3,9 @@
 Updated: 2026-10-13
 
 ## In-progress work（进行中任务，优先交接）
-- Liu Bang v6.7 rejected: 用户指出选项把支持/阻止/追问误写成角色征询玩家赞成与否，整体仍有较大问题。已对照项羽已确认四幕重整创作原则，并新增刘邦四幕重写计划；本轮只改治理文档与计划，不改剧情正文。下一步按计划写刘邦四幕，用户审阅通过前不开始韩信。
+- Liu Bang v6.7 rejected: 用户指出选项把支持/阻止/追问误写成角色征询玩家赞成与否，整体仍有较大问题。已对照项羽已确认四幕重整创作原则，并新增刘邦四幕分析和细纲；当前按“分析 → 细纲 → 用户审阅 → 正文 → 用户审阅”的阶段推进，正文暂停，用户审阅刘邦通过前不开始韩信。
 - Liu Bang v6.6 was rejected for unclear novice context, invisible call motive, biographical dialogue, similar choices, and weak scene tension. The later rigid checklist has since been replaced with the core constraints in `AGENTS.md`.
-- Human review queue: 项羽为唯一已确认基准；其他既有角色剧情全部退回重做。顺序固定为刘邦、韩信、陈胜、孔子、勾践、蔺相如、廉颇、屈原、荆轲、李广、司马迁、苏轼、黄庭坚、王安石、李清照、诸葛亮、陶渊明、李白、杜甫；一次交付一人，用户确认后才能继续。当前正在研究并重写刘邦。
+- Human review queue: 项羽为唯一已确认基准；其他既有角色剧情全部退回重做。顺序固定为刘邦、韩信、陈胜、孔子、勾践、蔺相如、廉颇、屈原、荆轲、李广、司马迁、苏轼、黄庭坚、王安石、李清照、诸葛亮、陶渊明、李白、杜甫；逐人完成史料分析、细纲、审阅、正文、审阅。当前刘邦已完成分析和细纲。
 - Story writing principles: `AGENTS.md` 已将剧情规则整理为史实诚实、角色当下感、玩家真实参与、选择有区别、人物关系对白和历史可懂性等核心约束；拍数、选项分类和幕结构不作机械模板。项羽写法分析见 `docs/story-writing-research.md`，刘邦计划见 `docs/liubang-four-act-rewrite-plan.md`。
 - Player-authored insight: 玩家选项可先说出角色尚未形成的关键判断，角色当场接受/反驳并可跨幕回想；项羽第一幕“剑不能告诉你兵从哪里来”已从角色自悟改为玩家选项。全人物待按默认四幕（可六/八幕、非线性和多次反转）补全。
 - Human-dialogue rewrite: 用户确认现有剧情存在“假装成第一人称的第三人称叙述”；`AGENTS.md` 已固化反传记口播、反自我分析、简单动词、单拍单信息、背景外置等规则，项羽第一幕已按暗室当下事件重写，等待人工体验。
